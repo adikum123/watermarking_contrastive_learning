@@ -5,7 +5,7 @@ class AudioWatermarkEmbedder(tf.keras.Model):
     """
     A U-Net style neural network for embedding watermarks into audio spectrograms.
     Input: (signal, watermark)
-        - signal: 2D audio feature map, shape (B, 1025, 45)
+        - signal: 2D audio feature map, shape (B, 1025, 45) -> STFT
         - watermark: 1D vector, shape (B, 40)
     Output:
         - watermarked signal, shape (B, 1025, 45)
