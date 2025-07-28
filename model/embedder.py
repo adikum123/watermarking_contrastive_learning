@@ -1,83 +1,57 @@
-import tensorflow as tf
+import torch
+import torch.nn as nn
+from torch.nn import LeakyReLU
+
+from model.blocks import Conv2Encoder, FCBlock, WatermarkEmbedder
+from model.utils import istft, stft
 
 
-class AudioWatermarkEmbedder(tf.keras.Model):
-    """
-    A U-Net style neural network for embedding watermarks into audio spectrograms.
-    Input: (signal, watermark)
-        - signal: 2D audio feature map, shape (B, 1025, 45) -> STFT
-        - watermark: 1D vector, shape (B, 40)
-    Output:
-        - watermarked signal, shape (B, 1025, 45)
-    """
+class Embedder(nn.Module):
 
-    def __init__(self, input_shape=(1025, 45), watermark_dim=40):
-        super().__init__()
-        self.input_shape_ = input_shape
-        self.watermark_dim = watermark_dim
+    def __init__(
+        self, process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_encoder=6, transformer_drop=0.1
+    ):
+        super(Embedder, self).__init__()
+        # set device
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        # set parameters
+        win_dim = int((process_config["mel"]["n_fft"] / 2) + 1)
+        self.add_carrier_noise = False
+        self.block = model_config["conv2"]["block"]
+        self.layers_CE = model_config["conv2"]["layers_CE"]
+        self.EM_input_dim = model_config["conv2"]["hidden_dim"] + 2
+        self.layers_EM = model_config["conv2"]["layers_EM"]
 
-        # Project watermark into a 2D spatial map
-        self.watermark_dense = tf.keras.layers.Dense(input_shape[0] * input_shape[1], activation='relu')
-        self.reshape_watermark = tf.keras.layers.Reshape(input_shape)
+        # STFT parameters
+        self.n_fft=process_config["mel"]["n_fft"]
+        self.hop_length=process_config["mel"]["hop_length"]
+        self.win_length=process_config["mel"]["win_length"]
 
-        # Encoder - Downsampling path
-        self.conv1 = tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same')
-        self.pool1 = tf.keras.layers.MaxPooling2D((2, 2))
-        self.conv2 = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')
-        self.pool2 = tf.keras.layers.MaxPooling2D((2, 2))
+        # Encoder, embedder and message linear layer
+        self.msg_linear_in = FCBlock(msg_length, win_dim, activation=LeakyReLU(inplace=True))
+        self.encoder = Conv2Encoder(input_channel=1, hidden_dim = model_config["conv2"]["hidden_dim"], block=self.block, n_layers=self.layers_CE)
+        self.embedder = WatermarkEmbedder(input_channel=self.EM_input_dim, hidden_dim = model_config["conv2"]["hidden_dim"], block=self.block, n_layers=self.layers_EM)
 
-        # Bottleneck - Encoded representation
-        self.bottleneck = tf.keras.layers.Conv2D(128, (3, 3), activation='relu', padding='same')
+    def forward(self, x, msg):
+        _, spect, phase = stft(x.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length)
 
-        # Decoder - Upsampling path
-        self.up2 = tf.keras.layers.UpSampling2D((2, 2))
-        self.conv3 = tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same')
-        self.up1 = tf.keras.layers.UpSampling2D((2, 2))
-        self.conv4 = tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same')
+        # encode carrier spectrogram
+        carrier_encoded = self.encoder(spect.unsqueeze(1))
 
-        # Final projection to a single output channel
-        self.final_conv = tf.keras.layers.Conv2D(1, (1, 1), activation='linear', padding='same')
+        # encode watermark message
+        watermark_encoded = self.msg_linear_in(msg).transpose(1,2).unsqueeze(1).repeat(1,1,1,carrier_encoded.shape[3])
 
-    def call(self, inputs, training=False):
-        # Unpack signal and watermark input tensors
-        signal, watermark = inputs
+        # concatenate features and embed concatenated features
+        concatenated_feature = torch.cat((carrier_encoded, spect.unsqueeze(1), watermark_encoded), dim=1)
+        carrier_wateramrked = self.embedder(concatenated_feature)
 
-        # Add channel dimension to signal and pad to even dimensions
-        signal = tf.expand_dims(signal, axis=-1)  # (B, 1025, 45, 1)
-        signal = tf.image.resize_with_crop_or_pad(signal, 1026, 46)
-
-        # Expand watermark into spatial representation and match signal shape
-        wm_embed = self.watermark_dense(watermark)  # (B, 1025*45)
-        wm_embed = self.reshape_watermark(wm_embed)  # (B, 1025, 45)
-        wm_embed = tf.expand_dims(wm_embed, axis=-1)  # (B, 1025, 45, 1)
-        wm_embed = tf.image.resize_with_crop_or_pad(wm_embed, 1026, 46)
-
-        # Concatenate signal and watermark along channel axis -> (B, 1026, 46, 2)
-        x = tf.concat([signal, wm_embed], axis=-1)
-
-        # Encoder path
-        c1 = self.conv1(x)      # (B, 1026, 46, 32)
-        p1 = self.pool1(c1)     # (B, 513, 23, 32)
-        c2 = self.conv2(p1)     # (B, 513, 23, 64)
-        p2 = self.pool2(c2)     # (B, 256, 11, 64)
-
-        # Bottleneck
-        b = self.bottleneck(p2)  # (B, 256, 11, 128)
-
-        # Decoder path with skip connections
-        u2 = self.up2(b)  # (B, 512, 22, 128)
-        c2_crop = tf.image.resize_with_crop_or_pad(c2, tf.shape(u2)[1], tf.shape(u2)[2])
-        c3 = self.conv3(tf.concat([u2, c2_crop], axis=-1))  # (B, 512, 22, 64)
-
-        u1 = self.up1(c3)  # (B, 1024, 44, 64)
-        c1_crop = tf.image.resize_with_crop_or_pad(c1, tf.shape(u1)[1], tf.shape(u1)[2])
-        c4 = self.conv4(tf.concat([u1, c1_crop], axis=-1))  # (B, 1024, 44, 32)
-
-        # Final projection -> (B, 1024, 44, 1)
-        out = self.final_conv(c4)
-
-        # Resize output to original input shape (B, 1025, 45, 1)
-        out = tf.image.resize_with_crop_or_pad(out, 1025, 45)
-
-        # Remove channel dim safely (result: B, 1025, 45)
-        return tf.squeeze(out, axis=-1) if out.shape[-1] == 1 else out
+        # inverse STFT to get the watermarked audio
+        y = istft(
+            carrier_wateramrked.squeeze(1),
+            phase.squeeze(1),
+            x.shape[2],
+            n_fft=self.n_fft,
+            hop_length=self.hop_length,
+            win_length=self.win_length
+        )
+        return y, carrier_wateramrked

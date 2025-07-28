@@ -1,37 +1,61 @@
-import os
-
+import matplotlib.pyplot as plt
 import numpy as np
-import tensorflow as tf
+import torch
+import yaml
+from torch.utils.data import DataLoader
+from tqdm import tqdm
 
-from detector import WatermarkResNet
-from embedder import AudioWatermarkEmbedder
+from data.contrastive_dataset import ContrastiveAudioDataset
+from data.dataset import AudioDataset
+from model.detector import Decoder
+from model.discriminator import Discriminator
+from model.embedder import Embedder
 
-# Suppress TF logs
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'            # 0 = all logs, 1 = INFO, 2 = WARNING, 3 = ERROR
-os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'           # Turn off OneDNN logs
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'           # Force CPU usage to avoid GPU errors
+# Load config
+with open("config/process.yaml", "r") as f:
+    process_config = yaml.safe_load(f)
+with open("config/model.yaml", "r") as f:
+    model_config = yaml.safe_load(f)
 
-# Initialize model
-embedder = AudioWatermarkEmbedder()
+# DataLoader setup
+batch_size = 32
+train_ds = ContrastiveAudioDataset(process_config, split="train")
+train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
 
-signal = tf.constant(np.random.randn(4, 1025, 45), dtype=tf.float32)
-watermark = tf.constant(np.random.randn(4, 40), dtype=tf.float32)
+# Model config
+embedding_dim = model_config["dim"]["embedding"]
+nlayers_encoder = model_config["layer"]["nlayers_encoder"]
+nlayers_decoder = model_config["layer"]["nlayers_decoder"]
+msg_length = model_config["wm"]["msg_length"]
+win_dim = model_config["audio"]["win_dim"]
 
-# Forward pass
-output = embedder((signal, watermark))
-print(output.shape)  # (4, 1025, 45)
+# Device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+# Models
+embedder = Embedder(process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_encoder).to(device)
+decoder = Decoder(process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_decoder).to(device)
+discriminator = Discriminator(process_config).to(device)
 
-# Create the model (no need for self.build)
-detector = WatermarkResNet()
+# Length stats collection
+all_lengths = []
+max_actual_length = 0
 
-# Generate a random batch of 8 spectrograms with shape (1025, 45, 1)
-batch_size = 8
-input_data = np.random.rand(batch_size, 1025, 45, 1).astype(np.float32)
+for batch in tqdm(train_dl):
+    batch_lengths = batch["actual_length"]  # tensor of shape [batch_size]
+    all_lengths.extend(batch_lengths.tolist())  # collect all lengths
+    batch_max_len = batch_lengths.max().item()
+    if batch_max_len > max_actual_length:
+        max_actual_length = batch_max_len
 
-# Run the model on this input
-output = detector(input_data, training=False)
+print(f"Max actual audio length: {max_actual_length} samples")
 
-# Print the output
-print("Output shape:", output.shape)       # Expected: (8, 40)
-print("First output sample:", output[0].numpy())  # Values in [0, 1]
+# 📊 Plot histogram
+plt.figure(figsize=(10, 6))
+plt.hist(all_lengths, bins=50, color='skyblue', edgecolor='black')
+plt.title("Distribution of Actual Audio Lengths")
+plt.xlabel("Audio Length (samples)")
+plt.ylabel("Count")
+plt.grid(True)
+plt.tight_layout()
+plt.show()

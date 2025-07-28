@@ -1,62 +1,109 @@
-import tensorflow as tf
-from tensorflow.keras import layers
+
+import torch
+import torch.nn as nn
+import torchaudio
+
+from distortions.mel import MelFilterBankLayer
+from model.blocks import Conv2Encoder, FCBlock, WatermarkExtracter
+from model.utils import istft, stft
 
 
-class ResidualBlock(tf.keras.layers.Layer):
+class Decoder(nn.Module):
 
-    def __init__(self, filters, stride=1):
-        super().__init__()
-        self.conv1 = layers.Conv2D(filters, 3, strides=stride, padding='same', activation='relu')
-        self.bn1 = layers.BatchNormalization()
-        self.conv2 = layers.Conv2D(filters, 3, strides=1, padding='same')
-        self.bn2 = layers.BatchNormalization()
+    def __init__(self, process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_decoder=6, transformer_drop=0.1, attention_heads=8):
+        super(Decoder, self).__init__()
 
-        self.shortcut_conv = None
-        self.shortcut_bn = None
-        if stride != 1:
-            self.shortcut_conv = layers.Conv2D(filters, 1, strides=stride, padding='same')
-            self.shortcut_bn = layers.BatchNormalization()
+        # set device
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-        self.relu = layers.ReLU()
+        # set parameters
+        self.sample_rate = process_config["audio"]["sample_rate"]
+        self.n_fft = process_config["mel"]["n_fft"]
+        self.hop_length = process_config["mel"]["hop_length"]
+        self.win_length = process_config["mel"]["win_length"]
 
-    def call(self, x, training=False):
-        shortcut = x
-        x = self.conv1(x)
-        x = self.bn1(x, training=training)
-        x = self.conv2(x)
-        x = self.bn2(x, training=training)
+        # init mel transform and griffin_lim
+        self.mel_transform = MelFilterBankLayer(
+            sample_rate=self.sample_rate,
+            n_fft=self.n_fft,
+        )
+        self.inverse_mel = torchaudio.transforms.InverseMelScale(
+            n_stft=self.n_fft // 2 + 1,
+            sample_rate=self.sample_rate,
+        )
+        self.griffin_lim = torchaudio.transforms.GriffinLim(
+            n_fft=self.n_fft,
+            hop_length=self.hop_length,
+            win_length=self.win_length,
+            n_iter=32,  # Number of iterations for Griffin-Lim
+        )
 
-        if self.shortcut_conv:
-            shortcut = self.shortcut_conv(shortcut)
-            shortcut = self.shortcut_bn(shortcut, training=training)
+        # init nn modules
+        win_dim = int((process_config["mel"]["n_fft"] / 2) + 1)
+        self.block = model_config["conv2"]["block"]
+        self.extractor = WatermarkExtracter(input_channel=1, hidden_dim=model_config["conv2"]["hidden_dim"], block=self.block)
+        self.msg_linear_out = FCBlock(win_dim, msg_length)
 
-        x += shortcut
-        return self.relu(x)
+    def forward(self, x):
+        if self.train:
+            return self.train_forward(x)
+        return self.test_forward(x)
 
-class WatermarkResNet(tf.keras.Model):
+    def train_forward(self, x):
+        """
+        Train forward pass for the decoder. Applies distortion griffin_lim(mel(normalized audio)) and extracts the watermark from both distorted and clean audio.
+        Args:
+            x (torch.Tensor): Input audio tensor of shape (batch_size, 1, time_steps).
+        """
+        x_identity = x.clone()
 
-    def __init__(self, input_shape=(1025, 45, 1), num_blocks=4, output_bits=40):
-        super().__init__()
-        self.initial_conv = layers.Conv2D(32, 3, strides=1, padding='same', activation='relu')
-        self.initial_bn = layers.BatchNormalization()
+        # === Step 1: Normalize before Mel + GriffinLim ===
+        x_norm = x / (x.abs().max(dim=-1, keepdim=True)[0] + 1e-9)
 
-        self.res_blocks = [ResidualBlock(32) for _ in range(num_blocks)]
+        # Step 2: Proxy distortion via Mel + GriffinLim
+        x_stft, _, _ = stft(
+            x_norm.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
+        )
+        x_stft_mag = torch.abs(x_stft)
+        x_mel = self.mel_transform(x_stft_mag)
+        x_mel_stft_mag_approx = self.inverse_mel(x_mel)
+        x_recon = self.griffin_lim(x_mel_stft_mag_approx).unsqueeze(1)
 
-        self.global_pool = layers.GlobalAveragePooling2D()
-        self.dense1 = layers.Dense(128, activation='relu')
-        self.dropout = layers.Dropout(0.3)
-        self.output_layer = layers.Dense(output_bits, activation='sigmoid')  # binary output
+        # Step 4: Extract watermark from distorted audio
+        spect_dist, _, _ = stft(
+            x_recon.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
+        )
+        feat_dist = self.extractor(spect_dist.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1) # abs() to convert to tensor of real values
+        msg_feat_dist = torch.mean(feat_dist, dim=2, keepdim=True).transpose(1,2)
+        msg_dist = self.msg_linear_out(msg_feat_dist)
 
-        # Build the model by calling with a dummy input (for summary & saving)
-        self.build((None,) + input_shape)
+        # Step 5: Extract watermark from clean identity
+        spect_id, _, _ = stft(
+            x_identity.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
+        )
+        feat_id = self.extractor(spect_id.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1) # abs() to convert to tensor of real values
+        msg_feat_id = torch.mean(feat_id, dim=2, keepdim=True).transpose(1,2)
+        msg_id = self.msg_linear_out(msg_feat_id)
 
-    def call(self, inputs, training=False):
-        x = self.initial_conv(inputs)
-        x = self.initial_bn(x, training=training)
-        for block in self.res_blocks:
-            x = block(x, training=training)
+        return msg_dist, msg_feat_dist, msg_id, msg_feat_id
 
-        x = self.global_pool(x)
-        x = self.dense1(x)
-        x = self.dropout(x, training=training)
-        return self.output_layer(x)
+    def get_features(self, x):
+        """
+        Extract features from the audio input.
+        """
+        spect, _, _ = stft(
+            x.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
+        )
+        feat = self.extractor(spect.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1)
+        return torch.mean(feat, dim=2, keepdim=True).transpose(1,2)
+
+    def test_forward(self, x):
+        """
+        Test forward pass for the decoder. Applies Mel + GriffinLim and extracts the watermark from the audio.
+        """
+        spect, phase = stft(x)
+        extracted_wm = self.extractor(spect.unsqueeze(1)).squeeze(1)
+        msg = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
+        msg = self.msg_linear_out(msg)
+        return msg
+

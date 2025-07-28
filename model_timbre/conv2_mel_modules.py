@@ -1,21 +1,26 @@
+import json
+import pdb
 from base64 import encode
+
+import hifigan
 import torch
 import torch.nn as nn
-from torch.nn import LeakyReLU, Tanh
-from .blocks import FCBlock, PositionalEncoding, Mish, Conv1DBlock, Conv2Encoder, WatermarkEmbedder, WatermarkExtracter, ReluBlock
-from distortions.frequency import TacotronSTFT, fixed_STFT, tacotron_mel
+from torch.nn import LeakyReLU
+
 from distortions.dl import distortion
-import pdb
-import hifigan
-import json
-import torchaudio
+from distortions.frequency import TacotronSTFT, fixed_STFT
+
+from .blocks import (Conv1DBlock, Conv2Encoder, FCBlock, Mish,
+                     PositionalEncoding, ReluBlock, WatermarkEmbedder,
+                     WatermarkExtracter)
 
 
 def save_spectrum(spect, phase, flag='linear'):
-    import numpy as np
     import os
+
     import librosa
     import librosa.display
+    import numpy as np
     root = "draw_figure"
     import matplotlib.pyplot as plt
     spect = spect/torch.max(torch.abs(spect))
@@ -32,10 +37,11 @@ def save_spectrum(spect, phase, flag='linear'):
 
 def save_feature_map(feature_maps):
     import os
-    import matplotlib.pyplot as plt
+
     import librosa
-    import numpy as np
     import librosa.display
+    import matplotlib.pyplot as plt
+    import numpy as np
     feature_maps = feature_maps.cpu().numpy()
     root = "draw_figure"
     output_folder = os.path.join(root,"feature_map_or")
@@ -52,6 +58,7 @@ def save_feature_map(feature_maps):
 
 def save_waveform(a_tensor, flag='original'):
     import os
+
     import librosa
     import librosa.display
     import matplotlib.pyplot as plt
@@ -115,45 +122,45 @@ class Encoder(nn.Module):
     def forward(self, x, msg, global_step):
         num_samples = x.shape[2]
         spect, phase = self.stft.transform(x)
-        
-        carrier_encoded = self.ENc(spect.unsqueeze(1)) 
-        watermark_encoded = self.msg_linear_in(msg).transpose(1,2).unsqueeze(1).repeat(1,1,1,carrier_encoded.shape[3])
-        concatenated_feature = torch.cat((carrier_encoded, spect.unsqueeze(1), watermark_encoded), dim=1)  
-        carrier_wateramrked = self.EM(concatenated_feature)  
 
-        
+        carrier_encoded = self.ENc(spect.unsqueeze(1))
+        watermark_encoded = self.msg_linear_in(msg).transpose(1,2).unsqueeze(1).repeat(1,1,1,carrier_encoded.shape[3])
+        concatenated_feature = torch.cat((carrier_encoded, spect.unsqueeze(1), watermark_encoded), dim=1)
+        carrier_wateramrked = self.EM(concatenated_feature)
+
+
         self.stft.num_samples = num_samples
         y = self.stft.inverse(carrier_wateramrked.squeeze(1), phase.squeeze(1))
         return y, carrier_wateramrked
-    
+
     def test_forward(self, x, msg):
         num_samples = x.shape[2]
         spect, phase = self.stft.transform(x)
-        
-        carrier_encoded = self.ENc(spect.unsqueeze(1)) 
+
+        carrier_encoded = self.ENc(spect.unsqueeze(1))
         watermark_encoded = self.msg_linear_in(msg).transpose(1,2).unsqueeze(1).repeat(1,1,1,carrier_encoded.shape[3])
-        concatenated_feature = torch.cat((carrier_encoded, spect.unsqueeze(1), watermark_encoded), dim=1)  
-        carrier_wateramrked = self.EM(concatenated_feature)  
-        
+        concatenated_feature = torch.cat((carrier_encoded, spect.unsqueeze(1), watermark_encoded), dim=1)
+        carrier_wateramrked = self.EM(concatenated_feature)
+
         self.stft.num_samples = num_samples
         y = self.stft.inverse(carrier_wateramrked.squeeze(1), phase.squeeze(1))
         return y, carrier_wateramrked
-    
+
     def save_forward(self, x, msg):
         num_samples = x.shape[2]
         save_waveform(x.squeeze())
         spect, phase = self.stft.transform(x)
         # save spectrum
         save_spectrum(spect, phase, 'linear')
-        
-        carrier_encoded = self.ENc(spect.unsqueeze(1)) 
+
+        carrier_encoded = self.ENc(spect.unsqueeze(1))
         # save feature_map
         # save_feature_map(carrier_encoded[0])
         watermark_encoded = self.msg_linear_in(msg).transpose(1,2).unsqueeze(1).repeat(1,1,1,carrier_encoded.shape[3])
-        concatenated_feature = torch.cat((carrier_encoded, spect.unsqueeze(1), watermark_encoded), dim=1)  
-        carrier_wateramrked = self.EM(concatenated_feature)  
+        concatenated_feature = torch.cat((carrier_encoded, spect.unsqueeze(1), watermark_encoded), dim=1)
+        carrier_wateramrked = self.EM(concatenated_feature)
         save_spectrum(carrier_wateramrked.squeeze(1), phase, 'wmed_linear')
-        
+
         self.stft.num_samples = num_samples
         y = self.stft.inverse(carrier_wateramrked.squeeze(1), phase.squeeze(1))
         save_waveform(y.squeeze().squeeze(), 'wmed')
@@ -203,14 +210,14 @@ class Decoder(nn.Module):
         msg_identity = torch.mean(extracted_wm_identity,dim=2, keepdim=True).transpose(1,2)
         msg_identity = self.msg_linear_out(msg_identity)
         return msg, msg_identity
-    
+
     def test_forward(self, y):
         spect, phase = self.stft.transform(y)
         extracted_wm = self.EX(spect.unsqueeze(1)).squeeze(1)
         msg = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
         msg = self.msg_linear_out(msg)
         return msg
-    
+
     def save_forward(self, y):
         # save mel_spectrum
         y_mel = self.mel_transform.mel_spectrogram(y.squeeze(1))
@@ -227,13 +234,13 @@ class Decoder(nn.Module):
         msg = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
         msg = self.msg_linear_out(msg)
         return msg
-    
+
     def mel_test_forward(self, spect):
         extracted_wm = self.EX(spect.unsqueeze(1)).squeeze(1)
         msg = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
         msg = self.msg_linear_out(msg)
         return msg
-        
+
 
 
 class Discriminator(nn.Module):
