@@ -78,7 +78,7 @@ if train_config["adv"]:
         gamma=train_config["optimize"]["gamma"]
     )
 
-print(f"Training with params:\n{json.dumps(train_config, indent=4)}\n")
+print(f"Training with params:\n{json.dumps(train_config, indent=4)}\nLength of train dataset: {len(train_ds)}")
 
 
 for epoch in range(train_config["iter"]["epoch"] + 1):
