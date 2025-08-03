@@ -89,7 +89,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
         # get current audio and watermark message
         wav = batch["wav"].to(device)
         msg = np.random.choice([0,1], [batch_size, 1, msg_length])
-        msg = torch.from_numpy(msg).float()*2 - 1
+        msg = torch.from_numpy(msg).float() * 2 - 1
 
         # set zero grad
         embedder_decoder_optimizer.zero_grad()

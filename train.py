@@ -1,3 +1,4 @@
+import json
 from itertools import chain
 
 import matplotlib.pyplot as plt
@@ -25,7 +26,11 @@ with open("config/model.yaml", "r") as f:
 # DataLoader setup
 batch_size = train_config["optimize"]["batch_size"]
 train_ds = AudioDataset(process_config, split="train")
+val_ds = AudioDataset(process_config, split="val")
+test_ds = AudioDataset(process_config, split="test")
 train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
+val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
+test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
 
 # Model config
 embedding_dim = model_config["dim"]["embedding"]
@@ -73,16 +78,23 @@ if train_config["adv"]:
         gamma=train_config["optimize"]["gamma"]
     )
 
+print(f"Training with params:\n{json.dumps(train_config, indent=4)}\n")
+
 
 for epoch in range(train_config["iter"]["epoch"] + 1):
     # set params for tracking
-    total_loss = 0
-    total_num = 0
+    total_train_loss = 0
+    total_train_num = 0
 
     # set lambdas
     lambda_e = train_config["optimize"]["lambda_e"]
     lambda_m = train_config["optimize"]["lambda_m"]
     lambda_a = train_config["optimize"]["lambda_a"] if train_config["adv"] else 0
+
+    # set all models to train mode
+    embedder.train()
+    decoder.train()
+    discriminator.train()
     for batch in tqdm(train_dl):
         # get current audio and watermark message
         wav = batch["wav"].to(device)
@@ -124,8 +136,8 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
         embedder_decoder_optimizer.step()
 
         # update total loss and total num
-        total_loss += sum_loss.item()
-        total_num += wav.shape[0]
+        total_train_loss += sum_loss.item()
+        total_train_num += wav.shape[0]
 
         # backward pass on discriminator
         if train_config["adv"]:
@@ -145,6 +157,88 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
             disciminator_adv_loss_embedded = F.binary_cross_entropy_with_logits(discriminator_output_embedded, labels_fake)
             discriminator_optimizer.step()
 
-        print(f"Curr loss: {sum_loss.item()}")
+        print(f"Curr train loss: {sum_loss.item()}")
 
-    print(f"Epoch: {epoch+1} average loss: {total_loss / total_num}")
+    print(f"Epoch: {epoch+1} average train loss: {total_train_loss / total_train_num}")
+
+    # val step
+    with torch.no_grad():
+        # set all models to eval
+        embedder.eval()
+        decoder.eval()
+        discriminator.eval()
+
+        # set params for tracking
+        total_val_loss = 0
+        total_val_num = 0
+        total_acc_distorted = 0
+        total_acc_identiity = 0
+
+        for batch in tqdm(val_dl):
+            # get current audio and watermark message
+            wav = batch["wav"].to(device)
+            msg = np.random.choice([0,1], [batch_size, 1, msg_length])
+            msg = torch.from_numpy(msg).float() * 2 - 1
+
+            # get the embedded audio, carrier watermarked audio and decoded message
+            embedded, carrier_wateramrked = embedder(wav, msg)
+            decoded = decoder(embedded)
+
+            # watermark embedding loss
+            wm_embedding_loss = mse_loss(embedded, wav)
+
+            # message loss
+            message_loss = mse_loss(decoded, msg)
+
+            # set adversarial loss to zero
+            embedder_adv_loss = 0
+
+            # discriminator loss - first classify the embedded as true
+            if train_config["adv"]:
+                labels_real = torch.full((batch_size, 1), 1, device=device).float()
+                discriminator_output_embedded = discriminator(embedded)
+
+                # get adversarial loss
+                embedder_adv_loss = F.binary_cross_entropy_with_logits(discriminator_output_embedded, labels_real)
+
+            # sum loss
+            sum_loss = lambda_e * wm_embedding_loss + lambda_m * message_loss + lambda_a * embedder_adv_loss
+            total_val_loss += sum_loss
+            total_val_num += wav.shape[0]
+            print(f"Curr val loss: {sum_loss}")
+
+            # measure accuracy on val dataset
+            decoder_acc_distorted = (decoder_msg_distorted >= 0).eq(msg >= 0).sum().float() / msg.numel()
+            decoder_acc_identity = (decoder_msg_identity >= 0).eq(msg >= 0).sum().float() / msg.numel()
+            total_acc_distorted += decoder_acc_distorted
+            total_acc_identity += decoder_acc_identity
+
+    print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
+    print(f"Epoch: {epoch+1} average dist acc: {total_acc_distorted / total_val_num}")
+    print(f"Epoch: {epoch+1} average identity acc: {total_acc_identity / total_val_num}")
+
+embeddder.eval()
+decoder.eval()
+
+# get test set acc
+total_test_acc = 0
+total_test_num = 0
+for batch in tqdm(test_dl):
+    # get current audio and watermark message
+    wav = batch["wav"].to(device)
+    msg = np.random.choice([0,1], [batch_size, 1, msg_length])
+    msg = torch.from_numpy(msg).float() * 2 - 1
+
+    # get the embedded audio, carrier watermarked audio and decoded message
+    embedded, carrier_wateramrked = embedder(wav, msg)
+    decoded = decoder(embedded)
+
+    # measure accuracy
+    acc = (decoded >= 0).eq(msg >= 0).sum().float() / msg.numel()
+    total_test_acc += acc
+    total_test_num += wav.shape[0]
+
+# print results and save
+print(f"Average test accuracy: {total_test_acc / total_test_num}")
+embedder.save()
+decoder.save()

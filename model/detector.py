@@ -1,4 +1,6 @@
 
+import os
+
 import torch
 import torch.nn as nn
 import torchaudio
@@ -104,6 +106,14 @@ class Decoder(nn.Module):
         spect, phase = stft(x)
         extracted_wm = self.extractor(spect.unsqueeze(1)).squeeze(1)
         msg = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
+        # tesnor (win_dim, batch_size)
         msg = self.msg_linear_out(msg)
         return msg
 
+    def save(self, filename="decoder_model.pth"):
+        save_dir = "saved_models/regular_models"
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, filename)
+        torch.save(self, save_path)
+        print(f"Model saved to {save_path}")
+        print(f"Model saved to {save_path}")

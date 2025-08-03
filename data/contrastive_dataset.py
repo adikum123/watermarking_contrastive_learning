@@ -56,7 +56,7 @@ class ContrastiveAudioDataset(Dataset):
                 aug_audio = pcm_bit_depth_conversion(aug_audio, sr, pcm=bit_depth)
 
             if np.random.rand() < 0.5:
-                deletion_percentage = np.random.uniform(0.01, 0.1)
+                deletion_percentage = np.random.uniform(0.1, 0.5)
                 if len(aug_audio) > int(sr * deletion_percentage):
                     aug_audio = delete_samples(aug_audio, sr, deletion_percentage)
 

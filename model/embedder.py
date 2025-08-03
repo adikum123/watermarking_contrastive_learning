@@ -1,3 +1,5 @@
+import os
+
 import torch
 import torch.nn as nn
 from torch.nn import LeakyReLU
@@ -55,3 +57,11 @@ class Embedder(nn.Module):
             win_length=self.win_length
         )
         return y, carrier_wateramrked
+
+    def save(self, filename="embedder_model.pth"):
+        save_dir = "saved_models/regular_models"
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, filename)
+        torch.save(self, save_path)
+        print(f"Model saved to {save_path}")
+        print(f"Model saved to {save_path}")

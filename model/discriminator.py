@@ -30,6 +30,13 @@ class Discriminator(nn.Module):
         x = self.linear(x)
         return x
 
+    def save(self, filename="discriminator_model.pth"):
+        save_dir = "saved_models/regular_models"
+        os.makedirs(save_dir, exist_ok=True)
+        save_path = os.path.join(save_dir, filename)
+        torch.save(self, save_path)
+        print(f"Model saved to {save_path}")
+
 
 def get_param_num(model):
     num_param = sum(param.numel() for param in model.parameters())
