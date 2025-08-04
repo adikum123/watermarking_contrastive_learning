@@ -17,16 +17,21 @@ class ContrastiveAudioDataset(Dataset):
         self.max_wav_value = process_config["audio"]["max_wav_value"]
         self.win_len = process_config["audio"]["win_len"]  # patch size
         self.max_len = process_config["audio"]["max_len"]  # in samples
+        assert split in {"train", "val", "test"}, f"Invalid split: {split}"
         self.split = split
         self.set_train_val_data()
 
     def set_train_val_data(self):
         files = sorted(os.listdir(self.dataset_path))
-        split_index = int(len(files) * 0.8)
+        train_end = int(len(files) * 0.8)
+        val_end = int(len(files) * 0.9)
         if self.split == "train":
-            self.files = files[:split_index]
+            self.files = files[:train_end]
             return None
-        self.files = files[split_index:]
+        if self.split == "val":
+            self.files = files[train_end: val_end]
+            return None
+        self.files = files[val_end:]
         return None
 
 
