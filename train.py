@@ -104,6 +104,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
         wav = batch["wav"].to(device)
         msg = np.random.choice([0,1], [batch_size, 1, msg_length])
         msg = torch.from_numpy(msg).float() * 2 - 1
+        msg = msg.to(device)
 
         # get the embedded audio, carrier watermarked audio and decoded message
         embedded, carrier_wateramrked = embedder(wav, msg)
