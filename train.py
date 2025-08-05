@@ -41,6 +41,7 @@ win_dim = model_config["audio"]["win_dim"]
 
 # Device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Device: {device}")
 
 # Models
 embedder = Embedder(process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_encoder).to(device)
