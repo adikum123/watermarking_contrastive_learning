@@ -7,8 +7,8 @@ from torch.utils.data import Dataset
 
 class AudioDataset(Dataset):
 
-    def __init__(self, process_config, split="train", batch_size=100):
-        self.dataset_path = "cv-corpus-22.0-delta-2025-06-20-en/cv-corpus-22.0-delta-2025-06-20/en/clips"
+    def __init__(self, process_config, split="train", batch_size=100, dataset_path_prefix=""):
+        self.dataset_path = dataset_path_prefix + "cv-corpus-22.0-delta-2025-06-20-en/cv-corpus-22.0-delta-2025-06-20/en/clips"
         self.sample_rate = process_config["audio"]["sample_rate"]
         self.max_wav_value = process_config["audio"]["max_wav_value"]
         self.win_len = process_config["audio"]["win_len"]  # patch size
