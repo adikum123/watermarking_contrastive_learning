@@ -23,11 +23,16 @@ with open("config/process.yaml", "r") as f:
 with open("config/model.yaml", "r") as f:
     model_config = yaml.safe_load(f)
 
+parser = argparse.ArgumentParser(description="Train audio watermarking model with contrastive learning")
+parser.add_argument("--dataset_path_prefix", type=str, default="", help="Dataset path prefix when run from colab bro")
+args = parser.parse_args()
+
+
 # DataLoader setup
 batch_size = train_config["optimize"]["batch_size"]
-train_ds = ContrastiveAudioDataset(process_config, split="train")
-val_ds = ContrastiveAudioDataset(process_config, split="val")
-test_ds = ContrastiveAudioDataset(process_config, split="test")
+train_ds = ContrastiveAudioDataset(process_config, split="train", dataset_path_prefix=args.dataset_path_prefix)
+val_ds = ContrastiveAudioDataset(process_config, split="val", dataset_path_prefix=args.dataset_path_prefix)
+test_ds = ContrastiveAudioDataset(process_config, split="test", dataset_path_prefix=args.dataset_path_prefix)
 train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
 val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
 test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
