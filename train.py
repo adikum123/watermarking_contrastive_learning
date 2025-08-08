@@ -26,6 +26,7 @@ with open("config/model.yaml", "r") as f:
 
 parser = argparse.ArgumentParser(description="Train audio watermarking model with contrastive learning")
 parser.add_argument("--dataset_path_prefix", type=str, default="", help="Dataset path prefix when run from colab bro")
+args = parser.parse_args()
 
 # DataLoader setup
 batch_size = train_config["optimize"]["batch_size"]
@@ -103,7 +104,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
 
     # set pbar for progress
     pbar = tqdm(enumerate(train_dl), total=len(train_dl), desc=f"Epoch {epoch+1} [Train]")
-    for i, batch in tqdm(pbar):
+    for i, batch in pbar:
         # get current audio and watermark message
         wav = batch["wav"].to(device)
         msg = np.random.choice([0,1], [batch_size, 1, msg_length])
