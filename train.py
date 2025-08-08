@@ -1,3 +1,4 @@
+import argparse
 import json
 from itertools import chain
 
@@ -22,6 +23,9 @@ with open("config/process.yaml", "r") as f:
     process_config = yaml.safe_load(f)
 with open("config/model.yaml", "r") as f:
     model_config = yaml.safe_load(f)
+
+parser = argparse.ArgumentParser(description="Train audio watermarking model with contrastive learning")
+parser.add_argument("--dataset_path_prefix", type=str, default="", help="Dataset path prefix when run from colab bro")
 
 # DataLoader setup
 batch_size = train_config["optimize"]["batch_size"]
