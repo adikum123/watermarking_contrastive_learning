@@ -29,9 +29,9 @@ parser.add_argument("--dataset_path_prefix", type=str, default="", help="Dataset
 
 # DataLoader setup
 batch_size = train_config["optimize"]["batch_size"]
-train_ds = AudioDataset(process_config, split="train")
-val_ds = AudioDataset(process_config, split="val")
-test_ds = AudioDataset(process_config, split="test")
+train_ds = AudioDataset(process_config, split="train", dataset_path_prefix=args.dataset_path_prefix)
+val_ds = AudioDataset(process_config, split="val", dataset_path_prefix=args.dataset_path_prefix)
+test_ds = AudioDataset(process_config, split="test", dataset_path_prefix=args.dataset_path_prefix)
 train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
 val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
 test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
