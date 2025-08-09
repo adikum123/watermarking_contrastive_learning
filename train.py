@@ -34,6 +34,9 @@ parser.add_argument(
 parser.add_argument(
     "--save_ckpt", action="store_true", help="Store model ckpts on google drive"
 )
+parser.add_argument(
+    "--ckpt_path", type=str, default="", help="Path to checkpoint to resume training"
+)
 args = parser.parse_args()
 
 # DataLoader setup
