@@ -1,5 +1,6 @@
 import argparse
 import json
+import os
 from itertools import chain
 
 import matplotlib.pyplot as plt
@@ -24,8 +25,15 @@ with open("config/process.yaml", "r") as f:
 with open("config/model.yaml", "r") as f:
     model_config = yaml.safe_load(f)
 
-parser = argparse.ArgumentParser(description="Train audio watermarking model with contrastive learning")
-parser.add_argument("--dataset_path_prefix", type=str, default="", help="Dataset path prefix when run from colab bro")
+parser = argparse.ArgumentParser(
+    description="Train audio watermarking model with contrastive learning"
+)
+parser.add_argument(
+    "--dataset_path_prefix", type=str, default="", help="Dataset path prefix when run from colab bro"
+)
+parser.add_argument(
+    "--save_ckpt", action="store_true", help="Store model ckpts on google drive"
+)
 args = parser.parse_args()
 
 # DataLoader setup
@@ -86,8 +94,30 @@ if train_config["adv"]:
 
 print(f"Training with params:\n{json.dumps(train_config, indent=4)}\nLength of train dataset: {len(train_ds)}")
 
+# init checkpoint dir
+checkpoint_dir = "/content/drive/MyDrive/audio_watermark_checkpoints"
+os.makedirs(checkpoint_dir, exist_ok=True)
 
-for epoch in range(train_config["iter"]["epoch"] + 1):
+# load from checkpoint if it exists
+start_epoch = 0
+if args.ckpt_path:
+    print(f"Loading checkpoint from {args.ckpt_path}")
+    checkpoint = torch.load(args.ckpt_path, map_location=device)
+
+    embedder.load_state_dict(checkpoint["embedder_state_dict"])
+    decoder.load_state_dict(checkpoint["decoder_state_dict"])
+    if train_config["adv"] and checkpoint["discriminator_state_dict"] is not None:
+        discriminator.load_state_dict(checkpoint["discriminator_state_dict"])
+
+    embedder_decoder_optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+    if train_config["adv"] and checkpoint["discriminator_optimizer_state_dict"] is not None:
+        discriminator_optimizer.load_state_dict(checkpoint["discriminator_optimizer_state_dict"])
+
+    start_epoch = checkpoint["epoch"] + 1
+    print(f"Resuming from epoch {start_epoch}")
+
+# start training
+for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     # set params for tracking
     total_train_loss = 0
     total_train_num = 0
@@ -236,6 +266,24 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
     print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
     print(f"Epoch: {epoch+1} average dist acc: {total_acc_distorted / total_val_num}")
     print(f"Epoch: {epoch+1} average identity acc: {total_acc_identity / total_val_num}")
+
+    # Save model checkpoint
+    if args.save_ckpt:
+        checkpoint_path = os.path.join(checkpoint_dir, f"wm_model_epoch_{epoch+1}.pt")
+        torch.save({
+            "epoch": epoch,
+            "embedder_state_dict": embedder.state_dict(),
+            "decoder_state_dict": decoder.state_dict(),
+            "discriminator_state_dict": discriminator.state_dict() if train_config["adv"] else None,
+            "optimizer_state_dict": embedder_decoder_optimizer.state_dict(),
+            "discriminator_optimizer_state_dict": discriminator_optimizer.state_dict() if train_config["adv"] else None,
+            "train_loss": total_train_loss / total_train_num,
+            "val_loss": total_val_loss / total_val_num,
+            "average_dist_acc": total_acc_distorted / total_val_num,
+            "average_identity_accuracy": total_acc_identity / total_val_num
+        }, checkpoint_path)
+        print(f"Checkpoint saved: {checkpoint_path}")
+
 
 embedder.eval()
 decoder.eval()
