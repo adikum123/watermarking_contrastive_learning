@@ -58,10 +58,8 @@ class Embedder(nn.Module):
         )
         return y, carrier_wateramrked
 
-    def save(self, filename="embedder_model.pth"):
-        save_dir = "saved_models/regular_models"
+    def save(self, save_dir="saved_models/regular_models", filename="embedder_model.pth"):
         os.makedirs(save_dir, exist_ok=True)
         save_path = os.path.join(save_dir, filename)
         torch.save(self, save_path)
-        print(f"Model saved to {save_path}")
         print(f"Model saved to {save_path}")

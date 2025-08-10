@@ -311,5 +311,5 @@ for batch in tqdm(test_dl):
 
 # print results and save
 print(f"Average test accuracy: {total_test_acc / total_test_num}")
-embedder.save()
-decoder.save()
+embedder.save(save_dir="/content/drive/MyDrive")
+decoder.save(save_dir="/content/drive/MyDrive")
