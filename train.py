@@ -219,7 +219,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         total_acc= 0
 
         # set pbar for progress tracking
-        pbar = tqdm(val_dl, total=len(val_dl), desc=f"Epoch {epoch+1} [Val]")
+        pbar = tqdm(val_dl, total=len(val_dl), desc=f"Epoch {epoch+1} [Val]", leave=False, dynamic_ncols=True)
         for batch in pbar:
             # get current audio and watermark message
             wav = batch["wav"].to(device)
@@ -259,10 +259,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             total_acc += curr_acc.item()
 
             # set pbar desc
-            pbar.set_postfix({
-                "loss": f"{sum_loss.item():.4f}",
-                "acc": f"{curr_acc.item():.3f}"
-            })
+            pbar.set_postfix(loss=f"{sum_loss.item():.4f}", acc=f"{curr_acc.item():.3f}")
 
     print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
     print(f"Epoch: {epoch+1} average acc: {total_acc / total_val_num}")
