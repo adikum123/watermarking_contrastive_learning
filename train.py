@@ -216,8 +216,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         # set params for tracking
         total_val_loss = 0
         total_val_num = 0
-        total_acc_distorted = 0
-        total_acc_identiity = 0
+        total_acc= 0
 
         # set pbar for progress tracking
         pbar = tqdm(val_dl, total=len(val_dl), desc=f"Epoch {epoch+1} [Val]")
@@ -252,24 +251,20 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             # sum loss
             sum_loss = lambda_e * wm_embedding_loss + lambda_m * message_loss + lambda_a * embedder_adv_loss
             total_val_loss += sum_loss.item()
-            total_val_num += wav.shape[0]
+            total_val_num += curr_bs
 
             # measure accuracy on val dataset
-            decoder_acc_distorted = (decoder_msg_distorted >= 0).eq(msg >= 0).sum().float() / msg.numel()
-            decoder_acc_identity = (decoder_msg_identity >= 0).eq(msg >= 0).sum().float() / msg.numel()
-            total_acc_distorted += decoder_acc_distorted
-            total_acc_identity += decoder_acc_identity
+            curr_acc = (decoded >= 0).eq(msg >= 0).sum().float() / msg.numel()
+            total_acc += curr_acc.item()
 
             # set pbar desc
             pbar.set_postfix({
                 "loss": f"{sum_loss.item():.4f}",
-                "acc_dist": f"{decoder_acc_distorted.item():.3f}",
-                "acc_id": f"{decoder_acc_identity.item():.3f}"
+                "acc": f"{curr_acc.item():.3f}"
             })
 
     print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
-    print(f"Epoch: {epoch+1} average dist acc: {total_acc_distorted / total_val_num}")
-    print(f"Epoch: {epoch+1} average identity acc: {total_acc_identity / total_val_num}")
+    print(f"Epoch: {epoch+1} average acc: {total_acc / total_val_num}")
 
     # Save model checkpoint
     if args.save_ckpt:
