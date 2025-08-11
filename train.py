@@ -226,6 +226,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             wav = batch["wav"].to(device)
             msg = np.random.choice([0,1], [batch_size, 1, msg_length])
             msg = torch.from_numpy(msg).float() * 2 - 1
+            msg = msg.to(device)
 
             # get the embedded audio, carrier watermarked audio and decoded message
             embedded, carrier_wateramrked = embedder(wav, msg)
@@ -278,7 +279,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             "embedder_state_dict": embedder.state_dict(),
             "decoder_state_dict": decoder.state_dict(),
             "discriminator_state_dict": discriminator.state_dict() if train_config["adv"] else None,
-            "optimizer_state_dict": embedder_decoder_optimizer.state_dict(),
+            "embedder_decoder_optimizer_state_dict": embedder_decoder_optimizer.state_dict(),
             "discriminator_optimizer_state_dict": discriminator_optimizer.state_dict() if train_config["adv"] else None,
             "train_loss": total_train_loss / total_train_num,
             "val_loss": total_val_loss / total_val_num,
