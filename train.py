@@ -112,7 +112,7 @@ if args.ckpt_path:
     if train_config["adv"] and checkpoint["discriminator_state_dict"] is not None:
         discriminator.load_state_dict(checkpoint["discriminator_state_dict"])
 
-    embedder_decoder_optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
+    embedder_decoder_optimizer.load_state_dict(checkpoint["embedder_decoder_optimizer_state_dict"])
     if train_config["adv"] and checkpoint["discriminator_optimizer_state_dict"] is not None:
         discriminator_optimizer.load_state_dict(checkpoint["discriminator_optimizer_state_dict"])
 
