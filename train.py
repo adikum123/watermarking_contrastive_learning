@@ -223,6 +223,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         for batch in pbar:
             # get current audio and watermark message
             wav = batch["wav"].to(device)
+            curr_bs = wav.shape[0]
             msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
             msg = torch.from_numpy(msg).float() * 2 - 1
             msg = msg.to(device)
