@@ -103,7 +103,9 @@ class Decoder(nn.Module):
         """
         Test forward pass for the decoder. Applies Mel + GriffinLim and extracts the watermark from the audio.
         """
-        spect, phase = stft(x)
+        spect, phase = stft(
+            x, n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
+        )
         extracted_wm = self.extractor(spect.unsqueeze(1)).squeeze(1)
         msg = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
         # tesnor (win_dim, batch_size)
