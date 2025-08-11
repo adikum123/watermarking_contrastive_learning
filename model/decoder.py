@@ -72,7 +72,7 @@ class Decoder(nn.Module):
         x_recon = self.griffin_lim(x_mel_stft_mag_approx).unsqueeze(1)
 
         # Step 4: Extract watermark from distorted audio
-        spect_dist, _, _ = stft(
+        _, spect_dist, _ = stft(
             x_recon.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
         )
         feat_dist = self.extractor(spect_dist.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1) # abs() to convert to tensor of real values
@@ -80,20 +80,20 @@ class Decoder(nn.Module):
         msg_dist = self.msg_linear_out(msg_feat_dist)
 
         # Step 5: Extract watermark from clean identity
-        spect_id, _, _ = stft(
+        _, spect_id, _ = stft(
             x_identity.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
         )
         feat_id = self.extractor(spect_id.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1) # abs() to convert to tensor of real values
         msg_feat_id = torch.mean(feat_id, dim=2, keepdim=True).transpose(1,2)
         msg_id = self.msg_linear_out(msg_feat_id)
 
-        return msg_dist, msg_feat_dist, msg_id, msg_feat_id
+        return msg_dist, msg_id
 
     def get_features(self, x):
         """
         Extract features from the audio input.
         """
-        spect, _, _ = stft(
+        _, spect, _ = stft(
             x.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
         )
         feat = self.extractor(spect.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1)
@@ -103,13 +103,13 @@ class Decoder(nn.Module):
         """
         Test forward pass for the decoder. Applies Mel + GriffinLim and extracts the watermark from the audio.
         """
-        spect, phase = stft(
+        _, spect, _ = stft(
             x.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
         )
-        extracted_wm = self.extractor(spect.unsqueeze(1)).squeeze(1)
-        msg = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
+        extracted_wm = self.extractor(spect.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1)
+        msg_features = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
         # tesnor (win_dim, batch_size)
-        msg = self.msg_linear_out(msg)
+        msg = self.msg_linear_out(msg_features)
         return msg
 
     def save(self, filename="decoder_model.pth"):

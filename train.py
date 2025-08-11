@@ -3,7 +3,6 @@ import json
 import os
 from itertools import chain
 
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 import torch.nn as nn
@@ -13,7 +12,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from data.dataset import AudioDataset
-from model.detector import Decoder
+from model.decoder import Decoder
 from model.discriminator import Discriminator
 from model.embedder import Embedder
 
@@ -153,7 +152,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         wm_embedding_loss = mse_loss(embedded, wav)
 
         # message loss
-        decoder_msg_distorted, _, decoder_msg_identity, _ = decoded
+        decoder_msg_distorted, decoder_msg_identity = decoded
         message_loss = mse_loss(decoder_msg_distorted, msg) + mse_loss(decoder_msg_identity, msg)
 
         # set adversarial loss to zero
