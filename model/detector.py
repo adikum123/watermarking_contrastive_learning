@@ -47,7 +47,7 @@ class Decoder(nn.Module):
         self.msg_linear_out = FCBlock(win_dim, msg_length)
 
     def forward(self, x):
-        if self.train:
+        if self.training:
             return self.train_forward(x)
         return self.test_forward(x)
 
