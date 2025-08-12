@@ -274,10 +274,9 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             "discriminator_state_dict": discriminator.state_dict() if train_config["adv"] else None,
             "embedder_decoder_optimizer_state_dict": embedder_decoder_optimizer.state_dict(),
             "discriminator_optimizer_state_dict": discriminator_optimizer.state_dict() if train_config["adv"] else None,
-            "train_loss": total_train_loss / total_train_num,
-            "val_loss": total_val_loss / total_val_num,
-            "average_dist_acc": total_acc_distorted / total_val_num,
-            "average_identity_accuracy": total_acc_identity / total_val_num
+            "average_train_loss": total_train_loss / total_train_num,
+            "average_val_loss": total_val_loss / total_val_num,
+            "average_acc": total_acc / total_val_num
         }, checkpoint_path)
         print(f"Checkpoint saved: {checkpoint_path}")
 
