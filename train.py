@@ -179,8 +179,8 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
                 discriminator_optimizer.zero_grad()
 
         # update total loss and total num
-        total_train_loss += sum_loss.item()
-        total_train_num += wav.shape[0]
+        total_train_loss += sum_loss.item() * curr_bs
+        total_train_num += curr_bs
 
         # backward pass on discriminator
         if train_config["adv"]:
@@ -251,7 +251,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
 
             # sum loss
             sum_loss = lambda_e * wm_embedding_loss + lambda_m * message_loss + lambda_a * embedder_adv_loss
-            total_val_loss += sum_loss.item()
+            total_val_loss += sum_loss.item() * curr_bs
             total_val_num += curr_bs
 
             # measure accuracy on val dataset
