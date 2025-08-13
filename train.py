@@ -118,6 +118,8 @@ if args.ckpt_path:
     start_epoch = checkpoint["epoch"] + 1
     print(f"Resuming from epoch {start_epoch}")
 
+best_val_acc = None
+
 # start training
 for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     # set params for tracking
@@ -217,6 +219,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         total_val_loss = 0
         total_val_num = 0
         total_acc= 0
+        total_bits = 0
 
         # set pbar for progress tracking
         pbar = tqdm(val_dl, total=len(val_dl), desc=f"Epoch {epoch+1} [Val]", leave=False, dynamic_ncols=True)
@@ -255,17 +258,23 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             total_val_num += curr_bs
 
             # measure accuracy on val dataset
-            curr_acc = (decoded >= 0).eq(msg >= 0).sum().float() / msg.numel()
+            curr_acc = (decoded >= 0).eq(msg >= 0).sum().float()
             total_acc += curr_acc.item()
+            total_bits += msg.numel()
 
             # set pbar desc
             pbar.set_postfix(loss=f"{sum_loss.item():.4f}", acc=f"{curr_acc.item():.3f}")
 
     print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
-    print(f"Epoch: {epoch+1} average acc: {total_acc / total_val_num}")
+    print(f"Epoch: {epoch+1} average acc: {total_acc / total_bits}")
+
+    # Step the schedulers here (once per epoch)
+    embedder_decoder_scheduler.step()
+    if train_config["adv"]:
+        discriminator_scheduler.step()
 
     # Save model checkpoint
-    if args.save_ckpt:
+    if args.save_ckpt and (best_val_acc is None or (total_acc / total_bits) > best_val_acc):
         checkpoint_path = os.path.join(checkpoint_dir, f"wm_model_epoch_{epoch+1}.pt")
         torch.save({
             "epoch": epoch,
@@ -278,7 +287,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             "average_val_loss": total_val_loss / total_val_num,
             "average_acc": total_acc / total_val_num
         }, checkpoint_path)
-        print(f"Checkpoint saved: {checkpoint_path}")
+        print(f"Checkpoint saved: {checkpoint_path} with new best average accuracy: {total_acc / total_bits}")
 
 
 embedder.eval()
@@ -286,23 +295,22 @@ decoder.eval()
 
 # get test set acc
 total_test_acc = 0
-total_test_num = 0
+total_test_bits = 0
 for batch in tqdm(test_dl):
     # get current audio and watermark message
     wav = batch["wav"].to(device)
     msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
     msg = torch.from_numpy(msg).float() * 2 - 1
+    msg = msg.to(device)
 
     # get the embedded audio, carrier watermarked audio and decoded message
     embedded, carrier_wateramrked = embedder(wav, msg)
     decoded = decoder(embedded)
 
     # measure accuracy
-    acc = (decoded >= 0).eq(msg >= 0).sum().float() / msg.numel()
+    acc = (decoded >= 0).eq(msg >= 0).sum().float()
     total_test_acc += acc
-    total_test_num += wav.shape[0]
+    total_test_bits += msg.numel()
 
 # print results and save
 print(f"Average test accuracy: {total_test_acc / total_test_num}")
-embedder.save(save_dir="/content/drive/MyDrive")
-decoder.save(save_dir="/content/drive/MyDrive")
