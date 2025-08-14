@@ -204,7 +204,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
                 discriminator_optimizer.step()
                 discriminator_optimizer.zero_grad()
 
-        pbar.set_postfix(loss=f"{sum_loss.item():.4f}")
+        pbar.set_postfix(loss=f"{sum_loss.item():.4f}", average_loss=f"{total_train_loss / total_train_num:.4f}")
 
     print(f"Epoch: {epoch+1} average train loss: {total_train_loss / total_train_num}")
 
@@ -263,7 +263,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             total_bits += msg.numel()
 
             # set pbar desc
-            pbar.set_postfix(loss=f"{sum_loss.item():.4f}", acc=f"{curr_acc.item():.3f}")
+            pbar.set_postfix(loss=f"{sum_loss.item():.4f}", acc=f"{total_acc / total_bits:.3f}", average_loss=f"{total_val_loss / total_val_num:.4f}")
 
     print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
     print(f"Epoch: {epoch+1} average acc: {total_acc / total_bits}")
@@ -275,6 +275,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
 
     # Save model checkpoint
     if args.save_ckpt and (best_val_acc is None or (total_acc / total_bits) > best_val_acc):
+        best_val_acc = total_acc / total_bits
         checkpoint_path = os.path.join(checkpoint_dir, f"wm_model_epoch_{epoch+1}.pt")
         torch.save({
             "epoch": epoch,
