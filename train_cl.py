@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 from data.contrastive_dataset import ContrastiveAudioDataset
 from loss.contrastive_loss import ContrastiveLoss
-from model.detector import Decoder
+from model.decoder import Decoder
 from model.discriminator import Discriminator
 from model.embedder import Embedder
 
