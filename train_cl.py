@@ -145,6 +145,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
     for i, batch in pbar:
         # get current audio and watermark message
         wav = batch["wav"].to(device)
+        curr_bs = wav.shape[0]
         msg = np.random.choice([0,1], [batch_size, 1, msg_length])
         msg = torch.from_numpy(msg).float() * 2 - 1
         msg = msg.to(device)
@@ -190,8 +191,8 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
                 discriminator_optimizer.zero_grad()
 
         # update params
-        total_train_loss += sum_loss.item()
-        total_train_num += wav.shape[0]
+        total_train_loss += sum_loss.item() * curr_bs
+        total_train_num += curr_bs
 
         # backward pass on discriminator
         if train_config["adv"]:
@@ -235,6 +236,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
         for batch in pbar:
             # get current audio and watermark message
             wav = batch["wav"].to(device)
+            curr_bs = wav.shape[0]
             msg = np.random.choice([0,1], [batch_size, 1, msg_length])
             msg = torch.from_numpy(msg).float() * 2 - 1
             msg = msg.to(device)
