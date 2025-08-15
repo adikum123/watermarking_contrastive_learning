@@ -237,7 +237,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
             # get current audio and watermark message
             wav = batch["wav"].to(device)
             curr_bs = wav.shape[0]
-            msg = np.random.choice([0,1], [batch_size, 1, msg_length])
+            msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
             msg = torch.from_numpy(msg).float() * 2 - 1
             msg = msg.to(device)
 
