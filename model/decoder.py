@@ -106,8 +106,7 @@ class Decoder(nn.Module):
         _, spect, _ = stft(
             x.squeeze(1), n_fft=self.n_fft, hop_length=self.hop_length, win_length=self.win_length
         )
-        spect = spect.to(self.device)
-        extracted_wm = self.extractor(spect.abs().to(dtype=torch.float32).unsqueeze(1)).squeeze(1)
+        extracted_wm = self.extractor(spect.abs().to(dtype=torch.float32, device=self.device).unsqueeze(1)).squeeze(1)
         msg_features = torch.mean(extracted_wm,dim=2, keepdim=True).transpose(1,2)
         # tesnor (win_dim, batch_size)
         msg = self.msg_linear_out(msg_features)
