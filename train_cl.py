@@ -146,7 +146,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
         # get current audio and watermark message
         wav = batch["wav"].to(device)
         curr_bs = wav.shape[0]
-        msg = np.random.choice([0,1], [batch_size, 1, msg_length])
+        msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
         msg = torch.from_numpy(msg).float() * 2 - 1
         msg = msg.to(device)
 
@@ -172,7 +172,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
 
         # discriminator loss - first classify the embedded as true
         if train_config["adv"]:
-            labels_real = torch.full((batch_size, 1), 1, device=device).float()
+            labels_real = torch.full((curr_bs, 1), 1, device=device).float()
             discriminator_output_embedded = discriminator(embedded)
 
             # get adversarial loss
@@ -196,8 +196,8 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
 
         # backward pass on discriminator
         if train_config["adv"]:
-            labels_real = torch.full((batch_size, 1), 1, device=device).float()
-            labels_fake = torch.full((batch_size, 1), 0, device=device).float()
+            labels_real = torch.full((curr_bs, 1), 1, device=device).float()
+            labels_fake = torch.full((curr_bs, 1), 0, device=device).float()
             discriminator_output_embedded = discriminator(embedded.detach())
             discriminator_output_real = discriminator(wav)
 
@@ -262,7 +262,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
 
             # discriminator loss - first classify the embedded as true
             if train_config["adv"]:
-                labels_real = torch.full((batch_size, 1), 1, device=device).float()
+                labels_real = torch.full((curr_bs, 1), 1, device=device).float()
                 discriminator_output_embedded = discriminator(embedded)
 
                 # get adversarial loss
@@ -315,7 +315,8 @@ total_test_num = 0
 for batch in tqdm(test_dl):
     # get current audio and watermark message
     wav = batch["wav"].to(device)
-    msg = np.random.choice([0,1], [batch_size, 1, msg_length])
+    curr_bs = wav.shape[0]
+    msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
     msg = torch.from_numpy(msg).float() * 2 - 1
 
     # get the embedded audio, carrier watermarked audio and decoded message
