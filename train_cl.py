@@ -162,8 +162,8 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
 
         # get contrastive loss
         aug_view_1, aug_view_2 = batch["augmented_views"]
-        feat_view_1 = decoder.get_features(aug_view_1)
-        feat_view_2 = decoder.get_features(aug_view_2)
+        feat_view_1 = decoder.get_features(aug_view_1).to(device)
+        feat_view_2 = decoder.get_features(aug_view_2).to(device)
         cl_loss = contrastive_loss(feat_view_1.squeeze(1), feat_view_2.squeeze(1))
         print(f"Augmented views shape: {feat_view_1.shape} {feat_view_2.shape}\nContrastive loss: {cl_loss.item()}")
 
@@ -252,8 +252,8 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
 
             # get contrastive loss
             aug_view_1, aug_view_2 = batch["augmented_views"]
-            feat_view_1 = decoder.get_features(aug_view_1)
-            feat_view_2 = decoder.get_features(aug_view_2)
+            feat_view_1 = decoder.get_features(aug_view_1).to(device)
+            feat_view_2 = decoder.get_features(aug_view_2).to(device)
             cl_loss = contrastive_loss(feat_view_1.squeeze(1), feat_view_2.squeeze(1))
 
             # set adversarial loss to zero
