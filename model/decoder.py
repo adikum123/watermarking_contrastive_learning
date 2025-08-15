@@ -43,8 +43,8 @@ class Decoder(nn.Module):
         # init nn modules
         win_dim = int((process_config["mel"]["n_fft"] / 2) + 1)
         self.block = model_config["conv2"]["block"]
-        self.extractor = WatermarkExtracter(input_channel=1, hidden_dim=model_config["conv2"]["hidden_dim"], block=self.block)
-        self.msg_linear_out = FCBlock(win_dim, msg_length)
+        self.extractor = WatermarkExtracter(input_channel=1, hidden_dim=model_config["conv2"]["hidden_dim"], block=self.block).to(device)
+        self.msg_linear_out = FCBlock(win_dim, msg_length).to(device)
 
     def forward(self, x):
         if self.training:
