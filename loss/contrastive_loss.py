@@ -189,7 +189,6 @@ class ContrastiveLoss(nn.Module):
         """
         Computes the Barlow Twins loss.
         """
-        print(f"Shape of f1: {f1.shape}, f2: {f2.shape}")
         batch_size = f1.size(0)
         f1_norm = (f1 - f1.mean(0)) / f1.std(0)
         f2_norm = (f2 - f2.mean(0)) / f2.std(0)

@@ -205,7 +205,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
             discriminator_adv_loss_wav.backward()
 
             # get adversarial loss on embedded and perform step
-            disciminator_adv_loss_embedded = F.binary_cross_entropy_with_logits(discriminator_output_embedded, labels_fake)
+            discriminator_adv_loss_embedded = F.binary_cross_entropy_with_logits(discriminator_output_embedded, labels_fake)
             discriminator_adv_loss_embedded.backward()
 
             # accumulate gradients
