@@ -201,7 +201,7 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
             discriminator_output_real = discriminator(wav)
 
             # get adversarial loss on real audio
-            discriminator_adv_loss_wav = F.binary_cross_entropy_with_logits(discriminator_output_wav, labels_real)
+            discriminator_adv_loss_wav = F.binary_cross_entropy_with_logits(discriminator_output_real, labels_real)
             discriminator_adv_loss_wav.backward()
 
             # get adversarial loss on embedded and perform step
