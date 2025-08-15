@@ -126,7 +126,7 @@ best_val_acc = None
 # start training
 for epoch in range(train_config["iter"]["epoch"] + 1):
     # set params for tracking
-    total_loss = 0
+    total_train_loss = 0
     total_train_num = 0
 
     # set lambdas
@@ -165,7 +165,6 @@ for epoch in range(train_config["iter"]["epoch"] + 1):
         feat_view_1 = decoder.get_features(aug_view_1).to(device)
         feat_view_2 = decoder.get_features(aug_view_2).to(device)
         cl_loss = contrastive_loss(feat_view_1.squeeze(1), feat_view_2.squeeze(1))
-        print(f"Augmented views shape: {feat_view_1.shape} {feat_view_2.shape}\nContrastive loss: {cl_loss.item()}")
 
         # set adversarial loss to zero
         embedder_adv_loss = 0
