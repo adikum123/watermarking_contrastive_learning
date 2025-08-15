@@ -26,7 +26,7 @@ optimize:
   train_size: 31000
 
 contrastive:
-  loss_type: info_nce
+  loss_type: barlow
 
 iter:
   epoch: 20
