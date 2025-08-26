@@ -38,14 +38,36 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-# DataLoader setup
+# Dataset setup
 batch_size = train_config["optimize"]["batch_size"]
 train_ds = AudioDataset(process_config, split="train", dataset_path_prefix=args.dataset_path_prefix)
 val_ds = AudioDataset(process_config, split="val", dataset_path_prefix=args.dataset_path_prefix)
 test_ds = AudioDataset(process_config, split="test", dataset_path_prefix=args.dataset_path_prefix)
-train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
-val_dl = DataLoader(val_ds, batch_size=batch_size, shuffle=False)
-test_dl = DataLoader(test_ds, batch_size=batch_size, shuffle=False)
+# Dataloader setup
+train_dl = DataLoader(
+    train_ds,
+    batch_size=batch_size,
+    shuffle=True,
+    num_workers=4,
+    pin_memory=True,
+    prefetch_factor=2,
+)
+val_dl = DataLoader(
+    val_ds,
+    batch_size=batch_size,
+    shuffle=False,
+    num_workers=4,
+    pin_memory=True,
+    prefetch_factor=2,
+)
+test_dl = DataLoader(
+    test_ds,
+    batch_size=batch_size,
+    shuffle=False,
+    num_workers=4,
+    pin_memory=True,
+    prefetch_factor=2,
+)
 
 # Model config
 embedding_dim = model_config["dim"]["embedding"]
@@ -97,7 +119,7 @@ if train_config["adv"]:
 print(f"Training with params:\n{json.dumps(train_config, indent=4)}\nLength of train dataset: {len(train_ds)}")
 
 # init checkpoint dir
-checkpoint_dir = "/content/drive/MyDrive/audio_watermark_checkpoints"
+checkpoint_dir = "model_ckpts"
 os.makedirs(checkpoint_dir, exist_ok=True)
 
 # load from checkpoint if it exists
@@ -140,11 +162,11 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     pbar = tqdm(enumerate(train_dl), total=len(train_dl), desc=f"Epoch {epoch+1} [Train]")
     for i, batch in pbar:
         # get current audio and watermark message
-        wav = batch["wav"].to(device)
+        wav = batch["wav"].to(device, non_blocking=True)
         curr_bs = wav.shape[0]
         msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
         msg = torch.from_numpy(msg).float() * 2 - 1
-        msg = msg.to(device)
+        msg = msg.to(device, non_blocking=True)
 
         # get the embedded audio, carrier watermarked audio and decoded message
         embedded, carrier_wateramrked = embedder(wav, msg)
@@ -206,90 +228,93 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
 
         pbar.set_postfix(loss=f"{sum_loss.item():.4f}", average_loss=f"{total_train_loss / total_train_num:.4f}")
 
-    print(f"Epoch: {epoch+1} average train loss: {total_train_loss / total_train_num}")
+        if (i + 1) % train_config["iter"]["run_validation_batch"] == 0:
+            print(f"Processed {i+1} batches running validation step:")
 
-    # val step
-    with torch.no_grad():
-        # set all models to eval
-        embedder.eval()
-        decoder.eval()
-        discriminator.eval()
+            # val step
+            with torch.no_grad():
+                # set all models to eval
+                embedder.eval()
+                decoder.eval()
+                discriminator.eval()
 
-        # set params for tracking
-        total_val_loss = 0
-        total_val_num = 0
-        total_acc= 0
-        total_bits = 0
+                # set params for tracking
+                total_val_loss = 0
+                total_val_num = 0
+                total_acc= 0
+                total_bits = 0
 
-        # set pbar for progress tracking
-        pbar = tqdm(val_dl, total=len(val_dl), desc=f"Epoch {epoch+1} [Val]", leave=False, dynamic_ncols=True)
-        for batch in pbar:
-            # get current audio and watermark message
-            wav = batch["wav"].to(device)
-            curr_bs = wav.shape[0]
-            msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
-            msg = torch.from_numpy(msg).float() * 2 - 1
-            msg = msg.to(device)
+                # set pbar for progress tracking
+                pbar = tqdm(val_dl, total=len(val_dl), desc=f"Epoch {epoch+1} [Val]", leave=False, dynamic_ncols=True)
+                for batch in pbar:
+                    # get current audio and watermark message
+                    wav = batch["wav"].to(device, non_blocking=True)
+                    curr_bs = wav.shape[0]
+                    msg = np.random.choice([0,1], [curr_bs, 1, msg_length])
+                    msg = torch.from_numpy(msg).float() * 2 - 1
+                    msg = msg.to(device, non_blocking=True)
 
-            # get the embedded audio, carrier watermarked audio and decoded message
-            embedded, carrier_wateramrked = embedder(wav, msg)
-            decoded = decoder(embedded)
+                    # get the embedded audio, carrier watermarked audio and decoded message
+                    embedded, carrier_wateramrked = embedder(wav, msg)
+                    decoded = decoder(embedded)
 
-            # watermark embedding loss
-            wm_embedding_loss = mse_loss(embedded, wav)
+                    # watermark embedding loss
+                    wm_embedding_loss = mse_loss(embedded, wav)
 
-            # message loss
-            message_loss = mse_loss(decoded, msg)
+                    # message loss
+                    message_loss = mse_loss(decoded, msg)
 
-            # set adversarial loss to zero
-            embedder_adv_loss = 0
+                    # set adversarial loss to zero
+                    embedder_adv_loss = 0
 
-            # discriminator loss - first classify the embedded as true
+                    # discriminator loss - first classify the embedded as true
+                    if train_config["adv"]:
+                        labels_real = torch.full((curr_bs, 1), 1, device=device).float()
+                        discriminator_output_embedded = discriminator(embedded)
+
+                        # get adversarial loss
+                        embedder_adv_loss = F.binary_cross_entropy_with_logits(discriminator_output_embedded, labels_real)
+
+                    # sum loss
+                    sum_loss = lambda_e * wm_embedding_loss + lambda_m * message_loss + lambda_a * embedder_adv_loss
+                    total_val_loss += sum_loss.item() * curr_bs
+                    total_val_num += curr_bs
+
+                    # measure accuracy on val dataset
+                    curr_acc = (decoded >= 0).eq(msg >= 0).sum().float()
+                    total_acc += curr_acc.item()
+                    total_bits += msg.numel()
+
+                    # set pbar desc
+                    pbar.set_postfix(loss=f"{sum_loss.item():.4f}", acc=f"{total_acc / total_bits:.3f}", average_loss=f"{total_val_loss / total_val_num:.4f}")
+
+            print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
+            print(f"Epoch: {epoch+1} average acc: {total_acc / total_bits}")
+
+            # Step the schedulers here (once per epoch)
+            embedder_decoder_scheduler.step()
             if train_config["adv"]:
-                labels_real = torch.full((curr_bs, 1), 1, device=device).float()
-                discriminator_output_embedded = discriminator(embedded)
+                discriminator_scheduler.step()
 
-                # get adversarial loss
-                embedder_adv_loss = F.binary_cross_entropy_with_logits(discriminator_output_embedded, labels_real)
+            # Save model checkpoint
+            if args.save_ckpt and (best_val_acc is None or (total_acc / total_bits) > best_val_acc):
+                best_val_acc = total_acc / total_bits
+                checkpoint_path = os.path.join(checkpoint_dir, f"wm_model_epoch_{epoch+1}.pt")
+                torch.save({
+                    "epoch": epoch,
+                    "embedder_state_dict": embedder.state_dict(),
+                    "decoder_state_dict": decoder.state_dict(),
+                    "discriminator_state_dict": discriminator.state_dict() if train_config["adv"] else None,
+                    "embedder_decoder_optimizer_state_dict": embedder_decoder_optimizer.state_dict(),
+                    "discriminator_optimizer_state_dict": discriminator_optimizer.state_dict() if train_config["adv"] else None,
+                    "average_train_loss": total_train_loss / total_train_num,
+                    "average_val_loss": total_val_loss / total_val_num,
+                    "average_acc": total_acc / total_val_num
+                }, checkpoint_path)
+                print(f"Checkpoint saved: {checkpoint_path} with new best average accuracy: {total_acc / total_bits}")
 
-            # sum loss
-            sum_loss = lambda_e * wm_embedding_loss + lambda_m * message_loss + lambda_a * embedder_adv_loss
-            total_val_loss += sum_loss.item() * curr_bs
-            total_val_num += curr_bs
 
-            # measure accuracy on val dataset
-            curr_acc = (decoded >= 0).eq(msg >= 0).sum().float()
-            total_acc += curr_acc.item()
-            total_bits += msg.numel()
-
-            # set pbar desc
-            pbar.set_postfix(loss=f"{sum_loss.item():.4f}", acc=f"{total_acc / total_bits:.3f}", average_loss=f"{total_val_loss / total_val_num:.4f}")
-
-    print(f"Epoch: {epoch+1} average val loss: {total_val_loss / total_val_num}")
-    print(f"Epoch: {epoch+1} average acc: {total_acc / total_bits}")
-
-    # Step the schedulers here (once per epoch)
-    embedder_decoder_scheduler.step()
-    if train_config["adv"]:
-        discriminator_scheduler.step()
-
-    # Save model checkpoint
-    if args.save_ckpt and (best_val_acc is None or (total_acc / total_bits) > best_val_acc):
-        best_val_acc = total_acc / total_bits
-        checkpoint_path = os.path.join(checkpoint_dir, f"wm_model_epoch_{epoch+1}.pt")
-        torch.save({
-            "epoch": epoch,
-            "embedder_state_dict": embedder.state_dict(),
-            "decoder_state_dict": decoder.state_dict(),
-            "discriminator_state_dict": discriminator.state_dict() if train_config["adv"] else None,
-            "embedder_decoder_optimizer_state_dict": embedder_decoder_optimizer.state_dict(),
-            "discriminator_optimizer_state_dict": discriminator_optimizer.state_dict() if train_config["adv"] else None,
-            "average_train_loss": total_train_loss / total_train_num,
-            "average_val_loss": total_val_loss / total_val_num,
-            "average_acc": total_acc / total_val_num
-        }, checkpoint_path)
-        print(f"Checkpoint saved: {checkpoint_path} with new best average accuracy: {total_acc / total_bits}")
-
+    print(f"Epoch: {epoch+1} average train loss: {total_train_loss / total_train_num}")
 
 embedder.eval()
 decoder.eval()

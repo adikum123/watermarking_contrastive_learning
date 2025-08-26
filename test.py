@@ -1,61 +1,54 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import torch
-import yaml
-from torch.utils.data import DataLoader
+import os
+import json
+import pandas as pd
+from mutagen.mp3 import MP3
+from collections import defaultdict
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
-from data.contrastive_dataset import ContrastiveAudioDataset
-from data.dataset import AudioDataset
-from model.detector import Decoder
-from model.discriminator import Discriminator
-from model.embedder import Embedder
 
-# Load config
-with open("config/process.yaml", "r") as f:
-    process_config = yaml.safe_load(f)
-with open("config/model.yaml", "r") as f:
-    model_config = yaml.safe_load(f)
+sample_rate_counts = defaultdict(int)
+durations = []  # store audio lengths in seconds
 
-# DataLoader setup
-batch_size = 32
-train_ds = ContrastiveAudioDataset(process_config, split="train")
-train_dl = DataLoader(train_ds, batch_size=batch_size, shuffle=True)
 
-# Model config
-embedding_dim = model_config["dim"]["embedding"]
-nlayers_encoder = model_config["layer"]["nlayers_encoder"]
-nlayers_decoder = model_config["layer"]["nlayers_decoder"]
-msg_length = model_config["wm"]["msg_length"]
-win_dim = model_config["audio"]["win_dim"]
+data_dir = os.path.join("mnt", "s3", "data", "raw")
+clips_dir = os.path.join(data_dir, "clips")
 
-# Device
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# Models
-embedder = Embedder(process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_encoder).to(device)
-decoder = Decoder(process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_decoder).to(device)
-discriminator = Discriminator(process_config).to(device)
+def count_sr(tsv_file, clips_dir, frac=0.2, random_state=42):
+    df = pd.read_csv(tsv_file, sep="\t")
+    # sample 20% of rows (frac=0.2), reproducible with random_state
+    df = df.sample(frac=frac, random_state=random_state)
+    for _, row in tqdm(df.iterrows(), total=len(df), desc=f"Processing {os.path.basename(tsv_file)}"):
+        audio_file = row["path"]
+        input_path = os.path.join(clips_dir, audio_file)
+        audio = MP3(input_path)
+        sr = audio.info.sample_rate
+        sample_rate_counts[sr] += 1
+        duration = audio.info.length
+        durations.append(duration)
 
-# Length stats collection
-all_lengths = []
-max_actual_length = 0
 
-for batch in tqdm(train_dl):
-    batch_lengths = batch["actual_length"]  # tensor of shape [batch_size]
-    all_lengths.extend(batch_lengths.tolist())  # collect all lengths
-    batch_max_len = batch_lengths.max().item()
-    if batch_max_len > max_actual_length:
-        max_actual_length = batch_max_len
+count_sr(os.path.join(data_dir, "dev.tsv"), clips_dir)
+count_sr(os.path.join(data_dir, "test.tsv"), clips_dir)
+#count_sr(os.path.join(data_dir, "train.tsv"), clips_dir, frac=0.01)
+print(sample_rate_counts)
+for sample_rate, count in sample_rate_counts.items():
+    print(f"Sample Rate: {sample_rate} Hz - Count: {count}")
+output_file = "dev_sample_rate_counts.json"
+with open(output_file, "w") as f:
+    json.dump(sample_rate_counts, f, indent=4)
 
-print(f"Max actual audio length: {max_actual_length} samples")
-
-# 📊 Plot histogram
+# ---- Plot distribution of audio lengths ----
 plt.figure(figsize=(10, 6))
-plt.hist(all_lengths, bins=50, color='skyblue', edgecolor='black')
-plt.title("Distribution of Actual Audio Lengths")
-plt.xlabel("Audio Length (samples)")
-plt.ylabel("Count")
-plt.grid(True)
+plt.hist(durations, bins=100, edgecolor="black")
+plt.title("Distribution of Audio Lengths")
+plt.xlabel("Duration (seconds)")
+plt.ylabel("Number of clips")
+plt.grid(True, linestyle="--", alpha=0.6)
 plt.tight_layout()
-plt.show()
+
+# Save plot instead of showing
+plot_file = "audio_length_distribution.png"
+plt.savefig(plot_file)
+print(f"Saved plot to {plot_file}")
