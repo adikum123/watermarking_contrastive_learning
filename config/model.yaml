@@ -2,14 +2,14 @@ dim:
   embedding: 128   # suitable transformer embedding dimension
 
 layer:
-  nlayers_encoder: 2
-  nlayers_decoder: 2
+  nlayers_encoder: 3
+  nlayers_decoder: 3
 
 audio:
   win_dim: 256     # <--- ADD this to reflect input window dimension
 
 conv2:
   block: 'skip' #'skip', 'relu'
-  layers_CE: 2
-  layers_EM: 2
+  layers_CE: 3
+  layers_EM: 3
   hidden_dim: 64

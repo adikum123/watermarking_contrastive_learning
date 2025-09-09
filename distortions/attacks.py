@@ -100,26 +100,28 @@ def mp3_compression(audio, sr, quality=2):
         safe_delete(temp_wav_path)
         safe_delete(mp3_path)
 
-def delete_samples(audio, sr, percentage):
+def delete_samples(audio, percentage):
     """
-    Delete percentage of samples from the audio
+    Delete a percentage of samples from the audio.
 
     Args:
-        audio: Input audio (float32, range -1 to 1)
-        sr: Sample rate
-        percentage: Percentage of samples to delete (0-1)
+        audio: Input audio (1D np.ndarray, float32, range -1 to 1)
+        percentage: Fraction of samples to delete (0.0–1.0)
     """
-    samples_to_delete = int(percentage * sr)
-    start_delete = np.random.randint(0, len(audio) - samples_to_delete)
+    length = len(audio)
+    samples_to_delete = int(percentage * length)
+
+    # Edge case: delete everything
+    if samples_to_delete >= length:
+        return np.array([], dtype=audio.dtype)
+
+    start_delete = np.random.randint(0, length - samples_to_delete)
     end_delete = start_delete + samples_to_delete
 
-    #audio[start_delete:end_delete] = 0
-    audio = np.concatenate([
-       audio[:start_delete],
-       audio[end_delete:]
+    return np.concatenate([
+        audio[:start_delete],
+        audio[end_delete:]
     ])
-
-    return audio
 
 def resample(audio, sr, downsample_sr=8000, print_stmt=False):
     """

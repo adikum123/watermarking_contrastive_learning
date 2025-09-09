@@ -5,10 +5,9 @@ import torch
 import torchaudio
 from torch.utils.data import Dataset
 
-
 class AudioDataset(Dataset):
 
-    def __init__(self, process_config, split="train", batch_size=100, dataset_path_prefix=""):
+    def __init__(self, process_config, split="train", take_num=None):
         self.dataset_path = os.path.join("mnt", "s3", "data", "raw", "clips")
         self.sample_rate = process_config["audio"]["sample_rate"]
         self.max_wav_value = process_config["audio"]["max_wav_value"]
@@ -16,6 +15,7 @@ class AudioDataset(Dataset):
         self.max_len = process_config["audio"]["max_len"]  # in samples
         assert split in {"train", "val", "test"}, f"Invalid split: {split}"
         self.split = split
+        self.take_num = take_num
         self.set_data()
 
     def set_data(self):
@@ -26,6 +26,9 @@ class AudioDataset(Dataset):
             reader = csv.DictReader(f, delimiter="\t")
             for row in reader:
                 self.files.append(dict(row))
+        if self.take_num:
+            # sort first by path, then take first self.take_num items
+            self.files = sorted(self.files, key=lambda x: x["path"])[:self.take_num]
 
     def __getitem__(self, idx):
         file_path = os.path.join(self.dataset_path, self.files[idx]["path"])
@@ -35,8 +38,7 @@ class AudioDataset(Dataset):
             resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=self.sample_rate)
             wav = resampler(wav)
             sr = self.sample_rate
-        max_patch_num = self.max_len // self.win_len
-        target_len = max_patch_num * self.win_len
+        target_len = self.max_len
 
         # Truncate the audio to max_len if longer
         if wav.shape[1] > target_len:
@@ -53,8 +55,6 @@ class AudioDataset(Dataset):
         sample = {
             "wav": wav,
             "sample_rate": sr,
-            "patch_num": max_patch_num,
-            "pad_num": pad_num,
             "name": self.files[idx]["path"]
         }
         return sample

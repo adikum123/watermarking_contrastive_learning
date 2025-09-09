@@ -1,17 +1,17 @@
-adv: True
+adv: False
 
 watermark:
-  length: 15
+  length: 10
 
 
 optimize:
-  lr: 0.0001
+  lr: 0.001
   lambda_e: 1.
-  lambda_m: 0.01
+  lambda_m: 0.05
   lambda_a: 0.01
   batch_size: 4
-  step_size: 5 # large value means do not decay
-  gamma: 0.98
+  step_size: 3000 # large value means do not decay
+  gamma: 0.9
   betas: [0.9, 0.98]
   eps: 0.000000001
   weight_decay: 0.0
@@ -29,4 +29,3 @@ iter:
   save_circle: 5
   show_circle: 100
   val_circle: 100
-  run_validation_batch: 100
