@@ -18,9 +18,12 @@
     "pylint.path": [
         "pylint"
     ],
+    "flake8.args": [
+        "--ignore=E501,W503"
+    ],
     "python.terminal.activateEnvironment": false,
     "python.createEnvironment.trigger": "off",
-    "python.analysis.typeCheckingMode": "strict",
+    "python.analysis.typeCheckingMode": "standard",
     "python.analysis.diagnosticMode": "workspace",
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"

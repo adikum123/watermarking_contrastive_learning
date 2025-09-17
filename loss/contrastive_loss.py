@@ -1,12 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torch.optim as optim
 
 
 class RobustContrastiveLoss(nn.Module):
 
-    def __init__(self, base_model, temperature=0.5, lambda_weight=1/256):
+    def __init__(self, base_model, temperature=0.5, lambda_weight=1 / 256):
         super().__init__()
         self.base_model = base_model
         self.device = base_model.device
@@ -29,7 +28,15 @@ class RobustContrastiveLoss(nn.Module):
         total_loss = loss_rocl + self.lambda_weight * loss_reg
         return total_loss
 
-    def generate_adversarial_example(self, anchor_img, positive_img, negatives, epsilon=4/255, alpha=1/255, num_iter=10):
+    def generate_adversarial_example(
+        self,
+        anchor_img,
+        positive_img,
+        negatives,
+        epsilon=4 / 255,
+        alpha=1 / 255,
+        num_iter=10,
+    ):
         """
         Generates an instance-wise adversarial example from anchor_img (t(x))
         by maximizing the contrastive loss against positive_img (t0(x)) and negatives,
@@ -58,7 +65,9 @@ class RobustContrastiveLoss(nn.Module):
 
         for _ in range(num_iter):
             adv_embed = self.base_model.forward(adv_img)  # shape: (batch, dim)
-            loss = self.contrastive_loss(adv_embed, positives=[target_pos], negatives=negatives)
+            loss = self.contrastive_loss(
+                adv_embed, positives=[target_pos], negatives=negatives
+            )
 
             self.base_model.zero_grad()
             loss.backward()
@@ -80,7 +89,9 @@ class RobustContrastiveLoss(nn.Module):
         positives = [F.normalize(p, dim=1) for p in positives]
         negatives = F.normalize(negatives, dim=1)
 
-        sim_pos = torch.cat([torch.sum(anchor * p, dim=1, keepdim=True) for p in positives], dim=1)
+        sim_pos = torch.cat(
+            [torch.sum(anchor * p, dim=1, keepdim=True) for p in positives], dim=1
+        )
         sim_neg = anchor @ negatives.T
 
         sim_pos /= self.temperature
@@ -91,6 +102,7 @@ class RobustContrastiveLoss(nn.Module):
 
         loss = -torch.log(numerator / denominator)
         return loss.mean()
+
 
 class ContrastiveLoss(nn.Module):
 
@@ -123,13 +135,12 @@ class ContrastiveLoss(nn.Module):
         Computes the InfoNCE (NT-Xent) loss with optional additional positive examples
         (e.g. adversarial augmentations) as in RoCL.
         """
-        batch_size = f1.size(0)
         f1 = F.normalize(f1, dim=1)
         f2 = F.normalize(f2, dim=1)
 
         if positive_extra is not None:
             positive_extra = F.normalize(positive_extra, dim=1)
-            anchors = torch.cat([f1, f1], dim=0)         # (2N, d)
+            anchors = torch.cat([f1, f1], dim=0)  # (2N, d)
             positives = torch.cat([f2, positive_extra], dim=0)  # (2N, d)
         else:
             anchors = f1
@@ -137,7 +148,9 @@ class ContrastiveLoss(nn.Module):
 
         # Total features for similarity calculation
         features = torch.cat([anchors, positives], dim=0)  # (4N or 2N, d)
-        sim_matrix = torch.matmul(anchors, features.T) / self.temperature  # (2N, 4N) or (N, 2N)
+        sim_matrix = (
+            torch.matmul(anchors, features.T) / self.temperature
+        )  # (2N, 4N) or (N, 2N)
 
         # Construct positive indices: anchor[i] matches positive[i]
         labels = torch.arange(anchors.size(0), device=f1.device)
@@ -159,13 +172,12 @@ class ContrastiveLoss(nn.Module):
         """
         Computes the Noise Contrastive Estimation (NCE) loss.
         """
-        batch_size = f1.size(0)
         f1 = F.normalize(f1, dim=1)
         f2 = F.normalize(f2, dim=1)
         logits = torch.matmul(f1, f2.T) / self.temperature  # (N, N) similarity matrix
         positives = torch.diag(logits)
         logsumexp = torch.logsumexp(logits, dim=1)
-        loss = - (positives - logsumexp).mean()
+        loss = -(positives - logsumexp).mean()
         return loss
 
     def cosine_similarity_loss(self, f1, f2):
@@ -174,7 +186,7 @@ class ContrastiveLoss(nn.Module):
         """
         f1 = F.normalize(f1, dim=1)
         f2 = F.normalize(f2, dim=1)
-        loss = - (f1 * f2).sum(dim=1).mean()
+        loss = -(f1 * f2).sum(dim=1).mean()
         return loss
 
     def off_diagonal(self, x):

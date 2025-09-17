@@ -1,7 +1,7 @@
 adv: False
 
 watermark:
-  length: 10
+  length: 15
 
 
 optimize:
@@ -10,13 +10,13 @@ optimize:
   lambda_m: 0.05
   lambda_a: 0.01
   batch_size: 4
-  step_size: 3000 # large value means do not decay
+  step_size: 5 # large value means do not decay
   gamma: 0.9
   betas: [0.9, 0.98]
   eps: 0.000000001
   weight_decay: 0.0
   grad_clip_thresh: 1.0
-  grad_acc_step: 32
+  grad_acc_step: 8
   up_step: 4000
   anneal_steps: [300000, 400000, 500000]
   anneal_rate: 0.3

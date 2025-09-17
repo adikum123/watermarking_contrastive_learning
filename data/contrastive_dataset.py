@@ -1,13 +1,17 @@
-import os
 import csv
+import os
 
 import numpy as np
 import torch
 import torchaudio
 from torch.utils.data import Dataset
 
-from distortions.attacks import (delete_samples, mp3_compression,
-                                 pcm_bit_depth_conversion, resample)
+from distortions.attacks import (
+    delete_samples,
+    mp3_compression,
+    pcm_bit_depth_conversion,
+    resample,
+)
 
 
 class ContrastiveAudioDataset(Dataset):
@@ -24,7 +28,11 @@ class ContrastiveAudioDataset(Dataset):
         self.set_data()
 
     def set_data(self):
-        file_name = "train" if self.split == "train" else "dev" if self.split == "val" else "test"
+        file_name = (
+            "train"
+            if self.split == "train"
+            else "dev" if self.split == "val" else "test"
+        )
         file_path = os.path.join("mnt", "s3", "data", "raw", f"{file_name}.tsv")
         self.files = []
         with open(file_path, newline="", encoding="utf-8") as f:
@@ -33,11 +41,10 @@ class ContrastiveAudioDataset(Dataset):
                 self.files.append(dict(row))
         if self.take_num:
             # sort first by path, then take first self.take_num items
-            self.files = sorted(self.files, key=lambda x: x["path"])[:self.take_num]
+            self.files = sorted(self.files, key=lambda x: x["path"])[: self.take_num]
 
     def truncate_or_pad(self, wav):
         # get actual length of the audio
-        actual_length = wav.shape[1]
         max_patch_num = self.max_len // self.win_len
         target_len = max_patch_num * self.win_len
 
@@ -56,11 +63,14 @@ class ContrastiveAudioDataset(Dataset):
         """
         Generate two random augmented views of audio sample `x` using attack.py
         """
+
         def random_augment(audio, sr):
             aug_audio = np.copy(audio)
 
             if np.random.rand() < 0.5:
-                aug_audio = mp3_compression(aug_audio, sr, quality=np.random.choice([2, 4, 6]))
+                aug_audio = mp3_compression(
+                    aug_audio, sr, quality=np.random.choice([2, 4, 6])
+                )
 
             if np.random.rand() < 0.5:
                 bit_depth = np.random.choice([8, 16, 24])
@@ -69,7 +79,7 @@ class ContrastiveAudioDataset(Dataset):
             if np.random.rand() < 0.5:
                 deletion_percentage = np.random.uniform(0.1, 0.5)
                 if len(aug_audio) > int(sr * deletion_percentage):
-                    aug_audio = delete_samples(aug_audio, sr, deletion_percentage)
+                    aug_audio = delete_samples(aug_audio, deletion_percentage)
 
             if np.random.rand() < 0.5:
                 aug_audio = resample(aug_audio, sr)
@@ -89,13 +99,14 @@ class ContrastiveAudioDataset(Dataset):
             self.truncate_or_pad(torch.from_numpy(view2).unsqueeze(0).float()),
         )
 
-
     def __getitem__(self, idx):
         file_path = os.path.join(self.dataset_path, self.files[idx]["path"])
         wav, sr = torchaudio.load(file_path, format="mp3")
         # Resample if needed
         if sr != self.sample_rate:
-            resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=self.sample_rate)
+            resampler = torchaudio.transforms.Resample(
+                orig_freq=sr, new_freq=self.sample_rate
+            )
             wav = resampler(wav)
             sr = self.sample_rate
 

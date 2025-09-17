@@ -1,17 +1,22 @@
 import os
+import random
 import warnings
 
 import matplotlib.pyplot as plt
-import numpy as np
+import soundfile as sf
 import torch
 import yaml
 from tqdm import tqdm
 
 from data.dataset import AudioDataset
-from distortions.attacks import delete_samples
-from model.decoder import Decoder
-from model.discriminator import Discriminator
-from model.embedder import Embedder
+from distortions.attacks import delete_samples, resample
+from model.utils import (
+    accuracy,
+    get_model_average_pesq_dataset,
+    get_model_average_stoi_dataset,
+    load_from_ckpt,
+    truncate_or_pad_np,
+)
 
 warnings.filterwarnings(
     "ignore", message=".*TorchCodec's decoder.*", category=UserWarning
@@ -22,7 +27,7 @@ warnings.filterwarnings(
     category=UserWarning,
 )
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")
 
 # Load configs
 with open("config/train_part_cl.yaml", "r") as f:
@@ -33,45 +38,45 @@ with open("config/model.yaml", "r") as f:
     model_config = yaml.safe_load(f)
 
 
-def truncate_or_pad(audio, target_len) -> np.ndarray:
-    curr_len = len(audio)
-    if curr_len > target_len:
-        return audio[:target_len]
-    if curr_len < target_len:
-        return np.pad(audio, (0, target_len - curr_len))
-    return audio
-
-
-def evaluate(embedder, decoder, dataset, delete_ratio):
+def evaluate(embedder, decoder, dataset, resample_ratio):
     embedder.eval()
     decoder.eval()
 
     total_acc = 0
     total_bits = 0
-    sr = process_config["audio"]["sample_rate"]
 
     with torch.no_grad():
         tbar = tqdm(
             enumerate(dataset),
             total=len(dataset),
-            desc=f"Delete Ratio {delete_ratio:.4f}",
+            desc=f"Resample Ratio {resample_ratio:.4f}",
         )
         for idx, item in tbar:
-            wav = item["wav"].to(device)  # [1, T]
-
-            # --- Step 1: random message ---
-            msg = np.random.choice([0, 1], [1, 1, train_config["watermark"]["length"]])
-            msg = torch.from_numpy(msg).float() * 2 - 1
-            msg = msg.to(device)
+            wav = item["wav"].unsqueeze(0).to(device)
+            curr_bs = wav.shape[0]
+            msg = (
+                torch.randint(
+                    0,
+                    2,
+                    (curr_bs, 1, train_config["watermark"]["length"]),
+                    device=device,
+                ).float()
+                * 2
+                - 1
+            ).to(device)
 
             # --- Step 2: embed watermark ---
-            embedded, _ = embedder(wav.unsqueeze(0), msg)  # embedded: [1, T]
+            embedded, _ = embedder(wav, msg)  # embedded: [1, T]
 
             # --- Step 3: attack on embedded signal ---
             embedded_np = embedded.squeeze(0).cpu().numpy()
             flattened_embedded_np = embedded_np.flatten()
-            attacked_np = truncate_or_pad(
-                delete_samples(flattened_embedded_np, delete_ratio),
+            attacked_np = truncate_or_pad_np(
+                resample(
+                    audio=flattened_embedded_np,
+                    sr=process_config["audio"]["sample_rate"],
+                    downsample_sr=resample_ratio,
+                ),
                 process_config["audio"]["max_len"],
             )
             attacked_embedded = (
@@ -82,8 +87,7 @@ def evaluate(embedder, decoder, dataset, delete_ratio):
             decoded = decoder(attacked_embedded.unsqueeze(0))
 
             # --- Step 5: bitwise accuracy ---
-            acc = (decoded >= 0).eq(msg >= 0).sum().float()
-            total_acc += acc.item()
+            total_acc += accuracy(decoded=decoded, msg=msg)
             total_bits += msg.numel()
 
             avg_acc = total_acc / total_bits
@@ -92,84 +96,104 @@ def evaluate(embedder, decoder, dataset, delete_ratio):
     return {"acc": total_acc / total_bits if total_bits > 0 else 0.0}
 
 
-# --- Load models ---
-embedding_dim = model_config["dim"]["embedding"]
-nlayers_encoder = model_config["layer"]["nlayers_encoder"]
-nlayers_decoder = model_config["layer"]["nlayers_decoder"]
-msg_length = train_config["watermark"]["length"]
-win_dim = model_config["audio"]["win_dim"]
-
-# wm model
-embedder = Embedder(
-    process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_encoder
-)
-decoder = Decoder(
-    process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_decoder
-)
-discriminator = Discriminator(process_config)
-
-# wm cl model
-embedder_cl = Embedder(
-    process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_encoder
-)
-decoder_cl = Decoder(
-    process_config, model_config, msg_length, win_dim, embedding_dim, nlayers_decoder
-)
-discriminator_cl = Discriminator(process_config)
-
-# load checkpoints
-model_ckpt = "model_ckpts/wm_model_part_dataset_val_epoch_0.pt"
-model_ckpt_cl = "model_ckpts/wm_model_part_dataset_cl_val_epoch_1.pt"
-
-checkpoint = torch.load(model_ckpt, map_location=device)
-embedder.load_state_dict(checkpoint["embedder_state_dict"])
-decoder.load_state_dict(checkpoint["decoder_state_dict"])
-
-checkpoint_cl = torch.load(model_ckpt_cl, map_location=device)
-embedder_cl.load_state_dict(checkpoint_cl["embedder_state_dict"])
-decoder_cl.load_state_dict(checkpoint_cl["decoder_state_dict"])
-
 # --- Load dataset ---
-test_ds = AudioDataset(process_config, split="test", take_num=200)
+test_ds = AudioDataset(process_config, split="test", take_num=100)
+
+# config
+config = [
+    {
+        "model_ckpt": "model_ckpts/finetune_wm_model_pesq_3.359905179619789_acc_0.9998.pt",
+        "model_desc": "wm model",
+    },
+    {
+        "model_ckpt": "model_ckpts/wm_model_cl_pesq_1.753751079440117_acc_1.0.pt",
+        "model_desc": "wm cl model",
+    },
+]
+
+for model in config:
+    embedder, decoder = load_from_ckpt(
+        ckpt=model["model_ckpt"],
+        model_config=model_config,
+        train_config=train_config,
+        process_config=process_config,
+        device=device,
+    )
+    avg_pesq = get_model_average_pesq_dataset(
+        embedder=embedder,
+        dataset=test_ds,
+        msg_length=train_config["watermark"]["length"],
+        device=device,
+        sr=process_config["audio"]["sample_rate"],
+    )
+    avg_stoi = get_model_average_stoi_dataset(
+        embedder=embedder,
+        dataset=test_ds,
+        msg_length=train_config["watermark"]["length"],
+        device=device,
+        sr=process_config["audio"]["sample_rate"],
+    )
+    print(
+        f"Loaded model from: {model['model_ckpt']} with avg pesq: {avg_pesq} and avg stoi: {avg_stoi}"
+    )
+    model.update(
+        {
+            "embedder": embedder,
+            "decoder": decoder,
+            "avg_pesq": avg_pesq,
+            "avg_stoi": avg_stoi,
+        }
+    )
+
+# --- Pick one random audio from dataset ---
+idx = random.randint(0, len(test_ds) - 1)
+item = test_ds[idx]
+wav = item["wav"].unsqueeze(0).to(device)  # [1, T]
+orig_np = wav.squeeze(0).cpu().numpy()
 
 # --- Evaluate for delete ratios ---
-delete_samples_values = [t * 0.1 for t in range(0, 11)]  # 0% to 100%
+resample_values = [
+    44100,  # baseline
+    22050,  # half
+    14700,  # one-third
+    11025,  # quarter
+    8820,  # one-fifth
+    7350,  # one-sixth
+    6300,  # one-seventh
+]
 results = {}
 
-for delete_ratio in delete_samples_values:
-    # wm models on GPU, cl on CPU
-    embedder.to(device)
-    decoder.to(device)
-    embedder_cl.to("cpu")
-    decoder_cl.to("cpu")
+for model in config:
+    embedder = model["embedder"]
+    decoder = model["decoder"]
+    model_desc = model["model_desc"]
 
-    print(f"Evaluating delete ratio: {delete_ratio:.2f}")
-    wm_metrics = evaluate(embedder, decoder, test_ds, delete_ratio)
-    results[f"wm_delete_{delete_ratio:.2f}"] = wm_metrics
+    results[model_desc] = {}
 
-    # cl models on GPU, wm on CPU
-    embedder.to("cpu")
-    decoder.to("cpu")
-    embedder_cl.to(device)
-    decoder_cl.to(device)
-
-    print(f"Evaluating delete ratio (CL): {delete_ratio:.2f}")
-    cl_metrics = evaluate(embedder_cl, decoder_cl, test_ds, delete_ratio)
-    results[f"cl_delete_{delete_ratio:.2f}"] = cl_metrics
+    for resample_ratio in resample_values:
+        print(f"Evaluating {model_desc} at resample ratio: {resample_ratio:.2f}")
+        metrics = evaluate(embedder, decoder, test_ds, resample_ratio)
+        results[model_desc][resample_ratio] = metrics
 
 # --- Extract metrics for plotting ---
-wm_acc = [results[f"wm_delete_{r:.2f}"]["acc"] for r in delete_samples_values]
-cl_acc = [results[f"cl_delete_{r:.2f}"]["acc"] for r in delete_samples_values]
-
-# --- Plot results ---
 plt.figure(figsize=(10, 7))
 
-plt.plot(delete_samples_values, wm_acc, label="WM Accuracy", marker="o")
-plt.plot(delete_samples_values, cl_acc, label="CL Accuracy", marker="x")
+for model in config:
+    model_desc = model["model_desc"]
+    avg_pesq = model["avg_pesq"]
+    avg_stoi = model["avg_stoi"]
 
-plt.xlabel("Delete Sample Ratio")
+    acc_values = [results[model_desc][r]["acc"] for r in resample_values]
+    plt.plot(
+        resample_values,
+        acc_values,
+        marker="o",
+        label=f"{model_desc} (PESQ={avg_pesq:.2f}, STOI={avg_stoi:.2f})",
+    )
+
+plt.xlabel("Downsample Rate (Hz)")
 plt.ylabel("Bitwise Accuracy")
-plt.title("Watermark Accuracy vs Delete Sample Ratio")
+plt.title("Watermark Accuracy vs Resampling Rate")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
@@ -177,6 +201,6 @@ plt.tight_layout()
 # Save figure
 output_dir = "results_images"
 os.makedirs(output_dir, exist_ok=True)
-plt.savefig(os.path.join(output_dir, "accuracy_vs_delete_rate.png"), dpi=300)
+plt.savefig(os.path.join(output_dir, "accuracy_vs_resample_rate.png"), dpi=300)
 
 plt.show()

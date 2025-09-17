@@ -1,0 +1,349 @@
+"""
+Finetune trained audio watermarking models to improve quality
+"""
+
+import json
+import os
+import re
+import warnings
+
+import torch
+import yaml
+from torch.utils.data import DataLoader
+from tqdm import tqdm
+
+from loss.loss import WatermarkLoss
+from model.metrics_tracker import MetricsTracker
+from model.utils import (
+    get_datasets,
+    init_models,
+    init_optimizers,
+    init_schedulers,
+    pesq_score_batch,
+    prepare_batch,
+    save_model,
+    stoi_score_batch,
+)
+
+warnings.filterwarnings(
+    "ignore", message=".*TorchCodec's decoder.*", category=UserWarning
+)
+warnings.filterwarnings(
+    "ignore",
+    message=".*StreamingMediaDecoder has been deprecated.*",
+    category=UserWarning,
+)
+
+# Load config
+with open("config/finetune_train_part_cl.yaml", "r") as f:
+    train_config = yaml.safe_load(f)
+with open("config/process.yaml", "r") as f:
+    process_config = yaml.safe_load(f)
+with open("config/model.yaml", "r") as f:
+    model_config = yaml.safe_load(f)
+
+# Dataset setup
+batch_size = train_config["optimize"]["batch_size"]
+train_ds, val_ds, test_ds = get_datasets(
+    contrastive=train_config["contrastive"],
+    process_config=process_config,
+    take_part=True,
+)
+
+# Dataloader setup
+train_dl = DataLoader(
+    train_ds,
+    batch_size=batch_size,
+    shuffle=True,
+    num_workers=0,
+    persistent_workers=False,
+    pin_memory=False,
+    prefetch_factor=None,
+    timeout=0,
+)
+val_dl = DataLoader(
+    val_ds,
+    batch_size=batch_size,
+    shuffle=False,
+    num_workers=0,
+    persistent_workers=False,
+    pin_memory=False,
+    prefetch_factor=None,
+    timeout=0,
+)
+test_dl = DataLoader(
+    test_ds,
+    batch_size=batch_size,
+    shuffle=False,
+    num_workers=0,
+    persistent_workers=False,
+    pin_memory=False,
+    prefetch_factor=None,
+    timeout=0,
+)
+
+# Device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Device: {device}")
+
+# Models
+embedder, decoder, discriminator = init_models(
+    model_config=model_config,
+    process_config=process_config,
+    train_config=train_config,
+    device=device,
+)
+
+# load best model by pesq and acc
+pattern = re.compile(r"wm_model_cl_pesq_([\d\.]+)_acc_([\d\.]+)\.pt")
+ckpt_dir = "model_ckpts"
+best_file = None
+best_pesq, best_acc = -float("inf"), -float("inf")
+for fname in os.listdir(ckpt_dir):
+    match = pattern.match(fname)
+    if match:
+        pesq, acc = float(match.group(1)), float(match.group(2))
+
+        if pesq >= best_pesq and (acc >= best_acc or acc >= 0.9):
+            best_file = fname
+            best_pesq, best_acc = pesq, acc
+
+if best_file is None:
+    raise FileNotFoundError("No matching checkpoint files found.")
+
+# load checkpoint
+ckpt_path = os.path.join(ckpt_dir, best_file)
+print(f"Loading checkpoint from {ckpt_path}")
+checkpoint = torch.load(ckpt_path, map_location=device)
+
+# load model weights
+embedder.load_state_dict(checkpoint["embedder_state_dict"])
+decoder.load_state_dict(checkpoint["decoder_state_dict"])
+if train_config["adv"] and checkpoint["discriminator_state_dict"] is not None:
+    discriminator.load_state_dict(checkpoint["discriminator_state_dict"])
+
+# init loss class
+loss = WatermarkLoss(
+    lambda_e=train_config["optimize"]["lambda_e"],
+    lambda_m=train_config["optimize"]["lambda_m"],
+    lambda_a=train_config["optimize"]["lambda_a"],
+    lambda_cl=train_config["optimize"].get("lambda_cl", 0.0),
+    adversarial=train_config["adv"],
+    contrastive=train_config["contrastive"],
+    contrastive_loss_type=train_config["contrastive_loss"],
+)
+
+# get optimizers and schedulers
+em_de_opt, dis_opt = init_optimizers(
+    embedder=embedder,
+    decoder=decoder,
+    discriminator=discriminator,
+    train_config=train_config,
+    finetune=False,
+)
+em_de_sch, dis_sch = init_schedulers(
+    em_de_opt=em_de_opt,
+    dis_opt=dis_opt,
+    train_config=train_config,
+)
+
+print(
+    f"Training with params:\n{json.dumps(train_config, indent=4)}\nLength of train dataset: {len(train_ds)}"
+)
+
+
+# start training
+best_pesq, best_acc = None, None
+for epoch in range(0, train_config["iter"]["epoch"] + 1):
+    # set params for tracking
+    train_metrics = MetricsTracker(name="train")
+
+    # set pbar for progress
+    tbar = tqdm(
+        enumerate(train_dl), total=len(train_dl), desc=f"Epoch {epoch+1} [Train]"
+    )
+    for i, batch in tbar:
+        # set all models to train mode
+        embedder.train()
+        decoder.train()
+        discriminator.train()
+
+        # get current audio and watermark message
+        wav, msg = prepare_batch(batch, train_config["watermark"]["length"], device)
+        curr_bs = wav.shape[0]
+
+        # get the embedded audio, carrier watermarked audio and decoded message
+        embedded, carrier_wateramrked = embedder(wav, msg)
+        decoded = decoder(embedded)
+
+        # compute pesq score on embedded
+        pesq_score = stoi_score_batch(
+            ref_batch=wav.squeeze(1),
+            deg_batch=embedded.squeeze(1),
+            fs=process_config["audio"]["sample_rate"],
+        )
+
+        # discriminator loss - first classify the embedded as true
+        dis_output_embedded = None
+        if train_config["adv"]:
+            dis_output_embedded = discriminator(embedded)
+
+        # get views for cl and compute loss
+        aug_view_1, aug_view_2 = batch["augmented_views"]
+        aug_view_1 = aug_view_1.to(device, non_blocking=True)
+        aug_view_2 = aug_view_2.to(device, non_blocking=True)
+        feat_view_1 = decoder.get_features(aug_view_1).to(device)
+        feat_view_2 = decoder.get_features(aug_view_2).to(device)
+        sum_loss = loss(
+            embedded=embedded,
+            decoded=decoded,
+            wav=wav,
+            msg=msg,
+            discriminator_output=dis_output_embedded,
+            cl_feat_1=feat_view_1,
+            cl_feat_2=feat_view_2,
+        )
+
+        # perform gradient accumulation
+        if (i + 1) % train_config["optimize"]["grad_acc_step"] == 0:
+            em_de_opt.step()
+            em_de_opt.zero_grad()
+            if train_config["adv"]:
+                dis_opt.step()
+                dis_opt.zero_grad()
+
+        # backward pass on discriminator
+        if train_config["adv"]:
+            loss.discriminator_loss(
+                curr_bs=curr_bs,
+                device=device,
+                discriminator=discriminator,
+                embedded=embedded,
+                wav=wav,
+            )
+            if (i + 1) % train_config["optimize"]["grad_acc_step"] == 0:
+                dis_opt.step()
+                dis_opt.zero_grad()
+
+        # update metrics
+        train_metrics.update(
+            loss=sum_loss.item(),
+            pesq=pesq_score,
+            decoded=decoded,
+            msg=msg,
+            batch_size=curr_bs,
+        )
+        tbar.set_postfix(
+            {**train_metrics.summary(), "lr": em_de_opt.param_groups[0]["lr"]}
+        )
+
+    # val step
+    with torch.no_grad():
+
+        # set all models to eval
+        embedder.eval()
+        decoder.eval()
+        discriminator.eval()
+
+        # set params for tracking
+        val_metrics = MetricsTracker(name="val")
+
+        # set pbar for progress tracking
+        vbar = tqdm(
+            val_dl,
+            total=len(val_dl),
+            desc=f"Epoch {epoch+1} [Val]",
+            leave=True,
+            dynamic_ncols=True,
+        )
+        for batch in vbar:
+            # get current audio and watermark message
+            wav, msg = prepare_batch(batch, train_config["watermark"]["length"], device)
+            curr_bs = wav.shape[0]
+
+            # get the embedded audio, carrier watermarked audio and decoded message
+            embedded, carrier_wateramrked = embedder(wav, msg)
+            decoded = decoder(embedded)
+
+            # compute pesq score on batch
+            pesq_score = stoi_score_batch(
+                ref_batch=wav.squeeze(1),
+                deg_batch=embedded.squeeze(1),
+                fs=process_config["audio"]["sample_rate"],
+            )
+
+            # discriminator loss - first classify the embedded as true
+            dis_output_embedded = None
+            if train_config["adv"]:
+                dis_output_embedded = discriminator(embedded.detach())
+
+            # get views for cl and compute loss
+            aug_view_1, aug_view_2 = batch["augmented_views"]
+            aug_view_1 = aug_view_1.to(device, non_blocking=True)
+            aug_view_2 = aug_view_2.to(device, non_blocking=True)
+            feat_view_1 = decoder.get_features(aug_view_1).to(device)
+            feat_view_2 = decoder.get_features(aug_view_2).to(device)
+            sum_loss = loss(
+                embedded=embedded,
+                decoded=decoded,
+                wav=wav,
+                msg=msg,
+                discriminator_output=dis_output_embedded,
+                cl_feat_1=feat_view_1,
+                cl_feat_2=feat_view_2,
+            )
+
+            # update metrics
+            val_metrics.update(
+                loss=sum_loss.item(),
+                pesq=pesq_score,
+                decoded=decoded,
+                msg=msg,
+                batch_size=curr_bs,
+            )
+
+            # set pbar desc
+            vbar.set_postfix(val_metrics.summary())
+
+    # Save model checkpoint
+    curr_acc = val_metrics.avg_acc_identity()
+    curr_pesq = val_metrics.average_pesq()
+    if save_model(
+        best_pesq=best_pesq,
+        best_acc=best_acc,
+        new_pesq=curr_pesq,
+        new_acc=curr_acc,
+        min_pesq=3.5,
+        min_acc=0.85,
+    ):
+        best_acc, best_pesq = curr_acc, curr_pesq
+        checkpoint_path = os.path.join(
+            ckpt_dir, f"finetune_wm_model_cl_pesq_{curr_pesq}_acc_{curr_acc}.pt"
+        )
+        torch.save(
+            {
+                "epoch": epoch,
+                "batch_idx": i,
+                "embedder_state_dict": embedder.state_dict(),
+                "decoder_state_dict": decoder.state_dict(),
+                "discriminator_state_dict": (
+                    discriminator.state_dict() if train_config["adv"] else None
+                ),
+                "em_de_opt_state_dict": em_de_opt.state_dict(),
+                "dis_opt_state_dict": (
+                    dis_opt.state_dict() if train_config["adv"] else None
+                ),
+                "average_acc": curr_acc,
+                "average_pesq": curr_pesq,
+            },
+            checkpoint_path,
+        )
+        print(
+            f"Checkpoint saved: {checkpoint_path} with new best average accuracy: {curr_acc} and pesq: {curr_pesq}"
+        )
+
+    em_de_sch.step()
+    if train_config["adv"]:
+        dis_sch.step()
+
+    loss.schedule_lambdas(epoch + 1)

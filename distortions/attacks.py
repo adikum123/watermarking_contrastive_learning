@@ -35,6 +35,7 @@ def pcm_bit_depth_conversion(audio, sr, pcm=16):
         raise ValueError(f"Unsupported PCM bit depth: {pcm}")
     return audio
 
+
 def mp3_compression(audio, sr, quality=2):
     """
     MP3 compression
@@ -46,7 +47,7 @@ def mp3_compression(audio, sr, quality=2):
     """
     # Check if ffmpeg is available
     try:
-        subprocess.run(['ffmpeg', '-version'], capture_output=True, check=True)
+        subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
     except (subprocess.CalledProcessError, FileNotFoundError):
         raise RuntimeError("FFmpeg not found. Please install FFmpeg or skip MP3 tests.")
 
@@ -61,11 +62,13 @@ def mp3_compression(audio, sr, quality=2):
                 if attempt < max_retries - 1:
                     time.sleep(0.1)  # Wait 100ms before retry
                 else:
-                    print(f"Warning: Could not delete {filepath} after {max_retries} attempts")
+                    print(
+                        f"Warning: Could not delete {filepath} after {max_retries} attempts"
+                    )
 
     # Create temporary files
-    temp_wav_fd, temp_wav_path = tempfile.mkstemp(suffix='.wav')
-    temp_mp3_fd, mp3_path = tempfile.mkstemp(suffix='.mp3')
+    temp_wav_fd, temp_wav_path = tempfile.mkstemp(suffix=".wav")
+    temp_mp3_fd, mp3_path = tempfile.mkstemp(suffix=".mp3")
 
     try:
         # Close file descriptors immediately to avoid conflicts
@@ -77,8 +80,11 @@ def mp3_compression(audio, sr, quality=2):
         sf.write(temp_wav_path, audio, sr)
 
         # Convert to MP3 using ffmpeg
-        result = subprocess.run(['ffmpeg', '-i', temp_wav_path, '-q:a', str(quality), mp3_path, '-y'],
-                              capture_output=True, check=True)
+        result = subprocess.run(
+            ["ffmpeg", "-i", temp_wav_path, "-q:a", str(quality), mp3_path, "-y"],
+            capture_output=True,
+            check=True,
+        )
 
         # Small delay to ensure FFmpeg fully releases files
         time.sleep(0.1)
@@ -92,13 +98,16 @@ def mp3_compression(audio, sr, quality=2):
         return audio_data
 
     except subprocess.CalledProcessError as e:
-        raise RuntimeError(f"FFmpeg conversion failed: {e.stderr.decode() if e.stderr else str(e)}")
+        raise RuntimeError(
+            f"FFmpeg conversion failed: {e.stderr.decode() if e.stderr else str(e)}"
+        )
     except Exception as e:
         raise e
     finally:
         # Clean up temporary files with retry logic
         safe_delete(temp_wav_path)
         safe_delete(mp3_path)
+
 
 def delete_samples(audio, percentage):
     """
@@ -118,10 +127,8 @@ def delete_samples(audio, percentage):
     start_delete = np.random.randint(0, length - samples_to_delete)
     end_delete = start_delete + samples_to_delete
 
-    return np.concatenate([
-        audio[:start_delete],
-        audio[end_delete:]
-    ])
+    return np.concatenate([audio[:start_delete], audio[end_delete:]])
+
 
 def resample(audio, sr, downsample_sr=8000, print_stmt=False):
     """
@@ -137,13 +144,15 @@ def resample(audio, sr, downsample_sr=8000, print_stmt=False):
         # Simple decimation (take every nth sample)
         downsampled_audio = audio[::downsample_factor]
         if print_stmt:
-            print(f"Downsampled to {downsampled_sr} Hz: {len(downsampled_audio)} samples")
+            print(
+                f"Downsampled to {downsample_sr} Hz: {len(downsampled_audio)} samples"
+            )
 
         # Upsample back to original rate using linear interpolation
         upsampled_audio = np.interp(
             np.arange(len(audio)),
             np.arange(0, len(audio), downsample_factor),
-            downsampled_audio
+            downsampled_audio,
         )
         if print_stmt:
             print(f"Upsampled back to {sr} Hz: {len(upsampled_audio)} samples")
@@ -152,4 +161,3 @@ def resample(audio, sr, downsample_sr=8000, print_stmt=False):
     if print_stmt:
         print(f"Audio already at or below 16kHz ({sr} Hz), skipping resampling")
     return audio
-

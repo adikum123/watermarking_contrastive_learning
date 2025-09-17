@@ -13,7 +13,6 @@ class Decoder(nn.Module):
         model_config,
         msg_length,
         win_dim,
-        embedding_dim,
     ):
         super(Decoder, self).__init__()
         # set device
@@ -95,3 +94,18 @@ class Decoder(nn.Module):
         # tesnor (win_dim, batch_size)
         msg = self.msg_linear_out(msg_features)
         return msg
+
+    def get_train_params(self, finetune):
+        if not finetune:
+            return [p for p in self.extractor.parameters()]
+
+        # Freeze everything first
+        for name, param in self.extractor.named_parameters():
+            param.requires_grad = False
+
+        # Unfreeze only block 1
+        for name, param in self.extractor.named_parameters():
+            if name.startswith("main.1."):
+                param.requires_grad = True
+
+        return [p for p in self.extractor.parameters() if p.requires_grad]

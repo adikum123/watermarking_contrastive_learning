@@ -71,13 +71,13 @@ class MetricsTracker:
     def summary(self):
         if self.name == "train":
             return {
-                "loss": round(self.average_loss(), 4),
-                "pesq": round(self.average_pesq(), 4),
+                "loss": round(self.average_loss(), 7),
+                "pesq": round(self.average_pesq(), 5),
                 "avg_acc_identity": round(self.avg_acc_identity(), 4),
                 "avg_acc_distorted": round(self.avg_acc_distorted(), 4),
             }
         return {
-            "loss": round(self.average_loss(), 4),
+            "loss": round(self.average_loss(), 7),
             "pesq": round(self.average_pesq(), 4),
             "avg_acc": round(self.avg_acc_identity(), 4),
         }
@@ -85,13 +85,13 @@ class MetricsTracker:
     def __str__(self):
         if self.name == "train":
             return (
-                f"Loss: {self.average_loss():.4f}, "
+                f"Loss: {self.average_loss():.7f}, "
                 f"PESQ: {self.average_pesq():.4f}, "
                 f"Acc (id): {self.avg_acc_identity():.4f}, "
                 f"Acc (dist): {self.avg_acc_distorted():.4f}"
             )
         return (
-            f"Loss: {self.average_loss():.4f}, "
+            f"Loss: {self.average_loss():.7f}, "
             f"PESQ: {self.average_pesq():.4f}, "
             f"Acc (id): {self.avg_acc_identity():.4f}"
         )

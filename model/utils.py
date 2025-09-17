@@ -6,9 +6,11 @@ import torchaudio
 from pesq import pesq
 from pystoi import stoi
 from torch.optim.lr_scheduler import StepLR
+from tqdm import tqdm
 
 from data.contrastive_dataset import ContrastiveAudioDataset
 from data.dataset import AudioDataset
+from data.lj_chunk_dataset import PrecomputedLjAudioDataset
 from model.decoder import Decoder
 from model.discriminator import Discriminator
 from model.embedder import Embedder
@@ -42,7 +44,7 @@ def stoi_score_batch(ref_batch, deg_batch, fs):
         score = stoi(ref, deg, fs, extended=False)
         scores.append(score)
 
-    return float(np.sum(scores))
+    return float(np.mean(scores))
 
 
 def pesq_score_batch(source_batch, target_batch, sr, mode="wb"):
@@ -89,43 +91,20 @@ def pesq_score_batch(source_batch, target_batch, sr, mode="wb"):
     return float(np.mean(scores))
 
 
-def get_datasets(contrastive=False, **kwargs):
+def get_datasets(dataset_type, contrastive, **kwargs):
     """
     Utility function to get datasets.
     """
-    if contrastive:
-        train_ds = ContrastiveAudioDataset(
-            kwargs["process_config"],
-            split="train",
-            take_num=5000 if kwargs.get("take_part", False) else None,
-        )
-        val_ds = ContrastiveAudioDataset(
-            kwargs["process_config"],
-            split="val",
-            take_num=1000 if kwargs.get("take_part", False) else None,
-        )
-        test_ds = ContrastiveAudioDataset(
-            kwargs["process_config"],
-            split="test",
-            take_num=1000 if kwargs.get("take_part", False) else None,
-        )
+    assert (
+        not contrastive and dataset_type == "ljspeech"
+    ), "Contrastive not yet implemented and must be ljspeech ds"
+    if dataset_type == "ljspeech":
+        print("Loading precomputed ljspeech datasets")
+        train_ds = PrecomputedLjAudioDataset(split="train")
+        val_ds = PrecomputedLjAudioDataset(split="val")
+        test_ds = PrecomputedLjAudioDataset(split="test")
         return train_ds, val_ds, test_ds
-    train_ds = AudioDataset(
-        kwargs["process_config"],
-        split="train",
-        take_num=5000 if kwargs.get("take_part", False) else None,
-    )
-    val_ds = AudioDataset(
-        kwargs["process_config"],
-        split="val",
-        take_num=1000 if kwargs.get("take_part", False) else None,
-    )
-    test_ds = AudioDataset(
-        kwargs["process_config"],
-        split="test",
-        take_num=1000 if kwargs.get("take_part", False) else None,
-    )
-    return train_ds, val_ds, test_ds
+    raise ValueError("Must use lj speech dataset")
 
 
 def save_model(best_pesq, best_acc, new_pesq, new_acc, min_pesq=4.0, min_acc=0.9):
@@ -166,35 +145,32 @@ def init_models(model_config, train_config, process_config, device):
     Utility function to init models
     """
     # Model config
-    embedding_dim = model_config["dim"]["embedding"]
     msg_length = train_config["watermark"]["length"]
     win_dim = model_config["audio"]["win_dim"]
 
     # Models
     embedder = Embedder(
-        process_config,
-        model_config,
-        msg_length,
-        win_dim,
-        embedding_dim,
+        process_config=process_config,
+        model_config=model_config,
+        msg_length=msg_length,
+        win_dim=win_dim,
     ).to(device)
     decoder = Decoder(
-        process_config,
-        model_config,
-        msg_length,
-        win_dim,
-        embedding_dim,
+        process_config=process_config,
+        model_config=model_config,
+        msg_length=msg_length,
+        win_dim=win_dim,
     ).to(device)
     discriminator = Discriminator(process_config).to(device)
     return embedder, decoder, discriminator
 
 
-def init_optimizers(embedder, decoder, discriminator, train_config):
+def init_optimizers(embedder, decoder, discriminator, train_config, finetune):
     """
     Utility function to init optimizers
     """
     em_de_opt = torch.optim.Adam(
-        chain(embedder.parameters(), decoder.parameters()),
+        chain(embedder.parameters(), decoder.get_train_params(finetune=finetune)),
         lr=train_config["optimize"]["lr"],
         weight_decay=train_config["optimize"]["weight_decay"],
         betas=train_config["optimize"]["betas"],
@@ -246,3 +222,125 @@ def accuracy(decoded, msg):
     Compute accuracy of decoded watermark against original message.
     """
     return (decoded >= 0).eq(msg >= 0).sum().float().item()
+
+
+def lambda_schedule(epoch_idx, total_epochs):
+    """
+    Compute (lambda_e, lambda_m) for the given epoch index, scaled to total_epochs.
+
+    Strategy:
+      - Phase 1 (first 50% of epochs): detector-heavy, embedder weight ramps up.
+      - Phase 2 (second 50% of epochs): flip emphasis toward fidelity.
+
+    Args:
+        epoch_idx (int): 1-based epoch number (1..total_epochs).
+        total_epochs (int): total planned epochs.
+
+    Returns:
+        (lambda_e, lambda_m)
+    """
+
+    # clamp to [1, total_epochs]
+    e = max(1, min(total_epochs, int(epoch_idx)))
+
+    # Split into two phases (50/50 by default)
+    half = total_epochs // 2
+    if e <= half:
+        # Phase 1: lambda_e grows, lambda_m shrinks
+        progress = (e - 1) / max(1, (half - 1))
+        lambda_e = 1.0 + progress * (2.8 - 1.0)  # 1.0 -> 2.8
+        lambda_m = 2.0 - progress * (2.0 - 1.1)  # 2.0 -> 1.1
+        return lambda_e, lambda_m
+    # Phase 2: continue shifting toward fidelity
+    progress = (e - half) / max(1, (total_epochs - half))
+    lambda_e = 2.8 + progress * (3.5 - 2.8)  # 2.8 -> 3.5
+    lambda_m = 1.1 - progress * (1.1 - 0.5)  # 1.1 -> 0.5
+    return lambda_e, lambda_m
+
+
+def get_model_average_pesq_dataset(embedder, dataset, msg_length, device, sr):
+    """
+    Computes average pesq on dataset
+    """
+    total_pesq = 0
+    print("Computing average pesq")
+    for item in tqdm(dataset):
+        # embed message
+        wav = item["wav"].unsqueeze(0).to(device)
+        curr_bs = wav.shape[0]
+        msg = (
+            torch.randint(0, 2, (curr_bs, 1, msg_length), device=device).float() * 2 - 1
+        ).to(device)
+        embedded, _ = embedder(wav, msg)
+
+        # compute pesq
+        total_pesq += pesq_score_batch(
+            source_batch=wav.squeeze(0), target_batch=embedded.squeeze(0), sr=sr
+        )
+
+    return total_pesq / len(dataset)
+
+
+def get_model_average_stoi_dataset(embedder, dataset, msg_length, device, sr):
+    """
+    Computes average stoi on dataset
+    """
+    total_stoi = 0
+    print("Computing average stoi")
+    for item in tqdm(dataset):
+        # embed message
+        wav = item["wav"].unsqueeze(0).to(device)
+        curr_bs = wav.shape[0]
+        msg = (
+            torch.randint(0, 2, (curr_bs, 1, msg_length), device=device).float() * 2 - 1
+        ).to(device)
+        embedded, _ = embedder(wav, msg)
+
+        # compute stoi
+        total_stoi += stoi_score_batch(
+            ref_batch=wav.squeeze(0), deg_batch=embedded.squeeze(0), fs=sr
+        )
+
+    return total_stoi / len(dataset)
+
+
+def truncate_or_pad_np(audio, target_len):
+    """
+    Truncates or pads audio as np
+    """
+    curr_len = len(audio)
+    if curr_len > target_len:
+        return audio[:target_len]
+    if curr_len < target_len:
+        return np.pad(audio, (0, target_len - curr_len))
+    return audio
+
+
+def load_from_ckpt(ckpt, model_config, train_config, process_config, device):
+    """
+    Loads embedder and decoder from ckpt
+    """
+    # Model config
+    msg_length = train_config["watermark"]["length"]
+    win_dim = model_config["audio"]["win_dim"]
+
+    # Models
+    embedder = Embedder(
+        process_config=process_config,
+        model_config=model_config,
+        msg_length=msg_length,
+        win_dim=win_dim,
+    ).to(device)
+    decoder = Decoder(
+        process_config=process_config,
+        model_config=model_config,
+        msg_length=msg_length,
+        win_dim=win_dim,
+    ).to(device)
+
+    # load ckpt
+    checkpoint = torch.load(ckpt, map_location=device)
+    embedder.load_state_dict(checkpoint["embedder_state_dict"])
+    decoder.load_state_dict(checkpoint["decoder_state_dict"])
+
+    return embedder, decoder

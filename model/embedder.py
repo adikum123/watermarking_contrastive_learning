@@ -39,13 +39,13 @@ class Embedder(nn.Module):
             input_channel=1,
             hidden_dim=model_config["conv2"]["hidden_dim"],
             block=self.block,
-            n_layers=model_config["layer"]["nlayers_encoder"],
+            n_layers=model_config["conv2"]["nlayers_encoder"],
         )
         self.embedder = WatermarkEmbedder(
             input_channel=self.EM_input_dim,
             hidden_dim=model_config["conv2"]["hidden_dim"],
             block=self.block,
-            n_layers=model_config["conv2"]["layers_EM"],
+            n_layers=model_config["conv2"]["nlayers_embedder"],
         )
 
     def forward(self, x, msg):

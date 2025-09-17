@@ -6,6 +6,7 @@ from loss.contrastive_loss import ContrastiveLoss
 
 
 class WatermarkLoss(nn.Module):
+
     def __init__(
         self,
         lambda_e,
@@ -15,6 +16,8 @@ class WatermarkLoss(nn.Module):
         adversarial,
         contrastive,
         contrastive_loss_type,
+        decay_rate_m=0.4,  # faster decay for message loss
+        decay_rate_cl=0.85,  # slower decay for contrastive loss
     ):
         """
         Custom loss for audio watermarking.
@@ -30,12 +33,18 @@ class WatermarkLoss(nn.Module):
         self.lambda_m = lambda_m
         self.lambda_a = lambda_a if adversarial else 0.0
         self.lambda_cl = lambda_cl if contrastive else 0.0
+        self.lambda_m_initial = lambda_m
+        self.lambda_cl_initial = lambda_cl if contrastive else 0.0
         self.adversarial = adversarial
         self.mse = nn.MSELoss()
         self.contrastive = contrastive
         if contrastive:
             # init contrastive loss
             self.contrastive_loss = ContrastiveLoss(loss_type=contrastive_loss_type)
+
+        # decay rates
+        self.decay_rate_m = decay_rate_m
+        self.decay_rate_cl = decay_rate_cl
 
     def forward(
         self,
@@ -84,7 +93,7 @@ class WatermarkLoss(nn.Module):
         contrastive_loss = 0
         if self.contrastive:
             contrastive_loss = self.contrastive_loss(
-                cl_feat_1.squeeze(1), cl_feat_2.squeeze(2)
+                cl_feat_1.squeeze(1), cl_feat_2.squeeze(1)
             )
 
         # Total loss
@@ -113,3 +122,13 @@ class WatermarkLoss(nn.Module):
             discriminator_output_embedded, labels_fake
         )
         discriminator_adv_loss_embedded.backward()
+
+    def schedule_lambdas(self, epoch):
+        # Exponential decay per epoch
+        self.lambda_m = self.lambda_m_initial * (self.decay_rate_m**epoch)
+        print(f"Lambda m: {self.lambda_m:.6f}")
+        if self.contrastive:
+            self.lambda_cl = max(
+                0.0001, self.lambda_cl_initial * (self.decay_rate_cl**epoch)
+            )
+            print(f"Lambda cl: {self.lambda_cl:.6f}")

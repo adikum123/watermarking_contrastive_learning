@@ -1,4 +1,4 @@
-import torch
+import os
 
-msg = torch.randint(0, 2, (4, 1, 15), device=torch.device("cpu")).float() * 2 - 1
-print(msg)
+files = os.listdir("mnt/s3/data/processed/train")
+print(files[0])
