@@ -8,9 +8,7 @@ from pystoi import stoi
 from torch.optim.lr_scheduler import StepLR
 from tqdm import tqdm
 
-from data.contrastive_dataset import ContrastiveAudioDataset
-from data.dataset import AudioDataset
-from data.lj_chunk_dataset import PrecomputedLjAudioDataset
+from data.lj_dataset import LjAudioDataset
 from model.decoder import Decoder
 from model.discriminator import Discriminator
 from model.embedder import Embedder
@@ -100,9 +98,18 @@ def get_datasets(dataset_type, contrastive, **kwargs):
     ), "Contrastive not yet implemented and must be ljspeech ds"
     if dataset_type == "ljspeech":
         print("Loading precomputed ljspeech datasets")
-        train_ds = PrecomputedLjAudioDataset(split="train")
-        val_ds = PrecomputedLjAudioDataset(split="val")
-        test_ds = PrecomputedLjAudioDataset(split="test")
+        train_ds = LjAudioDataset(
+            split="train",
+            process_config=kwargs["process_config"],
+        )
+        val_ds = LjAudioDataset(
+            split="val",
+            process_config=kwargs["process_config"],
+        )
+        test_ds = LjAudioDataset(
+            split="test",
+            process_config=kwargs["process_config"],
+        )
         return train_ds, val_ds, test_ds
     raise ValueError("Must use lj speech dataset")
 
