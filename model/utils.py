@@ -93,22 +93,23 @@ def get_datasets(dataset_type, contrastive, **kwargs):
     """
     Utility function to get datasets.
     """
-    assert (
-        not contrastive and dataset_type == "ljspeech"
-    ), "Contrastive not yet implemented and must be ljspeech ds"
+    assert dataset_type == "ljspeech", "Contrastive not yet implemented and must be ljspeech ds"
     if dataset_type == "ljspeech":
         print("Loading precomputed ljspeech datasets")
         train_ds = LjAudioDataset(
             split="train",
             process_config=kwargs["process_config"],
+            contrastive=contrastive,
         )
         val_ds = LjAudioDataset(
             split="val",
             process_config=kwargs["process_config"],
+            contrastive=contrastive,
         )
         test_ds = LjAudioDataset(
             split="test",
             process_config=kwargs["process_config"],
+            contrastive=contrastive
         )
         return train_ds, val_ds, test_ds
     raise ValueError("Must use lj speech dataset")

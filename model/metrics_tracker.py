@@ -85,10 +85,10 @@ class MetricsTracker:
     def __str__(self):
         if self.name == "train":
             return (
-                f"Loss: {self.average_loss():.7f}, "
-                f"PESQ: {self.average_pesq():.4f}, "
-                f"Acc (id): {self.avg_acc_identity():.4f}, "
-                f"Acc (dist): {self.avg_acc_distorted():.4f}"
+                f"Average Loss: {self.average_loss():.7f}, "
+                f"Average PESQ: {self.average_pesq():.4f}, "
+                f"Average Acc (id): {self.avg_acc_identity():.4f}, "
+                f"Average Acc (dist): {self.avg_acc_distorted():.4f}"
             )
         return (
             f"Loss: {self.average_loss():.7f}, "
