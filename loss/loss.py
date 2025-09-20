@@ -16,8 +16,8 @@ class WatermarkLoss(nn.Module):
         adversarial,
         contrastive,
         contrastive_loss_type,
-        decay_rate_m=0.4,  # faster decay for message loss
-        decay_rate_cl=0.85,  # slower decay for contrastive loss
+        decay_rate_m=0.5,  # faster decay for message loss
+        decay_rate_cl=0.5,  # slower decay for contrastive loss
     ):
         """
         Custom loss for audio watermarking.
@@ -128,7 +128,5 @@ class WatermarkLoss(nn.Module):
         self.lambda_m = self.lambda_m_initial * (self.decay_rate_m**epoch)
         print(f"Lambda m: {self.lambda_m:.6f}")
         if self.contrastive:
-            self.lambda_cl = max(
-                0.0001, self.lambda_cl_initial * (self.decay_rate_cl**epoch)
-            )
+            self.lambda_cl = self.lambda_cl_initial * (self.decay_rate_cl**epoch)
             print(f"Lambda cl: {self.lambda_cl:.6f}")

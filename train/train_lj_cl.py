@@ -131,8 +131,8 @@ loss = WatermarkLoss(
     lambda_a=train_config["optimize"]["lambda_a"],
     lambda_cl=train_config["optimize"].get("lambda_cl", 0.0),
     adversarial=train_config["adv"],
-    contrastive=False,
-    contrastive_loss_type=None,
+    contrastive=True,
+    contrastive_loss_type=train_config["contrastive"]["loss_type"],
 )
 
 # ------------------ Optimizers and schedulers ------------------
@@ -152,7 +152,7 @@ em_de_sch, dis_sch = init_schedulers(
 logger.info(f"Training with params:\n{json.dumps(train_config, indent=4)}\nLength of train dataset: {len(train_ds)}")
 
 # ------------------ Checkpoints ------------------
-checkpoint_dir = os.path.join("model_ckpts", "lj")
+checkpoint_dir = os.path.join("model_ckpts", "lj", "cl")
 os.makedirs(checkpoint_dir, exist_ok=True)
 
 start_epoch = 0
@@ -286,12 +286,20 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             if train_config["adv"]:
                 dis_output_embedded = discriminator(embedded.detach())
 
+            # get contrastive loss
+            aug_view_1, aug_view_2 = batch["augmented_views"]
+            aug_view_1 = aug_view_1.to(device, non_blocking=True)
+            aug_view_2 = aug_view_2.to(device, non_blocking=True)
+            feat_view_1 = decoder.get_features(aug_view_1).to(device)
+            feat_view_2 = decoder.get_features(aug_view_2).to(device)
             sum_loss = loss(
                 embedded=embedded,
                 decoded=decoded,
                 wav=wav,
                 msg=msg,
                 discriminator_output=dis_output_embedded,
+                cl_feat_1=feat_view_1,
+                cl_feat_2=feat_view_2,
             )
 
             val_metrics.update(
@@ -314,7 +322,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         new_pesq=curr_pesq,
         new_acc=curr_acc,
         min_pesq=3.5,
-        min_acc=0.85,
+        min_acc=0.9,
     ):
         best_acc, best_pesq = curr_acc, curr_pesq
         checkpoint_path = os.path.join(

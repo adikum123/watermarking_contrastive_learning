@@ -9,6 +9,7 @@ optimize:
   lambda_e: 1.
   lambda_m: 0.05
   lambda_a: 0.01
+  lambda_cl: 0.05
   batch_size: 4
   step_size: 5 # large value means do not decay
   gamma: 0.9
@@ -22,6 +23,9 @@ optimize:
   anneal_rate: 0.3
   lr_disc: 0.00002
   alpha: 10
+
+contrastive:
+  loss_type: info_nce
 
 iter:
   epoch: 20

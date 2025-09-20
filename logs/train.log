@@ -1,5 +1,5 @@
-2025-09-18 15:09:45,657 [INFO] Device: cuda
-2025-09-18 15:09:48,766 [INFO] Training with params:
+2025-09-19 11:53:37,712 [INFO] Device: cuda
+2025-09-19 11:53:41,043 [INFO] Training with params:
 {
     "adv": false,
     "watermark": {
@@ -10,6 +10,7 @@
         "lambda_e": 1.0,
         "lambda_m": 0.05,
         "lambda_a": 0.01,
+        "lambda_cl": 0.05,
         "batch_size": 4,
         "step_size": 5,
         "gamma": 0.9,
@@ -31,6 +32,9 @@
         "lr_disc": 2e-05,
         "alpha": 10
     },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
     "iter": {
         "epoch": 20,
         "save_circle": 5,
@@ -39,3091 +43,2283 @@
     }
 }
 Length of train dataset: 12000
-2025-09-18 15:09:51,784 [INFO] {
-    "loss": 0.1159789,
-    "pesq": 1.07957,
-    "avg_acc_identity": 0.45,
-    "avg_acc_distorted": 0.4667
+2025-09-19 11:53:45,524 [INFO] {
+    "loss": 0.2358919,
+    "pesq": 1.16835,
+    "avg_acc_identity": 0.5333,
+    "avg_acc_distorted": 0.55
 }
-2025-09-18 15:12:10,472 [INFO] {
-    "loss": 0.106272,
-    "pesq": 1.25548,
-    "avg_acc_identity": 0.5078,
-    "avg_acc_distorted": 0.5088
+2025-09-19 11:56:11,653 [INFO] {
+    "loss": 0.208024,
+    "pesq": 1.29713,
+    "avg_acc_identity": 0.4963,
+    "avg_acc_distorted": 0.498
 }
-2025-09-18 15:14:34,593 [INFO] {
-    "loss": 0.1044349,
-    "pesq": 1.16377,
-    "avg_acc_identity": 0.5088,
-    "avg_acc_distorted": 0.5076
+2025-09-19 11:58:40,267 [INFO] {
+    "loss": 0.2039442,
+    "pesq": 1.19731,
+    "avg_acc_identity": 0.5018,
+    "avg_acc_distorted": 0.4988
 }
-2025-09-18 15:16:57,265 [INFO] {
-    "loss": 0.1030246,
-    "pesq": 1.12804,
-    "avg_acc_identity": 0.5263,
-    "avg_acc_distorted": 0.5099
+2025-09-19 12:01:11,914 [INFO] {
+    "loss": 0.2004196,
+    "pesq": 1.14281,
+    "avg_acc_identity": 0.5327,
+    "avg_acc_distorted": 0.5118
 }
-2025-09-18 15:19:21,504 [INFO] {
-    "loss": 0.0974762,
-    "pesq": 1.10547,
-    "avg_acc_identity": 0.5842,
-    "avg_acc_distorted": 0.5457
+2025-09-19 12:03:40,253 [INFO] {
+    "loss": 0.1952604,
+    "pesq": 1.11575,
+    "avg_acc_identity": 0.5859,
+    "avg_acc_distorted": 0.5316
 }
-2025-09-18 15:21:44,681 [INFO] {
-    "loss": 0.0896975,
-    "pesq": 1.09317,
-    "avg_acc_identity": 0.6439,
-    "avg_acc_distorted": 0.5875
+2025-09-19 12:06:08,928 [INFO] {
+    "loss": 0.1895683,
+    "pesq": 1.10033,
+    "avg_acc_identity": 0.6373,
+    "avg_acc_distorted": 0.5524
 }
-2025-09-18 15:24:08,431 [INFO] {
-    "loss": 0.0816212,
-    "pesq": 1.08817,
-    "avg_acc_identity": 0.6956,
-    "avg_acc_distorted": 0.6274
+2025-09-19 12:08:39,202 [INFO] {
+    "loss": 0.184303,
+    "pesq": 1.09043,
+    "avg_acc_identity": 0.6804,
+    "avg_acc_distorted": 0.5707
 }
-2025-09-18 15:26:30,090 [INFO] {
-    "loss": 0.0748429,
-    "pesq": 1.09076,
-    "avg_acc_identity": 0.7365,
-    "avg_acc_distorted": 0.6634
+2025-09-19 12:11:08,839 [INFO] {
+    "loss": 0.1798897,
+    "pesq": 1.08359,
+    "avg_acc_identity": 0.715,
+    "avg_acc_distorted": 0.5855
 }
-2025-09-18 15:40:27,247 [INFO] {
-    "loss": 0.0689817,
-    "pesq": 1.09923,
-    "avg_acc_identity": 0.7686,
-    "avg_acc_distorted": 0.6929
+2025-09-19 12:13:39,129 [INFO] {
+    "loss": 0.1756501,
+    "pesq": 1.07801,
+    "avg_acc_identity": 0.7462,
+    "avg_acc_distorted": 0.6023
 }
-2025-09-18 15:42:40,530 [INFO] {
-    "loss": 0.0638687,
-    "pesq": 1.10976,
-    "avg_acc_identity": 0.7942,
-    "avg_acc_distorted": 0.7196
+2025-09-19 12:16:08,585 [INFO] {
+    "loss": 0.1719322,
+    "pesq": 1.07346,
+    "avg_acc_identity": 0.7715,
+    "avg_acc_distorted": 0.6175
 }
-2025-09-18 15:44:53,271 [INFO] {
-    "loss": 0.0593968,
-    "pesq": 1.11848,
-    "avg_acc_identity": 0.8148,
-    "avg_acc_distorted": 0.7433
+2025-09-19 12:18:38,780 [INFO] {
+    "loss": 0.1687114,
+    "pesq": 1.06985,
+    "avg_acc_identity": 0.7919,
+    "avg_acc_distorted": 0.633
 }
-2025-09-18 15:47:08,855 [INFO] {
-    "loss": 0.0555491,
-    "pesq": 1.12558,
-    "avg_acc_identity": 0.8316,
-    "avg_acc_distorted": 0.7642
+2025-09-19 12:21:12,282 [INFO] {
+    "loss": 0.1657424,
+    "pesq": 1.06674,
+    "avg_acc_identity": 0.8081,
+    "avg_acc_distorted": 0.6462
 }
-2025-09-18 15:49:21,207 [INFO] {
-    "loss": 0.0521849,
-    "pesq": 1.13351,
-    "avg_acc_identity": 0.8456,
-    "avg_acc_distorted": 0.782
+2025-09-19 12:23:45,768 [INFO] {
+    "loss": 0.1624265,
+    "pesq": 1.06409,
+    "avg_acc_identity": 0.8218,
+    "avg_acc_distorted": 0.6605
 }
-2025-09-18 15:51:34,103 [INFO] {
-    "loss": 0.0492417,
-    "pesq": 1.13928,
-    "avg_acc_identity": 0.8575,
-    "avg_acc_distorted": 0.7976
+2025-09-19 12:26:31,100 [INFO] {
+    "loss": 0.1592224,
+    "pesq": 1.06119,
+    "avg_acc_identity": 0.834,
+    "avg_acc_distorted": 0.6753
 }
-2025-09-18 15:53:46,037 [INFO] {
-    "loss": 0.0466594,
-    "pesq": 1.14559,
-    "avg_acc_identity": 0.8676,
-    "avg_acc_distorted": 0.8111
+2025-09-19 12:29:07,049 [INFO] {
+    "loss": 0.1559777,
+    "pesq": 1.05895,
+    "avg_acc_identity": 0.8449,
+    "avg_acc_distorted": 0.6904
 }
-2025-09-18 16:29:10,105 [INFO] {
-    "loss": 0.0443207,
-    "pesq": 1.15039,
-    "avg_acc_identity": 0.8765,
-    "avg_acc_distorted": 0.8232
+2025-09-19 12:31:37,222 [INFO] {
+    "loss": 0.152875,
+    "pesq": 1.05736,
+    "avg_acc_identity": 0.8545,
+    "avg_acc_distorted": 0.705
 }
-2025-09-18 16:31:21,622 [INFO] {
-    "loss": 0.0421966,
-    "pesq": 1.15491,
+2025-09-19 12:34:09,540 [INFO] {
+    "loss": 0.149954,
+    "pesq": 1.05591,
+    "avg_acc_identity": 0.8632,
+    "avg_acc_distorted": 0.7193
+}
+2025-09-19 12:36:39,909 [INFO] {
+    "loss": 0.1472297,
+    "pesq": 1.0549,
+    "avg_acc_identity": 0.871,
+    "avg_acc_distorted": 0.7322
+}
+2025-09-19 12:39:11,600 [INFO] {
+    "loss": 0.1446976,
+    "pesq": 1.05397,
+    "avg_acc_identity": 0.878,
+    "avg_acc_distorted": 0.7446
+}
+2025-09-19 12:41:42,415 [INFO] {
+    "loss": 0.1422997,
+    "pesq": 1.05356,
     "avg_acc_identity": 0.8842,
-    "avg_acc_distorted": 0.8339
+    "avg_acc_distorted": 0.756
 }
-2025-09-18 16:33:32,746 [INFO] {
-    "loss": 0.0402798,
-    "pesq": 1.1578,
-    "avg_acc_identity": 0.891,
-    "avg_acc_distorted": 0.8435
+2025-09-19 12:44:12,864 [INFO] {
+    "loss": 0.140082,
+    "pesq": 1.05314,
+    "avg_acc_identity": 0.8899,
+    "avg_acc_distorted": 0.7669
 }
-2025-09-18 16:35:44,058 [INFO] {
-    "loss": 0.038569,
-    "pesq": 1.1608,
-    "avg_acc_identity": 0.8971,
-    "avg_acc_distorted": 0.8519
+2025-09-19 12:46:42,196 [INFO] {
+    "loss": 0.1379919,
+    "pesq": 1.05301,
+    "avg_acc_identity": 0.8951,
+    "avg_acc_distorted": 0.7769
 }
-2025-09-18 16:37:58,189 [INFO] {
-    "loss": 0.0370125,
-    "pesq": 1.16229,
-    "avg_acc_identity": 0.9025,
-    "avg_acc_distorted": 0.8596
+2025-09-19 12:49:13,693 [INFO] {
+    "loss": 0.136119,
+    "pesq": 1.05267,
+    "avg_acc_identity": 0.8998,
+    "avg_acc_distorted": 0.786
 }
-2025-09-18 16:40:11,247 [INFO] {
-    "loss": 0.0355936,
-    "pesq": 1.16424,
-    "avg_acc_identity": 0.9073,
-    "avg_acc_distorted": 0.8665
+2025-09-19 12:51:44,362 [INFO] {
+    "loss": 0.1343617,
+    "pesq": 1.05214,
+    "avg_acc_identity": 0.904,
+    "avg_acc_distorted": 0.7944
 }
-2025-09-18 16:42:23,487 [INFO] {
-    "loss": 0.0342897,
-    "pesq": 1.16617,
-    "avg_acc_identity": 0.9117,
-    "avg_acc_distorted": 0.8727
+2025-09-19 12:54:13,684 [INFO] {
+    "loss": 0.1327039,
+    "pesq": 1.05201,
+    "avg_acc_identity": 0.9079,
+    "avg_acc_distorted": 0.8023
 }
-2025-09-18 16:44:36,116 [INFO] {
-    "loss": 0.0331531,
-    "pesq": 1.1676,
-    "avg_acc_identity": 0.9157,
-    "avg_acc_distorted": 0.8783
+2025-09-19 12:56:43,359 [INFO] {
+    "loss": 0.1311613,
+    "pesq": 1.05185,
+    "avg_acc_identity": 0.9116,
+    "avg_acc_distorted": 0.8097
 }
-2025-09-18 17:07:33,225 [INFO] {
-    "loss": 0.0320692,
-    "pesq": 1.16918,
-    "avg_acc_identity": 0.9194,
-    "avg_acc_distorted": 0.8835
+2025-09-19 12:59:11,846 [INFO] {
+    "loss": 0.1297281,
+    "pesq": 1.05154,
+    "avg_acc_identity": 0.9149,
+    "avg_acc_distorted": 0.8165
 }
-2025-09-18 17:09:47,108 [INFO] {
-    "loss": 0.031042,
-    "pesq": 1.16987,
-    "avg_acc_identity": 0.9227,
-    "avg_acc_distorted": 0.8883
+2025-09-19 13:01:41,788 [INFO] {
+    "loss": 0.1283462,
+    "pesq": 1.05147,
+    "avg_acc_identity": 0.9181,
+    "avg_acc_distorted": 0.823
 }
-2025-09-18 17:12:00,860 [INFO] {
-    "loss": 0.0300783,
-    "pesq": 1.17061,
-    "avg_acc_identity": 0.9258,
-    "avg_acc_distorted": 0.8928
+2025-09-19 13:04:13,077 [INFO] {
+    "loss": 0.127063,
+    "pesq": 1.05107,
+    "avg_acc_identity": 0.921,
+    "avg_acc_distorted": 0.8289
 }
-2025-09-18 17:14:15,340 [INFO] {
-    "loss": 0.0291788,
-    "pesq": 1.17125,
-    "avg_acc_identity": 0.9287,
-    "avg_acc_distorted": 0.8968
+2025-09-19 13:06:42,959 [INFO] {
+    "loss": 0.1258149,
+    "pesq": 1.05073,
+    "avg_acc_identity": 0.9237,
+    "avg_acc_distorted": 0.8346
 }
-2025-09-18 17:16:28,802 [INFO] {
-    "loss": 0.028334,
-    "pesq": 1.17231,
-    "avg_acc_identity": 0.9313,
-    "avg_acc_distorted": 0.9006
+2025-09-19 13:09:13,928 [INFO] {
+    "loss": 0.1246513,
+    "pesq": 1.05042,
+    "avg_acc_identity": 0.9262,
+    "avg_acc_distorted": 0.8399
 }
-2025-09-18 17:18:43,029 [INFO] {
-    "loss": 0.0275449,
-    "pesq": 1.17302,
-    "avg_acc_identity": 0.9338,
-    "avg_acc_distorted": 0.9041
-}
-2025-09-18 17:20:56,998 [INFO] {
-    "loss": 0.0268104,
-    "pesq": 1.17345,
-    "avg_acc_identity": 0.9361,
-    "avg_acc_distorted": 0.9074
-}
-2025-09-18 17:23:11,438 [INFO] {
-    "loss": 0.0261193,
-    "pesq": 1.17388,
-    "avg_acc_identity": 0.9382,
-    "avg_acc_distorted": 0.9105
-}
-2025-09-18 17:23:12,560 [INFO] {
-    "loss": 0.0023662,
-    "pesq": 1.1802,
+2025-09-19 13:09:16,380 [INFO] {
+    "loss": 0.0900019,
+    "pesq": 1.0421,
     "avg_acc": 1.0
 }
-2025-09-18 17:24:24,875 [INFO] {
-    "loss": 0.0024825,
-    "pesq": 1.1823,
-    "avg_acc": 1.0
+2025-09-19 13:10:38,275 [INFO] {
+    "loss": 0.0867305,
+    "pesq": 1.0382,
+    "avg_acc": 0.9995
 }
-2025-09-18 17:24:43,816 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_1.178113415002823_acc_1.0.pt | Acc: 1.0, PESQ: 1.178113415002823
-2025-09-18 17:24:43,816 [INFO] Decreased lambda m to 0.020000000000000004
-2025-09-18 17:24:46,241 [INFO] {
-    "loss": 0.0032743,
-    "pesq": 1.15782,
+2025-09-19 13:10:59,375 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.0375190749168397_acc_0.9994666666666666.pt | Acc: 0.9994666666666666, PESQ: 1.0375190749168397
+2025-09-19 13:10:59,376 [INFO] Decreased lambda m to 0.025
+2025-09-19 13:11:04,073 [INFO] {
+    "loss": 0.0446894,
+    "pesq": 1.03898,
     "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
+    "avg_acc_distorted": 0.9667
 }
-2025-09-18 17:26:59,299 [INFO] {
-    "loss": 0.0033607,
-    "pesq": 1.18737,
+2025-09-19 13:13:31,461 [INFO] {
+    "loss": 0.0460891,
+    "pesq": 1.0485,
     "avg_acc_identity": 0.9998,
-    "avg_acc_distorted": 0.9992
+    "avg_acc_distorted": 0.9922
 }
-2025-09-18 17:29:11,515 [INFO] {
-    "loss": 0.0030913,
-    "pesq": 1.20448,
+2025-09-19 13:15:59,285 [INFO] {
+    "loss": 0.0457813,
+    "pesq": 1.0488,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9992
+    "avg_acc_distorted": 0.9932
 }
-2025-09-18 17:31:24,095 [INFO] {
-    "loss": 0.0029571,
-    "pesq": 1.21159,
+2025-09-19 13:18:27,035 [INFO] {
+    "loss": 0.0457692,
+    "pesq": 1.04932,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9993
+    "avg_acc_distorted": 0.9938
 }
-2025-09-18 17:33:36,587 [INFO] {
-    "loss": 0.002865,
-    "pesq": 1.21395,
+2025-09-19 13:20:54,412 [INFO] {
+    "loss": 0.0458081,
+    "pesq": 1.05006,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.994
+}
+2025-09-19 13:23:23,850 [INFO] {
+    "loss": 0.0456174,
+    "pesq": 1.05033,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9942
 }
-2025-09-18 17:35:48,425 [INFO] {
-    "loss": 0.0028136,
-    "pesq": 1.21868,
+2025-09-19 13:25:51,632 [INFO] {
+    "loss": 0.0455644,
+    "pesq": 1.05055,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9993
+    "avg_acc_distorted": 0.9945
 }
-2025-09-18 17:38:00,364 [INFO] {
-    "loss": 0.0027656,
-    "pesq": 1.22058,
+2025-09-19 13:28:18,455 [INFO] {
+    "loss": 0.0455733,
+    "pesq": 1.05057,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9945
 }
-2025-09-18 17:40:12,183 [INFO] {
-    "loss": 0.0027255,
-    "pesq": 1.22297,
+2025-09-19 13:30:45,084 [INFO] {
+    "loss": 0.0454331,
+    "pesq": 1.05115,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
+    "avg_acc_distorted": 0.9947
 }
-2025-09-18 17:42:23,868 [INFO] {
-    "loss": 0.0026843,
-    "pesq": 1.22623,
+2025-09-19 13:33:11,955 [INFO] {
+    "loss": 0.0453727,
+    "pesq": 1.05159,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
+    "avg_acc_distorted": 0.9948
 }
-2025-09-18 17:44:36,072 [INFO] {
-    "loss": 0.0026595,
-    "pesq": 1.22957,
+2025-09-19 13:35:38,991 [INFO] {
+    "loss": 0.0452995,
+    "pesq": 1.05174,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.995
 }
-2025-09-18 17:46:47,655 [INFO] {
-    "loss": 0.0026296,
-    "pesq": 1.23079,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
-}
-2025-09-18 17:48:58,160 [INFO] {
-    "loss": 0.0026332,
-    "pesq": 1.23444,
+2025-09-19 13:38:08,138 [INFO] {
+    "loss": 0.0452618,
+    "pesq": 1.05153,
     "avg_acc_identity": 0.9998,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9948
 }
-2025-09-18 17:51:09,072 [INFO] {
-    "loss": 0.0026141,
-    "pesq": 1.23716,
+2025-09-19 13:40:37,042 [INFO] {
+    "loss": 0.0451915,
+    "pesq": 1.05183,
     "avg_acc_identity": 0.9998,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9949
 }
-2025-09-18 17:53:20,966 [INFO] {
-    "loss": 0.0025987,
-    "pesq": 1.23974,
+2025-09-19 13:43:03,356 [INFO] {
+    "loss": 0.0451293,
+    "pesq": 1.05204,
     "avg_acc_identity": 0.9998,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9949
 }
-2025-09-18 17:55:33,167 [INFO] {
-    "loss": 0.0025841,
-    "pesq": 1.24155,
+2025-09-19 13:45:30,730 [INFO] {
+    "loss": 0.0450827,
+    "pesq": 1.05245,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
+    "avg_acc_distorted": 0.9951
 }
-2025-09-18 17:57:44,109 [INFO] {
-    "loss": 0.0025647,
-    "pesq": 1.24432,
+2025-09-19 13:47:59,500 [INFO] {
+    "loss": 0.0449943,
+    "pesq": 1.05277,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
+    "avg_acc_distorted": 0.9953
 }
-2025-09-18 17:59:54,765 [INFO] {
-    "loss": 0.0025534,
-    "pesq": 1.24769,
+2025-09-19 13:50:26,924 [INFO] {
+    "loss": 0.044957,
+    "pesq": 1.05262,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9954
 }
-2025-09-18 18:02:04,910 [INFO] {
-    "loss": 0.0025443,
-    "pesq": 1.25072,
+2025-09-19 13:52:55,173 [INFO] {
+    "loss": 0.0449158,
+    "pesq": 1.05259,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9953
 }
-2025-09-18 18:04:15,799 [INFO] {
-    "loss": 0.0025348,
-    "pesq": 1.25286,
+2025-09-19 13:55:23,445 [INFO] {
+    "loss": 0.0448409,
+    "pesq": 1.05265,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9955
 }
-2025-09-18 18:06:26,223 [INFO] {
-    "loss": 0.0025165,
-    "pesq": 1.25426,
+2025-09-19 13:57:49,706 [INFO] {
+    "loss": 0.0447828,
+    "pesq": 1.05295,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9956
 }
-2025-09-18 18:08:36,682 [INFO] {
-    "loss": 0.0025041,
-    "pesq": 1.25652,
+2025-09-19 14:00:15,393 [INFO] {
+    "loss": 0.0447086,
+    "pesq": 1.05331,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9958
 }
-2025-09-18 18:10:49,058 [INFO] {
-    "loss": 0.0024918,
-    "pesq": 1.25869,
+2025-09-19 14:02:45,553 [INFO] {
+    "loss": 0.0446629,
+    "pesq": 1.05331,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9994
+    "avg_acc_distorted": 0.9958
 }
-2025-09-18 18:12:59,336 [INFO] {
-    "loss": 0.0024736,
-    "pesq": 1.26065,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:15:11,892 [INFO] {
-    "loss": 0.0024634,
-    "pesq": 1.26196,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:17:22,601 [INFO] {
-    "loss": 0.0024467,
-    "pesq": 1.26358,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:19:32,161 [INFO] {
-    "loss": 0.002432,
-    "pesq": 1.26593,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:21:41,983 [INFO] {
-    "loss": 0.0024202,
-    "pesq": 1.26854,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:23:52,297 [INFO] {
-    "loss": 0.0024079,
-    "pesq": 1.27177,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:26:03,202 [INFO] {
-    "loss": 0.0023988,
-    "pesq": 1.27294,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:28:14,218 [INFO] {
-    "loss": 0.0023927,
-    "pesq": 1.27474,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:30:23,993 [INFO] {
-    "loss": 0.002384,
-    "pesq": 1.27665,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9995
-}
-2025-09-18 18:30:24,962 [INFO] {
-    "loss": 0.001089,
-    "pesq": 1.308,
-    "avg_acc": 1.0
-}
-2025-09-18 18:31:32,041 [INFO] {
-    "loss": 0.0011158,
-    "pesq": 1.3568,
-    "avg_acc": 1.0
-}
-2025-09-18 18:31:49,407 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_1.3499033274650574_acc_1.0.pt | Acc: 1.0, PESQ: 1.3499033274650574
-2025-09-18 18:31:49,408 [INFO] Decreased lambda m to 0.008000000000000002
-2025-09-18 18:31:51,574 [INFO] {
-    "loss": 0.0010313,
-    "pesq": 1.45604,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 18:34:00,373 [INFO] {
-    "loss": 0.0011228,
-    "pesq": 1.3616,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 18:36:08,098 [INFO] {
-    "loss": 0.0010965,
-    "pesq": 1.41733,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:38:16,835 [INFO] {
-    "loss": 0.00108,
-    "pesq": 1.44823,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 18:40:24,442 [INFO] {
-    "loss": 0.0010826,
-    "pesq": 1.46314,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:42:32,297 [INFO] {
-    "loss": 0.0010714,
-    "pesq": 1.46904,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:44:39,429 [INFO] {
-    "loss": 0.0010766,
-    "pesq": 1.47949,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:46:46,449 [INFO] {
-    "loss": 0.0010773,
-    "pesq": 1.48617,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:48:53,545 [INFO] {
-    "loss": 0.001076,
-    "pesq": 1.49116,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:51:01,633 [INFO] {
-    "loss": 0.0010741,
-    "pesq": 1.4932,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:53:08,257 [INFO] {
-    "loss": 0.0010729,
-    "pesq": 1.4972,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 18:55:17,213 [INFO] {
-    "loss": 0.0010744,
-    "pesq": 1.50179,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 18:57:24,364 [INFO] {
-    "loss": 0.0010771,
-    "pesq": 1.50447,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 18:59:29,462 [INFO] {
-    "loss": 0.0010765,
-    "pesq": 1.50831,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 19:01:37,154 [INFO] {
-    "loss": 0.0010727,
-    "pesq": 1.51268,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 19:03:43,946 [INFO] {
-    "loss": 0.0010721,
-    "pesq": 1.51492,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 19:05:50,710 [INFO] {
-    "loss": 0.0010694,
-    "pesq": 1.51748,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:07:58,837 [INFO] {
-    "loss": 0.0010651,
-    "pesq": 1.52166,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9997
-}
-2025-09-18 19:10:06,482 [INFO] {
-    "loss": 0.0010605,
-    "pesq": 1.52516,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:12:13,710 [INFO] {
-    "loss": 0.0010586,
-    "pesq": 1.52835,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:14:20,576 [INFO] {
-    "loss": 0.001054,
-    "pesq": 1.52951,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:16:28,104 [INFO] {
-    "loss": 0.0010494,
-    "pesq": 1.53107,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:18:35,096 [INFO] {
-    "loss": 0.001047,
-    "pesq": 1.53367,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:20:43,741 [INFO] {
-    "loss": 0.001043,
-    "pesq": 1.53602,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:22:51,961 [INFO] {
-    "loss": 0.0010412,
-    "pesq": 1.53737,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:24:58,522 [INFO] {
-    "loss": 0.0010404,
-    "pesq": 1.53924,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:27:07,294 [INFO] {
-    "loss": 0.0010378,
-    "pesq": 1.54133,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:29:14,620 [INFO] {
-    "loss": 0.0010348,
-    "pesq": 1.54323,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:31:23,173 [INFO] {
-    "loss": 0.0010317,
-    "pesq": 1.54538,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:33:30,030 [INFO] {
-    "loss": 0.0010293,
-    "pesq": 1.54658,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:35:36,649 [INFO] {
-    "loss": 0.0010282,
-    "pesq": 1.54747,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:35:37,605 [INFO] {
-    "loss": 0.0004925,
-    "pesq": 1.6048,
-    "avg_acc": 1.0
-}
-2025-09-18 19:36:43,603 [INFO] {
-    "loss": 0.0006364,
-    "pesq": 1.6158,
-    "avg_acc": 1.0
-}
-2025-09-18 19:37:00,494 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_1.6076628742218018_acc_1.0.pt | Acc: 1.0, PESQ: 1.6076628742218018
-2025-09-18 19:37:00,494 [INFO] Decreased lambda m to 0.003200000000000001
-2025-09-18 19:37:02,649 [INFO] {
-    "loss": 0.0004764,
-    "pesq": 1.56011,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 19:39:08,338 [INFO] {
-    "loss": 0.0006632,
-    "pesq": 1.63937,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 19:41:16,026 [INFO] {
-    "loss": 0.0006716,
-    "pesq": 1.66802,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 19:43:22,458 [INFO] {
-    "loss": 0.0006573,
-    "pesq": 1.68256,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 19:45:28,453 [INFO] {
-    "loss": 0.0006512,
-    "pesq": 1.68495,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 19:47:33,533 [INFO] {
-    "loss": 0.0006636,
-    "pesq": 1.68999,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 19:49:42,169 [INFO] {
-    "loss": 0.0006582,
-    "pesq": 1.68977,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 19:51:48,179 [INFO] {
-    "loss": 0.0006547,
-    "pesq": 1.69126,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 19:53:54,036 [INFO] {
-    "loss": 0.0006495,
-    "pesq": 1.69825,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:56:01,752 [INFO] {
-    "loss": 0.0006519,
-    "pesq": 1.70344,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 19:58:08,179 [INFO] {
-    "loss": 0.0006468,
-    "pesq": 1.7055,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:00:13,300 [INFO] {
-    "loss": 0.0006477,
-    "pesq": 1.70929,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:02:18,446 [INFO] {
-    "loss": 0.0006449,
-    "pesq": 1.71009,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:04:25,060 [INFO] {
-    "loss": 0.0006493,
-    "pesq": 1.71141,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:06:32,892 [INFO] {
-    "loss": 0.0006472,
-    "pesq": 1.71368,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:08:40,520 [INFO] {
-    "loss": 0.0006448,
-    "pesq": 1.71585,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:10:46,931 [INFO] {
-    "loss": 0.0006441,
-    "pesq": 1.71721,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:12:53,758 [INFO] {
-    "loss": 0.0006431,
-    "pesq": 1.719,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:15:00,874 [INFO] {
-    "loss": 0.0006417,
-    "pesq": 1.7205,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:17:06,602 [INFO] {
-    "loss": 0.000642,
-    "pesq": 1.7235,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:19:13,059 [INFO] {
-    "loss": 0.0006412,
-    "pesq": 1.72489,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 20:21:18,711 [INFO] {
-    "loss": 0.0006391,
-    "pesq": 1.72623,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:23:24,397 [INFO] {
-    "loss": 0.0006389,
-    "pesq": 1.72721,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 20:25:32,625 [INFO] {
-    "loss": 0.0006369,
-    "pesq": 1.72791,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:27:38,626 [INFO] {
-    "loss": 0.0006368,
-    "pesq": 1.72988,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 20:29:46,297 [INFO] {
-    "loss": 0.0006348,
-    "pesq": 1.73172,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:31:52,996 [INFO] {
-    "loss": 0.0006336,
-    "pesq": 1.73409,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:33:59,971 [INFO] {
-    "loss": 0.0006313,
-    "pesq": 1.73457,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:36:06,740 [INFO] {
-    "loss": 0.000631,
-    "pesq": 1.73492,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:38:13,484 [INFO] {
-    "loss": 0.0006296,
-    "pesq": 1.73634,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:40:19,955 [INFO] {
-    "loss": 0.0006283,
-    "pesq": 1.73749,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:40:21,064 [INFO] {
-    "loss": 0.0004092,
-    "pesq": 1.8399,
-    "avg_acc": 1.0
-}
-2025-09-18 20:41:26,437 [INFO] {
-    "loss": 0.0005068,
-    "pesq": 1.8447,
-    "avg_acc": 1.0
-}
-2025-09-18 20:41:42,725 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_1.8392014484405517_acc_1.0.pt | Acc: 1.0, PESQ: 1.8392014484405517
-2025-09-18 20:41:42,726 [INFO] Decreased lambda m to 0.0012800000000000003
-2025-09-18 20:41:44,817 [INFO] {
-    "loss": 0.0002647,
-    "pesq": 1.78818,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 20:43:48,902 [INFO] {
-    "loss": 0.0004972,
-    "pesq": 1.84149,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:45:55,084 [INFO] {
-    "loss": 0.0005099,
-    "pesq": 1.8486,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:48:01,640 [INFO] {
-    "loss": 0.0005057,
-    "pesq": 1.86804,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:50:09,594 [INFO] {
-    "loss": 0.0005001,
-    "pesq": 1.87146,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:52:17,194 [INFO] {
-    "loss": 0.0004984,
-    "pesq": 1.87287,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:54:25,032 [INFO] {
-    "loss": 0.0004984,
-    "pesq": 1.87588,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:56:31,367 [INFO] {
-    "loss": 0.0005042,
-    "pesq": 1.88232,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 20:58:37,273 [INFO] {
-    "loss": 0.000505,
-    "pesq": 1.88792,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:00:44,488 [INFO] {
-    "loss": 0.0005028,
-    "pesq": 1.89027,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:02:50,163 [INFO] {
-    "loss": 0.0004973,
-    "pesq": 1.89033,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:04:56,389 [INFO] {
-    "loss": 0.0004991,
-    "pesq": 1.89447,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:07:04,834 [INFO] {
-    "loss": 0.0004987,
-    "pesq": 1.8945,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:09:12,869 [INFO] {
-    "loss": 0.0004982,
-    "pesq": 1.89746,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:11:19,705 [INFO] {
-    "loss": 0.0004948,
-    "pesq": 1.89927,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:13:26,927 [INFO] {
-    "loss": 0.0004956,
-    "pesq": 1.90013,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:15:33,555 [INFO] {
-    "loss": 0.0004963,
-    "pesq": 1.9026,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:17:40,686 [INFO] {
-    "loss": 0.0004968,
-    "pesq": 1.90319,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:19:48,271 [INFO] {
-    "loss": 0.0004951,
-    "pesq": 1.90484,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:21:56,698 [INFO] {
-    "loss": 0.0004956,
-    "pesq": 1.90632,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:24:03,844 [INFO] {
-    "loss": 0.0004949,
-    "pesq": 1.90762,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:26:12,306 [INFO] {
-    "loss": 0.0004941,
-    "pesq": 1.91077,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:28:20,651 [INFO] {
-    "loss": 0.0004933,
-    "pesq": 1.91202,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:30:28,302 [INFO] {
-    "loss": 0.0004928,
-    "pesq": 1.91135,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:32:37,237 [INFO] {
-    "loss": 0.0004915,
-    "pesq": 1.91296,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:34:45,672 [INFO] {
-    "loss": 0.0004903,
-    "pesq": 1.9147,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:36:53,306 [INFO] {
-    "loss": 0.0004902,
-    "pesq": 1.91605,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:39:02,234 [INFO] {
-    "loss": 0.0004885,
-    "pesq": 1.9176,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:41:10,442 [INFO] {
-    "loss": 0.0004887,
-    "pesq": 1.9203,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:43:18,608 [INFO] {
-    "loss": 0.0004874,
-    "pesq": 1.9215,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:45:23,704 [INFO] {
-    "loss": 0.0004875,
-    "pesq": 1.92268,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:45:24,686 [INFO] {
-    "loss": 0.0003355,
-    "pesq": 1.8398,
-    "avg_acc": 1.0
-}
-2025-09-18 21:46:29,183 [INFO] {
-    "loss": 0.000439,
-    "pesq": 1.9889,
-    "avg_acc": 1.0
-}
-2025-09-18 21:46:45,320 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_1.9852735502719878_acc_1.0.pt | Acc: 1.0, PESQ: 1.9852735502719878
-2025-09-18 21:46:45,321 [INFO] Decreased lambda m to 0.0005120000000000002
-2025-09-18 21:46:47,638 [INFO] {
-    "loss": 0.0002917,
-    "pesq": 2.08841,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 21:48:53,653 [INFO] {
-    "loss": 0.0004553,
-    "pesq": 2.03144,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 21:50:59,968 [INFO] {
-    "loss": 0.0004376,
-    "pesq": 2.04876,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:53:05,636 [INFO] {
-    "loss": 0.00043,
-    "pesq": 2.05903,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:55:12,567 [INFO] {
-    "loss": 0.0004218,
-    "pesq": 2.07087,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 21:57:19,872 [INFO] {
-    "loss": 0.0004228,
-    "pesq": 2.07676,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 21:59:27,889 [INFO] {
-    "loss": 0.0004187,
-    "pesq": 2.08297,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:01:33,846 [INFO] {
-    "loss": 0.0004139,
-    "pesq": 2.08625,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:03:40,173 [INFO] {
-    "loss": 0.0004145,
-    "pesq": 2.08979,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 22:05:46,427 [INFO] {
-    "loss": 0.0004157,
-    "pesq": 2.09244,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 22:07:52,506 [INFO] {
-    "loss": 0.0004202,
-    "pesq": 2.09787,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:09:58,556 [INFO] {
-    "loss": 0.0004225,
-    "pesq": 2.09953,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 22:12:04,690 [INFO] {
-    "loss": 0.0004239,
-    "pesq": 2.10464,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 22:14:10,564 [INFO] {
-    "loss": 0.0004251,
-    "pesq": 2.10949,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:16:17,439 [INFO] {
-    "loss": 0.0004278,
-    "pesq": 2.11314,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:18:23,251 [INFO] {
-    "loss": 0.0004296,
-    "pesq": 2.11633,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:20:29,773 [INFO] {
-    "loss": 0.0004305,
-    "pesq": 2.11896,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:22:36,974 [INFO] {
-    "loss": 0.0004301,
-    "pesq": 2.12123,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:24:43,184 [INFO] {
-    "loss": 0.0004311,
-    "pesq": 2.12414,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:26:50,991 [INFO] {
-    "loss": 0.0004298,
-    "pesq": 2.12765,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:28:56,791 [INFO] {
-    "loss": 0.0004276,
-    "pesq": 2.12968,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:31:02,780 [INFO] {
-    "loss": 0.0004299,
-    "pesq": 2.13236,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:33:08,735 [INFO] {
-    "loss": 0.0004305,
-    "pesq": 2.13365,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:35:14,295 [INFO] {
-    "loss": 0.0004304,
-    "pesq": 2.13593,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:37:22,258 [INFO] {
-    "loss": 0.0004308,
-    "pesq": 2.13731,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:39:27,882 [INFO] {
-    "loss": 0.0004293,
-    "pesq": 2.13975,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:41:32,437 [INFO] {
-    "loss": 0.0004314,
-    "pesq": 2.14109,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:43:39,657 [INFO] {
-    "loss": 0.0004309,
-    "pesq": 2.14314,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:45:46,539 [INFO] {
-    "loss": 0.0004316,
-    "pesq": 2.14466,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:47:53,851 [INFO] {
-    "loss": 0.0004302,
-    "pesq": 2.1464,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:50:00,537 [INFO] {
-    "loss": 0.00043,
-    "pesq": 2.14838,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:50:01,493 [INFO] {
-    "loss": 0.0003136,
-    "pesq": 2.1013,
-    "avg_acc": 1.0
-}
-2025-09-18 22:51:05,798 [INFO] {
-    "loss": 0.0004137,
-    "pesq": 2.1648,
-    "avg_acc": 1.0
-}
-2025-09-18 22:51:22,408 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_2.1592886834144593_acc_1.0.pt | Acc: 1.0, PESQ: 2.1592886834144593
-2025-09-18 22:51:22,408 [INFO] Decreased lambda m to 0.0002048000000000001
-2025-09-18 22:51:24,492 [INFO] {
-    "loss": 0.000305,
-    "pesq": 2.21072,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 22:53:29,900 [INFO] {
-    "loss": 0.0004046,
-    "pesq": 2.28093,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-18 22:55:36,257 [INFO] {
-    "loss": 0.0004076,
-    "pesq": 2.30679,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:57:42,429 [INFO] {
-    "loss": 0.0004031,
-    "pesq": 2.313,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 22:59:47,891 [INFO] {
-    "loss": 0.0004089,
-    "pesq": 2.32043,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:01:54,639 [INFO] {
-    "loss": 0.0004,
-    "pesq": 2.32466,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:04:01,883 [INFO] {
-    "loss": 0.0004026,
-    "pesq": 2.3292,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:06:08,452 [INFO] {
-    "loss": 0.0004077,
-    "pesq": 2.33062,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:08:15,146 [INFO] {
-    "loss": 0.0004063,
-    "pesq": 2.33227,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:10:22,832 [INFO] {
-    "loss": 0.0004031,
-    "pesq": 2.33689,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:12:29,014 [INFO] {
-    "loss": 0.0004016,
-    "pesq": 2.34316,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:14:36,140 [INFO] {
-    "loss": 0.0004011,
-    "pesq": 2.34742,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:16:42,955 [INFO] {
-    "loss": 0.0004033,
-    "pesq": 2.35191,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:18:48,903 [INFO] {
-    "loss": 0.0004005,
-    "pesq": 2.35359,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:20:56,408 [INFO] {
-    "loss": 0.0004001,
-    "pesq": 2.35659,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:23:01,880 [INFO] {
-    "loss": 0.0004024,
-    "pesq": 2.3611,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:25:08,084 [INFO] {
-    "loss": 0.0004023,
-    "pesq": 2.36397,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:27:15,234 [INFO] {
-    "loss": 0.0004013,
-    "pesq": 2.36528,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:29:22,805 [INFO] {
-    "loss": 0.0004003,
-    "pesq": 2.36652,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:31:29,286 [INFO] {
-    "loss": 0.0004,
-    "pesq": 2.36946,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:33:35,004 [INFO] {
-    "loss": 0.0003991,
-    "pesq": 2.37309,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:35:41,598 [INFO] {
-    "loss": 0.0003987,
-    "pesq": 2.3749,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:37:47,364 [INFO] {
-    "loss": 0.0004,
-    "pesq": 2.37763,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:39:53,210 [INFO] {
-    "loss": 0.0003996,
-    "pesq": 2.37909,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:41:58,756 [INFO] {
-    "loss": 0.0004001,
-    "pesq": 2.38145,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:44:04,103 [INFO] {
-    "loss": 0.0004017,
-    "pesq": 2.38158,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:46:11,086 [INFO] {
-    "loss": 0.0004017,
-    "pesq": 2.38398,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:48:17,400 [INFO] {
-    "loss": 0.000402,
-    "pesq": 2.38544,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:50:23,303 [INFO] {
-    "loss": 0.0004014,
-    "pesq": 2.38611,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:52:30,543 [INFO] {
-    "loss": 0.0004005,
-    "pesq": 2.38783,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:54:37,134 [INFO] {
-    "loss": 0.0004011,
-    "pesq": 2.38976,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-18 23:54:38,078 [INFO] {
-    "loss": 0.0002958,
-    "pesq": 2.3643,
-    "avg_acc": 1.0
-}
-2025-09-18 23:55:42,161 [INFO] {
-    "loss": 0.0003908,
-    "pesq": 2.4558,
-    "avg_acc": 1.0
-}
-2025-09-18 23:55:58,743 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_2.4530828862190246_acc_1.0.pt | Acc: 1.0, PESQ: 2.4530828862190246
-2025-09-18 23:55:58,743 [INFO] Decreased lambda m to 8.192000000000003e-05
-2025-09-18 23:56:00,866 [INFO] {
-    "loss": 0.0001935,
-    "pesq": 2.40419,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-18 23:58:05,891 [INFO] {
-    "loss": 0.0004036,
-    "pesq": 2.51765,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-19 00:00:11,693 [INFO] {
-    "loss": 0.0003972,
-    "pesq": 2.54239,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-19 00:02:16,069 [INFO] {
-    "loss": 0.0003886,
-    "pesq": 2.55076,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:04:21,328 [INFO] {
-    "loss": 0.0003881,
-    "pesq": 2.56002,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:06:28,441 [INFO] {
-    "loss": 0.0003856,
-    "pesq": 2.56434,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:08:34,336 [INFO] {
-    "loss": 0.00038,
-    "pesq": 2.56922,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:10:40,714 [INFO] {
-    "loss": 0.0003857,
-    "pesq": 2.57652,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:12:46,121 [INFO] {
-    "loss": 0.0003872,
-    "pesq": 2.58238,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:14:51,960 [INFO] {
-    "loss": 0.0003827,
-    "pesq": 2.58531,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:16:57,234 [INFO] {
-    "loss": 0.0003823,
-    "pesq": 2.58531,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:19:03,033 [INFO] {
-    "loss": 0.0003834,
-    "pesq": 2.58957,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:21:10,296 [INFO] {
-    "loss": 0.0003818,
-    "pesq": 2.59234,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:23:17,740 [INFO] {
-    "loss": 0.0003798,
-    "pesq": 2.59279,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:25:23,183 [INFO] {
-    "loss": 0.000381,
-    "pesq": 2.59765,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9999
-}
-2025-09-19 00:27:28,545 [INFO] {
-    "loss": 0.0003835,
-    "pesq": 2.60207,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:29:34,187 [INFO] {
-    "loss": 0.0003835,
-    "pesq": 2.60354,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:31:40,530 [INFO] {
-    "loss": 0.0003834,
-    "pesq": 2.60622,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:33:46,877 [INFO] {
-    "loss": 0.000384,
-    "pesq": 2.60904,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:35:52,732 [INFO] {
-    "loss": 0.000385,
-    "pesq": 2.61158,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:38:00,643 [INFO] {
-    "loss": 0.0003852,
-    "pesq": 2.61369,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:40:05,540 [INFO] {
-    "loss": 0.0003863,
-    "pesq": 2.61636,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:42:11,413 [INFO] {
-    "loss": 0.0003849,
-    "pesq": 2.61829,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:44:17,321 [INFO] {
-    "loss": 0.0003851,
-    "pesq": 2.62065,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:46:21,623 [INFO] {
-    "loss": 0.000385,
-    "pesq": 2.62155,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:48:27,298 [INFO] {
-    "loss": 0.0003848,
-    "pesq": 2.62268,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:50:32,907 [INFO] {
-    "loss": 0.0003861,
-    "pesq": 2.62421,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:52:37,185 [INFO] {
-    "loss": 0.0003863,
-    "pesq": 2.62535,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:54:42,230 [INFO] {
-    "loss": 0.0003861,
-    "pesq": 2.62743,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:56:47,428 [INFO] {
-    "loss": 0.0003866,
-    "pesq": 2.62907,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:58:51,989 [INFO] {
-    "loss": 0.0003861,
-    "pesq": 2.6303,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 00:58:52,928 [INFO] {
-    "loss": 0.0002873,
-    "pesq": 2.6062,
-    "avg_acc": 1.0
-}
-2025-09-19 00:59:57,164 [INFO] {
-    "loss": 0.0003823,
-    "pesq": 2.7141,
-    "avg_acc": 1.0
-}
-2025-09-19 01:00:13,481 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_2.713784348487854_acc_1.0.pt | Acc: 1.0, PESQ: 2.713784348487854
-2025-09-19 01:00:13,482 [INFO] Decreased lambda m to 3.2768000000000016e-05
-2025-09-19 01:00:15,549 [INFO] {
-    "loss": 0.0002291,
-    "pesq": 2.75531,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-19 01:02:20,025 [INFO] {
-    "loss": 0.0003938,
-    "pesq": 2.77746,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9998
-}
-2025-09-19 01:04:26,265 [INFO] {
-    "loss": 0.0003616,
-    "pesq": 2.80269,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9996
-}
-2025-09-19 01:06:31,502 [INFO] {
-    "loss": 0.0003658,
-    "pesq": 2.82308,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9994
-}
-2025-09-19 01:08:37,501 [INFO] {
-    "loss": 0.0003693,
-    "pesq": 2.82518,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9993
-}
-2025-09-19 01:10:43,677 [INFO] {
-    "loss": 0.0003714,
-    "pesq": 2.82653,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9992
-}
-2025-09-19 01:12:51,513 [INFO] {
-    "loss": 0.0003688,
-    "pesq": 2.83279,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9993
-}
-2025-09-19 01:14:58,916 [INFO] {
-    "loss": 0.0003701,
-    "pesq": 2.83597,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9993
-}
-2025-09-19 01:17:05,814 [INFO] {
-    "loss": 0.000367,
-    "pesq": 2.84013,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9994
-}
-2025-09-19 01:19:12,521 [INFO] {
-    "loss": 0.0003692,
-    "pesq": 2.84327,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9993
-}
-2025-09-19 01:21:19,037 [INFO] {
-    "loss": 0.000373,
-    "pesq": 2.8477,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9993
-}
-2025-09-19 01:23:27,502 [INFO] {
-    "loss": 0.0003736,
-    "pesq": 2.84722,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9992
-}
-2025-09-19 01:25:32,868 [INFO] {
-    "loss": 0.0003728,
-    "pesq": 2.85387,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9992
-}
-2025-09-19 01:27:39,693 [INFO] {
-    "loss": 0.0003723,
-    "pesq": 2.85796,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9992
-}
-2025-09-19 01:29:46,753 [INFO] {
-    "loss": 0.0003748,
-    "pesq": 2.86142,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9992
-}
-2025-09-19 01:31:51,445 [INFO] {
-    "loss": 0.0003735,
-    "pesq": 2.863,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:33:56,442 [INFO] {
-    "loss": 0.0003726,
-    "pesq": 2.8666,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:36:01,866 [INFO] {
-    "loss": 0.0003747,
-    "pesq": 2.86887,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:38:06,930 [INFO] {
-    "loss": 0.0003733,
-    "pesq": 2.871,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:40:13,957 [INFO] {
-    "loss": 0.0003736,
-    "pesq": 2.87384,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:42:20,070 [INFO] {
-    "loss": 0.0003724,
-    "pesq": 2.87563,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:44:28,708 [INFO] {
-    "loss": 0.0003736,
-    "pesq": 2.87775,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:46:34,574 [INFO] {
-    "loss": 0.0003736,
-    "pesq": 2.88098,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:48:41,284 [INFO] {
-    "loss": 0.0003733,
-    "pesq": 2.88046,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9991
-}
-2025-09-19 01:50:47,747 [INFO] {
-    "loss": 0.0003742,
-    "pesq": 2.88302,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.999
-}
-2025-09-19 01:52:53,375 [INFO] {
-    "loss": 0.0003751,
-    "pesq": 2.88489,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.999
-}
-2025-09-19 01:54:58,630 [INFO] {
-    "loss": 0.0003756,
-    "pesq": 2.88729,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.999
-}
-2025-09-19 01:57:04,808 [INFO] {
-    "loss": 0.0003758,
-    "pesq": 2.8877,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.999
-}
-2025-09-19 01:59:12,244 [INFO] {
-    "loss": 0.0003765,
-    "pesq": 2.88912,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.999
-}
-2025-09-19 02:01:17,606 [INFO] {
-    "loss": 0.0003782,
-    "pesq": 2.89025,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.999
-}
-2025-09-19 02:03:23,406 [INFO] {
-    "loss": 0.0003786,
-    "pesq": 2.89265,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.999
-}
-2025-09-19 02:03:24,390 [INFO] {
-    "loss": 0.0002836,
-    "pesq": 2.9801,
-    "avg_acc": 1.0
-}
-2025-09-19 02:04:29,115 [INFO] {
-    "loss": 0.0003791,
-    "pesq": 2.9173,
-    "avg_acc": 1.0
-}
-2025-09-19 02:04:45,640 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_2.904114408969879_acc_1.0.pt | Acc: 1.0, PESQ: 2.904114408969879
-2025-09-19 02:04:45,641 [INFO] Decreased lambda m to 1.3107200000000007e-05
-2025-09-19 02:04:47,757 [INFO] {
-    "loss": 0.0001826,
-    "pesq": 2.84095,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 1.0
-}
-2025-09-19 02:06:52,529 [INFO] {
-    "loss": 0.0003869,
-    "pesq": 3.03763,
+2025-09-19 14:05:12,115 [INFO] {
+    "loss": 0.0446301,
+    "pesq": 1.05327,
     "avg_acc_identity": 0.9998,
-    "avg_acc_distorted": 0.9978
+    "avg_acc_distorted": 0.9959
 }
-2025-09-19 02:08:59,074 [INFO] {
-    "loss": 0.0003698,
-    "pesq": 3.05389,
-    "avg_acc_identity": 0.9998,
-    "avg_acc_distorted": 0.9976
-}
-2025-09-19 02:11:04,229 [INFO] {
-    "loss": 0.0003843,
-    "pesq": 3.07538,
+2025-09-19 14:07:39,737 [INFO] {
+    "loss": 0.0445676,
+    "pesq": 1.05337,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9972
+    "avg_acc_distorted": 0.996
 }
-2025-09-19 02:13:10,499 [INFO] {
-    "loss": 0.000376,
-    "pesq": 3.08726,
-    "avg_acc_identity": 0.9998,
-    "avg_acc_distorted": 0.9972
-}
-2025-09-19 02:15:16,526 [INFO] {
-    "loss": 0.0003695,
-    "pesq": 3.09464,
+2025-09-19 14:10:05,935 [INFO] {
+    "loss": 0.0445216,
+    "pesq": 1.05368,
     "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9972
+    "avg_acc_distorted": 0.9961
 }
-2025-09-19 02:17:22,632 [INFO] {
-    "loss": 0.0003753,
-    "pesq": 3.09857,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9969
-}
-2025-09-19 02:19:29,288 [INFO] {
-    "loss": 0.0003757,
-    "pesq": 3.10147,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9968
-}
-2025-09-19 02:21:36,151 [INFO] {
-    "loss": 0.0003727,
-    "pesq": 3.10535,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9966
-}
-2025-09-19 02:23:42,970 [INFO] {
-    "loss": 0.0003714,
-    "pesq": 3.10985,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9965
-}
-2025-09-19 02:25:48,093 [INFO] {
-    "loss": 0.000372,
-    "pesq": 3.11188,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9965
-}
-2025-09-19 02:27:54,354 [INFO] {
-    "loss": 0.00037,
-    "pesq": 3.11389,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9964
-}
-2025-09-19 02:30:01,159 [INFO] {
-    "loss": 0.0003699,
-    "pesq": 3.11582,
-    "avg_acc_identity": 0.9999,
-    "avg_acc_distorted": 0.9964
-}
-2025-09-19 02:32:07,707 [INFO] {
-    "loss": 0.0003708,
-    "pesq": 3.1178,
+2025-09-19 14:12:33,558 [INFO] {
+    "loss": 0.0444632,
+    "pesq": 1.05379,
     "avg_acc_identity": 0.9999,
     "avg_acc_distorted": 0.9962
 }
-2025-09-19 02:34:15,089 [INFO] {
-    "loss": 0.0003721,
-    "pesq": 3.12088,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.996
+2025-09-19 14:15:00,870 [INFO] {
+    "loss": 0.0444132,
+    "pesq": 1.05407,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9963
 }
-2025-09-19 02:36:22,216 [INFO] {
-    "loss": 0.0003726,
-    "pesq": 3.12299,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9958
+2025-09-19 14:17:27,859 [INFO] {
+    "loss": 0.0443538,
+    "pesq": 1.05416,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9963
 }
-2025-09-19 02:38:27,842 [INFO] {
-    "loss": 0.0003725,
-    "pesq": 3.12465,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9957
+2025-09-19 14:19:54,114 [INFO] {
+    "loss": 0.0443145,
+    "pesq": 1.05431,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9964
 }
-2025-09-19 02:40:33,329 [INFO] {
-    "loss": 0.000372,
-    "pesq": 3.12575,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9957
+2025-09-19 14:22:22,163 [INFO] {
+    "loss": 0.0442703,
+    "pesq": 1.05432,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9964
 }
-2025-09-19 02:42:39,833 [INFO] {
-    "loss": 0.0003704,
-    "pesq": 3.12627,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9956
+2025-09-19 14:24:50,048 [INFO] {
+    "loss": 0.0442233,
+    "pesq": 1.05443,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9965
 }
-2025-09-19 02:44:46,316 [INFO] {
-    "loss": 0.0003702,
-    "pesq": 3.12819,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9957
-}
-2025-09-19 02:46:51,982 [INFO] {
-    "loss": 0.0003715,
-    "pesq": 3.128,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9956
-}
-2025-09-19 02:48:57,722 [INFO] {
-    "loss": 0.000372,
-    "pesq": 3.12887,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9957
-}
-2025-09-19 02:51:03,445 [INFO] {
-    "loss": 0.0003716,
-    "pesq": 3.13002,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9956
-}
-2025-09-19 02:53:08,967 [INFO] {
-    "loss": 0.0003707,
-    "pesq": 3.13123,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9956
-}
-2025-09-19 02:55:15,052 [INFO] {
-    "loss": 0.0003717,
-    "pesq": 3.13278,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9955
-}
-2025-09-19 02:57:20,373 [INFO] {
-    "loss": 0.0003732,
-    "pesq": 3.1327,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9955
-}
-2025-09-19 02:59:27,320 [INFO] {
-    "loss": 0.0003739,
-    "pesq": 3.13507,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9954
-}
-2025-09-19 03:01:33,730 [INFO] {
-    "loss": 0.000375,
-    "pesq": 3.13516,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9953
-}
-2025-09-19 03:03:39,972 [INFO] {
-    "loss": 0.0003749,
-    "pesq": 3.13693,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9953
-}
-2025-09-19 03:05:46,457 [INFO] {
-    "loss": 0.0003749,
-    "pesq": 3.13951,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9953
-}
-2025-09-19 03:07:52,047 [INFO] {
-    "loss": 0.0003744,
-    "pesq": 3.14099,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9953
-}
-2025-09-19 03:07:52,973 [INFO] {
-    "loss": 0.0002808,
-    "pesq": 3.1973,
+2025-09-19 14:24:52,305 [INFO] {
+    "loss": 0.043384,
+    "pesq": 1.0504,
     "avg_acc": 1.0
 }
-2025-09-19 03:08:56,998 [INFO] {
-    "loss": 0.000376,
-    "pesq": 3.1314,
+2025-09-19 14:26:15,513 [INFO] {
+    "loss": 0.0426099,
+    "pesq": 1.0494,
     "avg_acc": 1.0
 }
-2025-09-19 03:09:13,718 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.1170387563705444_acc_1.0.pt | Acc: 1.0, PESQ: 3.1170387563705444
-2025-09-19 03:09:13,718 [INFO] Decreased lambda m to 5.242880000000003e-06
-2025-09-19 03:09:15,853 [INFO] {
-    "loss": 0.000629,
-    "pesq": 3.08795,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9833
-}
-2025-09-19 03:11:21,484 [INFO] {
-    "loss": 0.0003993,
-    "pesq": 3.31785,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9888
-}
-2025-09-19 03:13:26,284 [INFO] {
-    "loss": 0.0003952,
-    "pesq": 3.32832,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9881
-}
-2025-09-19 03:15:31,388 [INFO] {
-    "loss": 0.0003972,
-    "pesq": 3.33276,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9874
-}
-2025-09-19 03:17:37,557 [INFO] {
-    "loss": 0.0003906,
-    "pesq": 3.33032,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9872
-}
-2025-09-19 03:19:43,090 [INFO] {
-    "loss": 0.0003847,
-    "pesq": 3.33266,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9859
-}
-2025-09-19 03:21:48,866 [INFO] {
-    "loss": 0.0003824,
-    "pesq": 3.33308,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9851
-}
-2025-09-19 03:23:55,744 [INFO] {
-    "loss": 0.0003807,
-    "pesq": 3.33041,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9852
-}
-2025-09-19 03:26:02,592 [INFO] {
-    "loss": 0.0003825,
-    "pesq": 3.33155,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9851
-}
-2025-09-19 03:28:08,749 [INFO] {
-    "loss": 0.0003806,
-    "pesq": 3.33375,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9847
-}
-2025-09-19 03:30:14,743 [INFO] {
-    "loss": 0.000383,
-    "pesq": 3.33204,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9839
-}
-2025-09-19 03:32:20,659 [INFO] {
-    "loss": 0.0003839,
-    "pesq": 3.33538,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9834
-}
-2025-09-19 03:34:26,107 [INFO] {
-    "loss": 0.0003808,
-    "pesq": 3.33811,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9834
-}
-2025-09-19 03:36:32,240 [INFO] {
-    "loss": 0.000378,
-    "pesq": 3.34142,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.983
-}
-2025-09-19 03:38:38,140 [INFO] {
-    "loss": 0.0003758,
-    "pesq": 3.34328,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9823
-}
-2025-09-19 03:40:43,975 [INFO] {
-    "loss": 0.0003765,
-    "pesq": 3.3437,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9819
-}
-2025-09-19 03:42:50,196 [INFO] {
-    "loss": 0.0003757,
-    "pesq": 3.34513,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9818
-}
-2025-09-19 03:44:56,697 [INFO] {
-    "loss": 0.0003768,
-    "pesq": 3.34699,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9818
-}
-2025-09-19 03:47:02,117 [INFO] {
-    "loss": 0.0003764,
-    "pesq": 3.34788,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9817
-}
-2025-09-19 03:49:09,304 [INFO] {
-    "loss": 0.000374,
-    "pesq": 3.34959,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9816
-}
-2025-09-19 03:51:16,490 [INFO] {
-    "loss": 0.0003734,
-    "pesq": 3.34893,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9814
-}
-2025-09-19 03:53:21,916 [INFO] {
-    "loss": 0.0003738,
-    "pesq": 3.35005,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9812
-}
-2025-09-19 03:55:27,296 [INFO] {
-    "loss": 0.0003746,
-    "pesq": 3.35009,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9813
-}
-2025-09-19 03:57:33,148 [INFO] {
-    "loss": 0.0003741,
-    "pesq": 3.35118,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9814
-}
-2025-09-19 03:59:40,149 [INFO] {
-    "loss": 0.000373,
-    "pesq": 3.35168,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9811
-}
-2025-09-19 04:01:45,788 [INFO] {
-    "loss": 0.000372,
-    "pesq": 3.35242,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.981
-}
-2025-09-19 04:03:52,544 [INFO] {
-    "loss": 0.000373,
-    "pesq": 3.35181,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9809
-}
-2025-09-19 04:05:58,646 [INFO] {
-    "loss": 0.0003731,
-    "pesq": 3.35304,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9808
-}
-2025-09-19 04:08:04,258 [INFO] {
-    "loss": 0.0003735,
-    "pesq": 3.35349,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9807
-}
-2025-09-19 04:10:11,478 [INFO] {
-    "loss": 0.0003728,
-    "pesq": 3.35429,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9807
-}
-2025-09-19 04:12:17,995 [INFO] {
-    "loss": 0.000372,
-    "pesq": 3.35473,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9804
-}
-2025-09-19 04:12:18,940 [INFO] {
-    "loss": 0.0002795,
-    "pesq": 3.3466,
-    "avg_acc": 1.0
-}
-2025-09-19 04:13:22,693 [INFO] {
-    "loss": 0.0003747,
-    "pesq": 3.4251,
-    "avg_acc": 1.0
-}
-2025-09-19 04:13:38,892 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.402462564945221_acc_1.0.pt | Acc: 1.0, PESQ: 3.402462564945221
-2025-09-19 04:13:38,892 [INFO] Decreased lambda m to 2.0971520000000012e-06
-2025-09-19 04:13:41,311 [INFO] {
-    "loss": 0.0005174,
-    "pesq": 3.48754,
+2025-09-19 14:26:36,783 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.0487759912014007_acc_1.0.pt | Acc: 1.0, PESQ: 1.0487759912014007
+2025-09-19 14:26:36,783 [INFO] Decreased lambda m to 0.0125
+2025-09-19 14:26:40,299 [INFO] {
+    "loss": 0.0236123,
+    "pesq": 1.05262,
     "avg_acc_identity": 1.0,
     "avg_acc_distorted": 1.0
 }
-2025-09-19 04:15:46,210 [INFO] {
-    "loss": 0.0003815,
-    "pesq": 3.45671,
-    "avg_acc_identity": 0.9985,
-    "avg_acc_distorted": 0.9507
+2025-09-19 14:29:06,033 [INFO] {
+    "loss": 0.0222488,
+    "pesq": 1.06518,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9983
 }
-2025-09-19 04:17:52,712 [INFO] {
-    "loss": 0.0003847,
-    "pesq": 3.49742,
-    "avg_acc_identity": 0.9986,
-    "avg_acc_distorted": 0.9523
+2025-09-19 14:31:34,763 [INFO] {
+    "loss": 0.0221604,
+    "pesq": 1.06728,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9983
 }
-2025-09-19 04:19:59,793 [INFO] {
-    "loss": 0.0003786,
-    "pesq": 3.5104,
-    "avg_acc_identity": 0.9989,
-    "avg_acc_distorted": 0.9529
+2025-09-19 14:34:02,283 [INFO] {
+    "loss": 0.0220143,
+    "pesq": 1.07057,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
 }
-2025-09-19 04:22:06,293 [INFO] {
-    "loss": 0.0003857,
-    "pesq": 3.50842,
-    "avg_acc_identity": 0.999,
-    "avg_acc_distorted": 0.9517
+2025-09-19 14:36:30,251 [INFO] {
+    "loss": 0.0219836,
+    "pesq": 1.0731,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 04:24:11,683 [INFO] {
-    "loss": 0.0003817,
-    "pesq": 3.51434,
-    "avg_acc_identity": 0.999,
-    "avg_acc_distorted": 0.9512
+2025-09-19 14:38:58,144 [INFO] {
+    "loss": 0.0219598,
+    "pesq": 1.07416,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:26:17,851 [INFO] {
-    "loss": 0.0003756,
-    "pesq": 3.51998,
-    "avg_acc_identity": 0.9991,
-    "avg_acc_distorted": 0.9514
+2025-09-19 14:41:28,547 [INFO] {
+    "loss": 0.0219788,
+    "pesq": 1.07474,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9984
 }
-2025-09-19 04:28:23,920 [INFO] {
-    "loss": 0.0003777,
-    "pesq": 3.52174,
-    "avg_acc_identity": 0.9991,
-    "avg_acc_distorted": 0.9506
+2025-09-19 14:43:57,404 [INFO] {
+    "loss": 0.0219601,
+    "pesq": 1.07536,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:30:29,924 [INFO] {
-    "loss": 0.0003742,
-    "pesq": 3.52753,
-    "avg_acc_identity": 0.9991,
-    "avg_acc_distorted": 0.95
+2025-09-19 14:46:23,305 [INFO] {
+    "loss": 0.0219243,
+    "pesq": 1.07628,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:32:36,759 [INFO] {
-    "loss": 0.0003732,
-    "pesq": 3.5285,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9498
+2025-09-19 14:48:48,880 [INFO] {
+    "loss": 0.0219079,
+    "pesq": 1.07729,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 04:34:42,314 [INFO] {
-    "loss": 0.000371,
-    "pesq": 3.53166,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9493
+2025-09-19 14:51:15,635 [INFO] {
+    "loss": 0.021892,
+    "pesq": 1.07763,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9988
 }
-2025-09-19 04:36:47,970 [INFO] {
-    "loss": 0.0003725,
-    "pesq": 3.5325,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9488
+2025-09-19 14:53:43,685 [INFO] {
+    "loss": 0.0218947,
+    "pesq": 1.07906,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:38:53,932 [INFO] {
-    "loss": 0.000372,
-    "pesq": 3.53465,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9486
+2025-09-19 14:56:10,097 [INFO] {
+    "loss": 0.021914,
+    "pesq": 1.07866,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:40:59,137 [INFO] {
-    "loss": 0.0003712,
-    "pesq": 3.53805,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9473
+2025-09-19 14:58:39,165 [INFO] {
+    "loss": 0.0219108,
+    "pesq": 1.07896,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:43:05,318 [INFO] {
-    "loss": 0.000373,
-    "pesq": 3.53955,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9467
+2025-09-19 15:01:06,806 [INFO] {
+    "loss": 0.0219049,
+    "pesq": 1.07906,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
 }
-2025-09-19 04:45:12,512 [INFO] {
-    "loss": 0.0003728,
-    "pesq": 3.5398,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9461
+2025-09-19 15:03:35,723 [INFO] {
+    "loss": 0.0218928,
+    "pesq": 1.0795,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:47:18,445 [INFO] {
-    "loss": 0.0003721,
-    "pesq": 3.5395,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9453
+2025-09-19 15:06:03,507 [INFO] {
+    "loss": 0.0218727,
+    "pesq": 1.07991,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 04:49:25,387 [INFO] {
-    "loss": 0.0003723,
-    "pesq": 3.5391,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9445
+2025-09-19 15:08:32,009 [INFO] {
+    "loss": 0.0218706,
+    "pesq": 1.08001,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:51:32,892 [INFO] {
-    "loss": 0.0003727,
-    "pesq": 3.53825,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9438
+2025-09-19 15:10:58,208 [INFO] {
+    "loss": 0.0218685,
+    "pesq": 1.08035,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:53:39,464 [INFO] {
-    "loss": 0.0003729,
-    "pesq": 3.54105,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9435
+2025-09-19 15:13:26,429 [INFO] {
+    "loss": 0.0218591,
+    "pesq": 1.08085,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:55:44,149 [INFO] {
-    "loss": 0.0003751,
-    "pesq": 3.54147,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9434
+2025-09-19 15:15:54,000 [INFO] {
+    "loss": 0.0218279,
+    "pesq": 1.08146,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 04:57:50,127 [INFO] {
-    "loss": 0.0003742,
-    "pesq": 3.54339,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9431
+2025-09-19 15:18:20,500 [INFO] {
+    "loss": 0.0218034,
+    "pesq": 1.0819,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 04:59:56,923 [INFO] {
-    "loss": 0.000373,
-    "pesq": 3.5444,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9427
+2025-09-19 15:20:48,045 [INFO] {
+    "loss": 0.0217886,
+    "pesq": 1.08228,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 05:02:02,195 [INFO] {
-    "loss": 0.0003719,
-    "pesq": 3.54472,
-    "avg_acc_identity": 0.9992,
-    "avg_acc_distorted": 0.9422
+2025-09-19 15:23:15,042 [INFO] {
+    "loss": 0.0217747,
+    "pesq": 1.08251,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 05:04:09,701 [INFO] {
-    "loss": 0.0003712,
-    "pesq": 3.54471,
-    "avg_acc_identity": 0.9993,
-    "avg_acc_distorted": 0.9422
+2025-09-19 15:25:42,652 [INFO] {
+    "loss": 0.0217523,
+    "pesq": 1.08275,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 05:06:17,206 [INFO] {
-    "loss": 0.0003711,
-    "pesq": 3.54586,
-    "avg_acc_identity": 0.9993,
-    "avg_acc_distorted": 0.9421
+2025-09-19 15:28:10,529 [INFO] {
+    "loss": 0.0217411,
+    "pesq": 1.08299,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 05:08:24,301 [INFO] {
-    "loss": 0.0003708,
-    "pesq": 3.54511,
-    "avg_acc_identity": 0.9993,
-    "avg_acc_distorted": 0.9419
+2025-09-19 15:30:37,507 [INFO] {
+    "loss": 0.0217325,
+    "pesq": 1.08308,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
 }
-2025-09-19 05:10:30,342 [INFO] {
-    "loss": 0.0003718,
-    "pesq": 3.54692,
-    "avg_acc_identity": 0.9993,
-    "avg_acc_distorted": 0.9417
+2025-09-19 15:33:03,522 [INFO] {
+    "loss": 0.0217161,
+    "pesq": 1.08313,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 05:12:37,070 [INFO] {
-    "loss": 0.0003714,
-    "pesq": 3.54904,
-    "avg_acc_identity": 0.9993,
-    "avg_acc_distorted": 0.9415
+2025-09-19 15:35:30,081 [INFO] {
+    "loss": 0.0217077,
+    "pesq": 1.08325,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 05:14:43,222 [INFO] {
-    "loss": 0.0003712,
-    "pesq": 3.54891,
-    "avg_acc_identity": 0.9993,
-    "avg_acc_distorted": 0.9414
+2025-09-19 15:37:58,022 [INFO] {
+    "loss": 0.0216937,
+    "pesq": 1.08347,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 05:16:48,814 [INFO] {
-    "loss": 0.0003705,
-    "pesq": 3.54954,
-    "avg_acc_identity": 0.9993,
-    "avg_acc_distorted": 0.9411
+2025-09-19 15:40:24,257 [INFO] {
+    "loss": 0.0216803,
+    "pesq": 1.08378,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
 }
-2025-09-19 05:16:49,727 [INFO] {
-    "loss": 0.0002786,
-    "pesq": 3.5261,
+2025-09-19 15:40:26,897 [INFO] {
+    "loss": 0.0220905,
+    "pesq": 1.0917,
     "avg_acc": 1.0
 }
-2025-09-19 05:17:54,134 [INFO] {
-    "loss": 0.0003735,
-    "pesq": 3.5709,
-    "avg_acc": 0.9992
+2025-09-19 15:41:45,814 [INFO] {
+    "loss": 0.0211959,
+    "pesq": 1.0904,
+    "avg_acc": 1.0
 }
-2025-09-19 05:18:10,499 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.5471976661682127_acc_0.9989333333333333.pt | Acc: 0.9989333333333333, PESQ: 3.5471976661682127
-2025-09-19 05:18:10,500 [INFO] Decreased lambda m to 8.388608000000006e-07
-2025-09-19 05:18:12,573 [INFO] {
-    "loss": 0.0003362,
-    "pesq": 3.67257,
+2025-09-19 15:42:05,779 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.0889971210956573_acc_1.0.pt | Acc: 1.0, PESQ: 1.0889971210956573
+2025-09-19 15:42:05,779 [INFO] Decreased lambda m to 0.00625
+2025-09-19 15:42:10,871 [INFO] {
+    "loss": 0.0115508,
+    "pesq": 1.07634,
     "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9
-}
-2025-09-19 05:20:18,358 [INFO] {
-    "loss": 0.0003548,
-    "pesq": 3.66144,
-    "avg_acc_identity": 0.9757,
-    "avg_acc_distorted": 0.857
-}
-2025-09-19 06:51:07,779 [INFO] {
-    "loss": 0.0003519,
-    "pesq": 3.66049,
-    "avg_acc_identity": 0.9795,
-    "avg_acc_distorted": 0.8628
-}
-2025-09-19 06:53:13,757 [INFO] {
-    "loss": 0.0003699,
-    "pesq": 3.65794,
-    "avg_acc_identity": 0.9804,
-    "avg_acc_distorted": 0.8648
-}
-2025-09-19 06:55:19,645 [INFO] {
-    "loss": 0.0003648,
-    "pesq": 3.66413,
-    "avg_acc_identity": 0.9805,
-    "avg_acc_distorted": 0.8665
-}
-2025-09-19 06:57:24,946 [INFO] {
-    "loss": 0.0003632,
-    "pesq": 3.66568,
-    "avg_acc_identity": 0.9811,
-    "avg_acc_distorted": 0.8661
-}
-2025-09-19 06:59:31,153 [INFO] {
-    "loss": 0.000362,
-    "pesq": 3.66796,
-    "avg_acc_identity": 0.9815,
-    "avg_acc_distorted": 0.8659
-}
-2025-09-19 07:01:37,622 [INFO] {
-    "loss": 0.0003616,
-    "pesq": 3.6724,
-    "avg_acc_identity": 0.9823,
-    "avg_acc_distorted": 0.866
-}
-2025-09-19 07:03:44,470 [INFO] {
-    "loss": 0.0003643,
-    "pesq": 3.67008,
-    "avg_acc_identity": 0.9821,
-    "avg_acc_distorted": 0.8648
-}
-2025-09-19 07:05:50,471 [INFO] {
-    "loss": 0.0003644,
-    "pesq": 3.67138,
-    "avg_acc_identity": 0.982,
-    "avg_acc_distorted": 0.8642
-}
-2025-09-19 07:07:56,124 [INFO] {
-    "loss": 0.0003704,
-    "pesq": 3.6699,
-    "avg_acc_identity": 0.982,
-    "avg_acc_distorted": 0.8637
-}
-2025-09-19 07:10:02,155 [INFO] {
-    "loss": 0.000373,
-    "pesq": 3.66945,
-    "avg_acc_identity": 0.9813,
-    "avg_acc_distorted": 0.8612
-}
-2025-09-19 07:12:09,014 [INFO] {
-    "loss": 0.0003716,
-    "pesq": 3.67021,
-    "avg_acc_identity": 0.9811,
-    "avg_acc_distorted": 0.8598
-}
-2025-09-19 07:14:15,840 [INFO] {
-    "loss": 0.000371,
-    "pesq": 3.6715,
-    "avg_acc_identity": 0.9813,
-    "avg_acc_distorted": 0.8592
-}
-2025-09-19 07:16:22,717 [INFO] {
-    "loss": 0.0003695,
-    "pesq": 3.67315,
-    "avg_acc_identity": 0.9814,
-    "avg_acc_distorted": 0.8594
-}
-2025-09-19 07:18:29,608 [INFO] {
-    "loss": 0.0003713,
-    "pesq": 3.67307,
-    "avg_acc_identity": 0.9814,
-    "avg_acc_distorted": 0.859
-}
-2025-09-19 07:20:34,721 [INFO] {
-    "loss": 0.0003678,
-    "pesq": 3.67589,
-    "avg_acc_identity": 0.9814,
-    "avg_acc_distorted": 0.8581
-}
-2025-09-19 07:22:40,607 [INFO] {
-    "loss": 0.0003708,
-    "pesq": 3.67515,
-    "avg_acc_identity": 0.981,
-    "avg_acc_distorted": 0.8572
-}
-2025-09-19 07:24:46,710 [INFO] {
-    "loss": 0.0003699,
-    "pesq": 3.67612,
-    "avg_acc_identity": 0.9809,
-    "avg_acc_distorted": 0.8571
-}
-2025-09-19 07:26:52,395 [INFO] {
-    "loss": 0.0003703,
-    "pesq": 3.67605,
-    "avg_acc_identity": 0.9809,
-    "avg_acc_distorted": 0.8565
-}
-2025-09-19 07:28:57,888 [INFO] {
-    "loss": 0.0003712,
-    "pesq": 3.6765,
-    "avg_acc_identity": 0.9808,
-    "avg_acc_distorted": 0.8558
-}
-2025-09-19 07:31:03,524 [INFO] {
-    "loss": 0.0003709,
-    "pesq": 3.6767,
-    "avg_acc_identity": 0.9808,
-    "avg_acc_distorted": 0.8555
-}
-2025-09-19 07:33:09,340 [INFO] {
-    "loss": 0.0003704,
-    "pesq": 3.67749,
-    "avg_acc_identity": 0.981,
-    "avg_acc_distorted": 0.8555
-}
-2025-09-19 07:35:15,492 [INFO] {
-    "loss": 0.0003713,
-    "pesq": 3.6775,
-    "avg_acc_identity": 0.9809,
-    "avg_acc_distorted": 0.8551
-}
-2025-09-19 07:37:21,710 [INFO] {
-    "loss": 0.0003718,
-    "pesq": 3.6767,
-    "avg_acc_identity": 0.9809,
-    "avg_acc_distorted": 0.8545
-}
-2025-09-19 07:39:28,057 [INFO] {
-    "loss": 0.0003717,
-    "pesq": 3.67824,
-    "avg_acc_identity": 0.9809,
-    "avg_acc_distorted": 0.8542
-}
-2025-09-19 07:41:33,231 [INFO] {
-    "loss": 0.00037,
-    "pesq": 3.67815,
-    "avg_acc_identity": 0.9808,
-    "avg_acc_distorted": 0.8535
-}
-2025-09-19 07:43:39,118 [INFO] {
-    "loss": 0.0003699,
-    "pesq": 3.67913,
-    "avg_acc_identity": 0.9808,
-    "avg_acc_distorted": 0.8533
-}
-2025-09-19 07:45:44,574 [INFO] {
-    "loss": 0.0003699,
-    "pesq": 3.67882,
-    "avg_acc_identity": 0.9805,
-    "avg_acc_distorted": 0.8526
-}
-2025-09-19 07:47:50,062 [INFO] {
-    "loss": 0.0003702,
-    "pesq": 3.67843,
-    "avg_acc_identity": 0.9803,
-    "avg_acc_distorted": 0.852
-}
-2025-09-19 07:49:54,940 [INFO] {
-    "loss": 0.0003696,
-    "pesq": 3.67918,
-    "avg_acc_identity": 0.9803,
-    "avg_acc_distorted": 0.8516
-}
-2025-09-19 07:49:55,909 [INFO] {
-    "loss": 0.000278,
-    "pesq": 3.6776,
-    "avg_acc": 0.9667
-}
-2025-09-19 07:50:59,955 [INFO] {
-    "loss": 0.000373,
-    "pesq": 3.6962,
-    "avg_acc": 0.966
-}
-2025-09-19 07:51:16,685 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.666622452259064_acc_0.9601333333333333.pt | Acc: 0.9601333333333333, PESQ: 3.666622452259064
-2025-09-19 07:51:16,685 [INFO] Decreased lambda m to 3.3554432000000026e-07
-2025-09-19 07:51:18,792 [INFO] {
-    "loss": 0.0001044,
-    "pesq": 3.92951,
-    "avg_acc_identity": 0.9833,
-    "avg_acc_distorted": 0.85
-}
-2025-09-19 07:53:23,907 [INFO] {
-    "loss": 0.0003672,
-    "pesq": 3.7149,
-    "avg_acc_identity": 0.9052,
-    "avg_acc_distorted": 0.7655
-}
-2025-09-19 07:55:31,123 [INFO] {
-    "loss": 0.0003703,
-    "pesq": 3.71981,
-    "avg_acc_identity": 0.8786,
-    "avg_acc_distorted": 0.7427
-}
-2025-09-19 07:57:38,973 [INFO] {
-    "loss": 0.0003665,
-    "pesq": 3.73337,
-    "avg_acc_identity": 0.8812,
-    "avg_acc_distorted": 0.7429
-}
-2025-09-19 07:59:45,136 [INFO] {
-    "loss": 0.0003789,
-    "pesq": 3.72337,
-    "avg_acc_identity": 0.8728,
-    "avg_acc_distorted": 0.7316
-}
-2025-09-19 08:01:51,666 [INFO] {
-    "loss": 0.0003733,
-    "pesq": 3.72646,
-    "avg_acc_identity": 0.8736,
-    "avg_acc_distorted": 0.731
-}
-2025-09-19 08:03:58,724 [INFO] {
-    "loss": 0.0003672,
-    "pesq": 3.72297,
-    "avg_acc_identity": 0.8707,
-    "avg_acc_distorted": 0.7281
-}
-2025-09-19 08:06:04,473 [INFO] {
-    "loss": 0.0003689,
-    "pesq": 3.72412,
-    "avg_acc_identity": 0.8693,
-    "avg_acc_distorted": 0.7259
-}
-2025-09-19 08:08:11,032 [INFO] {
-    "loss": 0.0003691,
-    "pesq": 3.72501,
-    "avg_acc_identity": 0.8693,
-    "avg_acc_distorted": 0.7242
-}
-2025-09-19 08:10:17,938 [INFO] {
-    "loss": 0.0003706,
-    "pesq": 3.72721,
-    "avg_acc_identity": 0.8678,
-    "avg_acc_distorted": 0.7217
-}
-2025-09-19 08:12:24,422 [INFO] {
-    "loss": 0.0003685,
-    "pesq": 3.72773,
-    "avg_acc_identity": 0.8685,
-    "avg_acc_distorted": 0.7228
-}
-2025-09-19 08:14:31,814 [INFO] {
-    "loss": 0.0003664,
-    "pesq": 3.72995,
-    "avg_acc_identity": 0.8683,
-    "avg_acc_distorted": 0.7216
-}
-2025-09-19 08:16:37,562 [INFO] {
-    "loss": 0.0003674,
-    "pesq": 3.7286,
-    "avg_acc_identity": 0.8674,
-    "avg_acc_distorted": 0.7199
-}
-2025-09-19 08:18:44,605 [INFO] {
-    "loss": 0.0003664,
-    "pesq": 3.72718,
-    "avg_acc_identity": 0.8657,
-    "avg_acc_distorted": 0.7183
-}
-2025-09-19 08:20:51,076 [INFO] {
-    "loss": 0.000367,
-    "pesq": 3.72661,
-    "avg_acc_identity": 0.8649,
-    "avg_acc_distorted": 0.7172
-}
-2025-09-19 08:22:57,713 [INFO] {
-    "loss": 0.0003673,
-    "pesq": 3.72569,
-    "avg_acc_identity": 0.8627,
-    "avg_acc_distorted": 0.7155
-}
-2025-09-19 08:25:01,497 [INFO] {
-    "loss": 0.0003689,
-    "pesq": 3.72524,
-    "avg_acc_identity": 0.8629,
-    "avg_acc_distorted": 0.7148
-}
-2025-09-19 08:27:06,997 [INFO] {
-    "loss": 0.0003677,
-    "pesq": 3.72593,
-    "avg_acc_identity": 0.8634,
-    "avg_acc_distorted": 0.715
-}
-2025-09-19 08:29:11,746 [INFO] {
-    "loss": 0.0003681,
-    "pesq": 3.72582,
-    "avg_acc_identity": 0.8628,
-    "avg_acc_distorted": 0.7142
-}
-2025-09-19 08:31:17,930 [INFO] {
-    "loss": 0.0003683,
-    "pesq": 3.72484,
-    "avg_acc_identity": 0.8627,
-    "avg_acc_distorted": 0.7135
-}
-2025-09-19 08:33:23,613 [INFO] {
-    "loss": 0.0003689,
-    "pesq": 3.72395,
-    "avg_acc_identity": 0.8615,
-    "avg_acc_distorted": 0.7118
-}
-2025-09-19 08:35:31,036 [INFO] {
-    "loss": 0.0003697,
-    "pesq": 3.72376,
-    "avg_acc_identity": 0.8612,
-    "avg_acc_distorted": 0.7113
-}
-2025-09-19 08:37:37,390 [INFO] {
-    "loss": 0.0003697,
-    "pesq": 3.72461,
-    "avg_acc_identity": 0.8606,
-    "avg_acc_distorted": 0.7107
-}
-2025-09-19 08:39:43,881 [INFO] {
-    "loss": 0.000368,
-    "pesq": 3.72581,
-    "avg_acc_identity": 0.8608,
-    "avg_acc_distorted": 0.711
-}
-2025-09-19 08:41:50,440 [INFO] {
-    "loss": 0.0003693,
-    "pesq": 3.72506,
-    "avg_acc_identity": 0.86,
-    "avg_acc_distorted": 0.7101
-}
-2025-09-19 08:43:57,069 [INFO] {
-    "loss": 0.0003685,
-    "pesq": 3.72642,
-    "avg_acc_identity": 0.8602,
-    "avg_acc_distorted": 0.7102
-}
-2025-09-19 08:46:01,175 [INFO] {
-    "loss": 0.0003681,
-    "pesq": 3.72603,
-    "avg_acc_identity": 0.8599,
-    "avg_acc_distorted": 0.7098
-}
-2025-09-19 08:48:05,710 [INFO] {
-    "loss": 0.0003682,
-    "pesq": 3.72666,
-    "avg_acc_identity": 0.8597,
-    "avg_acc_distorted": 0.7094
-}
-2025-09-19 08:50:11,155 [INFO] {
-    "loss": 0.0003677,
-    "pesq": 3.72785,
-    "avg_acc_identity": 0.8597,
-    "avg_acc_distorted": 0.7092
-}
-2025-09-19 08:52:16,710 [INFO] {
-    "loss": 0.0003688,
-    "pesq": 3.72741,
-    "avg_acc_identity": 0.8598,
-    "avg_acc_distorted": 0.7088
-}
-2025-09-19 08:54:22,357 [INFO] {
-    "loss": 0.0003689,
-    "pesq": 3.72651,
-    "avg_acc_identity": 0.8592,
-    "avg_acc_distorted": 0.7082
-}
-2025-09-19 08:54:23,303 [INFO] {
-    "loss": 0.0002776,
-    "pesq": 3.7442,
-    "avg_acc": 0.7833
-}
-2025-09-19 08:55:27,699 [INFO] {
-    "loss": 0.0003728,
-    "pesq": 3.7495,
-    "avg_acc": 0.8407
-}
-2025-09-19 08:55:44,160 [INFO] Decreased lambda m to 1.3421772800000012e-07
-2025-09-19 08:55:46,277 [INFO] {
-    "loss": 0.0006052,
-    "pesq": 3.75043,
-    "avg_acc_identity": 0.8167,
-    "avg_acc_distorted": 0.7
-}
-2025-09-19 08:57:51,421 [INFO] {
-    "loss": 0.0003406,
-    "pesq": 3.74255,
-    "avg_acc_identity": 0.7838,
-    "avg_acc_distorted": 0.6655
-}
-2025-09-19 08:59:58,109 [INFO] {
-    "loss": 0.0003697,
-    "pesq": 3.73202,
-    "avg_acc_identity": 0.7398,
-    "avg_acc_distorted": 0.6395
-}
-2025-09-19 09:02:05,319 [INFO] {
-    "loss": 0.000369,
-    "pesq": 3.72752,
-    "avg_acc_identity": 0.7283,
-    "avg_acc_distorted": 0.6318
-}
-2025-09-19 09:04:11,710 [INFO] {
-    "loss": 0.0003653,
-    "pesq": 3.73608,
-    "avg_acc_identity": 0.7235,
-    "avg_acc_distorted": 0.6265
-}
-2025-09-19 09:06:19,271 [INFO] {
-    "loss": 0.0003681,
-    "pesq": 3.7406,
-    "avg_acc_identity": 0.7176,
-    "avg_acc_distorted": 0.6208
-}
-2025-09-19 09:08:25,880 [INFO] {
-    "loss": 0.000364,
-    "pesq": 3.74695,
-    "avg_acc_identity": 0.7159,
-    "avg_acc_distorted": 0.6217
-}
-2025-09-19 09:10:33,225 [INFO] {
-    "loss": 0.0003666,
-    "pesq": 3.74142,
-    "avg_acc_identity": 0.7128,
-    "avg_acc_distorted": 0.6203
-}
-2025-09-19 09:12:39,627 [INFO] {
-    "loss": 0.0003627,
-    "pesq": 3.74493,
-    "avg_acc_identity": 0.7102,
-    "avg_acc_distorted": 0.6182
-}
-2025-09-19 09:14:45,801 [INFO] {
-    "loss": 0.0003595,
-    "pesq": 3.74489,
-    "avg_acc_identity": 0.7084,
-    "avg_acc_distorted": 0.6156
-}
-2025-09-19 09:16:54,198 [INFO] {
-    "loss": 0.0003616,
-    "pesq": 3.74432,
-    "avg_acc_identity": 0.706,
-    "avg_acc_distorted": 0.6128
-}
-2025-09-19 09:19:01,486 [INFO] {
-    "loss": 0.000359,
-    "pesq": 3.74295,
-    "avg_acc_identity": 0.7059,
-    "avg_acc_distorted": 0.6133
-}
-2025-09-19 09:21:09,320 [INFO] {
-    "loss": 0.0003599,
-    "pesq": 3.74279,
-    "avg_acc_identity": 0.705,
-    "avg_acc_distorted": 0.6125
-}
-2025-09-19 09:23:15,742 [INFO] {
-    "loss": 0.000363,
-    "pesq": 3.74159,
-    "avg_acc_identity": 0.7023,
-    "avg_acc_distorted": 0.6104
-}
-2025-09-19 09:25:21,288 [INFO] {
-    "loss": 0.0003607,
-    "pesq": 3.74422,
-    "avg_acc_identity": 0.7012,
-    "avg_acc_distorted": 0.6094
-}
-2025-09-19 09:27:28,166 [INFO] {
-    "loss": 0.0003623,
-    "pesq": 3.74303,
-    "avg_acc_identity": 0.6999,
-    "avg_acc_distorted": 0.6087
-}
-2025-09-19 09:29:35,351 [INFO] {
-    "loss": 0.0003609,
-    "pesq": 3.74342,
-    "avg_acc_identity": 0.6993,
-    "avg_acc_distorted": 0.608
-}
-2025-09-19 09:31:42,601 [INFO] {
-    "loss": 0.0003605,
-    "pesq": 3.74283,
-    "avg_acc_identity": 0.6978,
-    "avg_acc_distorted": 0.6064
-}
-2025-09-19 09:33:50,276 [INFO] {
-    "loss": 0.0003616,
-    "pesq": 3.74265,
-    "avg_acc_identity": 0.6964,
-    "avg_acc_distorted": 0.6047
-}
-2025-09-19 09:35:55,472 [INFO] {
-    "loss": 0.0003621,
-    "pesq": 3.74308,
-    "avg_acc_identity": 0.6954,
-    "avg_acc_distorted": 0.6036
-}
-2025-09-19 09:38:01,334 [INFO] {
-    "loss": 0.0003629,
-    "pesq": 3.74182,
-    "avg_acc_identity": 0.695,
-    "avg_acc_distorted": 0.6031
-}
-2025-09-19 09:40:07,891 [INFO] {
-    "loss": 0.0003641,
-    "pesq": 3.74033,
-    "avg_acc_identity": 0.6943,
-    "avg_acc_distorted": 0.6024
-}
-2025-09-19 09:42:13,186 [INFO] {
-    "loss": 0.0003643,
-    "pesq": 3.7394,
-    "avg_acc_identity": 0.6924,
-    "avg_acc_distorted": 0.601
-}
-2025-09-19 09:44:19,667 [INFO] {
-    "loss": 0.0003655,
-    "pesq": 3.73754,
-    "avg_acc_identity": 0.6905,
-    "avg_acc_distorted": 0.5993
-}
-2025-09-19 09:46:25,607 [INFO] {
-    "loss": 0.0003665,
-    "pesq": 3.73786,
-    "avg_acc_identity": 0.6886,
-    "avg_acc_distorted": 0.5976
-}
-2025-09-19 09:48:30,994 [INFO] {
-    "loss": 0.0003678,
-    "pesq": 3.73796,
-    "avg_acc_identity": 0.6877,
-    "avg_acc_distorted": 0.597
-}
-2025-09-19 09:50:37,053 [INFO] {
-    "loss": 0.0003676,
-    "pesq": 3.73782,
-    "avg_acc_identity": 0.6868,
-    "avg_acc_distorted": 0.5958
-}
-2025-09-19 09:52:41,747 [INFO] {
-    "loss": 0.0003669,
-    "pesq": 3.73814,
-    "avg_acc_identity": 0.6863,
-    "avg_acc_distorted": 0.5951
-}
-2025-09-19 09:54:46,551 [INFO] {
-    "loss": 0.0003671,
-    "pesq": 3.73823,
-    "avg_acc_identity": 0.6856,
-    "avg_acc_distorted": 0.5942
-}
-2025-09-19 09:56:52,042 [INFO] {
-    "loss": 0.0003677,
-    "pesq": 3.73766,
-    "avg_acc_identity": 0.6854,
-    "avg_acc_distorted": 0.5943
-}
-2025-09-19 09:58:56,518 [INFO] {
-    "loss": 0.0003686,
-    "pesq": 3.73764,
-    "avg_acc_identity": 0.6856,
-    "avg_acc_distorted": 0.5945
-}
-2025-09-19 09:58:57,410 [INFO] {
-    "loss": 0.0002773,
-    "pesq": 3.6882,
-    "avg_acc": 0.6167
-}
-2025-09-19 10:00:02,134 [INFO] {
-    "loss": 0.0003725,
-    "pesq": 3.7019,
-    "avg_acc": 0.6622
-}
-2025-09-19 10:00:18,675 [INFO] Decreased lambda m to 5.368709120000005e-08
-2025-09-19 10:00:20,789 [INFO] {
-    "loss": 0.0006173,
-    "pesq": 3.60685,
-    "avg_acc_identity": 0.6667,
-    "avg_acc_distorted": 0.55
-}
-2025-09-19 10:02:25,677 [INFO] {
-    "loss": 0.0003788,
-    "pesq": 3.72401,
-    "avg_acc_identity": 0.6563,
-    "avg_acc_distorted": 0.5875
-}
-2025-09-19 10:04:33,110 [INFO] {
-    "loss": 0.0003607,
-    "pesq": 3.74322,
-    "avg_acc_identity": 0.6323,
-    "avg_acc_distorted": 0.566
-}
-2025-09-19 10:06:41,204 [INFO] {
-    "loss": 0.00035,
-    "pesq": 3.76112,
-    "avg_acc_identity": 0.6187,
-    "avg_acc_distorted": 0.5583
-}
-2025-09-19 10:08:47,896 [INFO] {
-    "loss": 0.0003529,
-    "pesq": 3.76109,
-    "avg_acc_identity": 0.6116,
-    "avg_acc_distorted": 0.549
-}
-2025-09-19 10:10:56,059 [INFO] {
-    "loss": 0.000357,
-    "pesq": 3.75619,
-    "avg_acc_identity": 0.6084,
-    "avg_acc_distorted": 0.5466
-}
-2025-09-19 10:13:03,494 [INFO] {
-    "loss": 0.0003617,
-    "pesq": 3.75429,
-    "avg_acc_identity": 0.6038,
-    "avg_acc_distorted": 0.5451
-}
-2025-09-19 10:15:10,700 [INFO] {
-    "loss": 0.0003643,
-    "pesq": 3.75237,
-    "avg_acc_identity": 0.5981,
-    "avg_acc_distorted": 0.5415
-}
-2025-09-19 10:17:18,068 [INFO] {
-    "loss": 0.0003672,
-    "pesq": 3.74968,
-    "avg_acc_identity": 0.5939,
-    "avg_acc_distorted": 0.5398
-}
-2025-09-19 10:19:25,437 [INFO] {
-    "loss": 0.0003657,
-    "pesq": 3.75076,
-    "avg_acc_identity": 0.5909,
-    "avg_acc_distorted": 0.539
-}
-2025-09-19 10:21:32,520 [INFO] {
-    "loss": 0.0003613,
-    "pesq": 3.75383,
-    "avg_acc_identity": 0.5878,
-    "avg_acc_distorted": 0.5377
-}
-2025-09-19 10:23:39,389 [INFO] {
-    "loss": 0.0003617,
-    "pesq": 3.75139,
-    "avg_acc_identity": 0.5832,
-    "avg_acc_distorted": 0.5354
-}
-2025-09-19 10:25:47,401 [INFO] {
-    "loss": 0.0003635,
-    "pesq": 3.74987,
-    "avg_acc_identity": 0.5789,
-    "avg_acc_distorted": 0.5336
-}
-2025-09-19 10:27:54,669 [INFO] {
-    "loss": 0.0003627,
-    "pesq": 3.75017,
-    "avg_acc_identity": 0.5754,
-    "avg_acc_distorted": 0.5318
-}
-2025-09-19 10:30:02,118 [INFO] {
-    "loss": 0.000362,
-    "pesq": 3.74946,
-    "avg_acc_identity": 0.5729,
-    "avg_acc_distorted": 0.5304
-}
-2025-09-19 10:32:11,604 [INFO] {
-    "loss": 0.0003616,
-    "pesq": 3.75077,
-    "avg_acc_identity": 0.5709,
-    "avg_acc_distorted": 0.5295
-}
-2025-09-19 10:34:17,794 [INFO] {
-    "loss": 0.0003619,
-    "pesq": 3.75097,
-    "avg_acc_identity": 0.5687,
-    "avg_acc_distorted": 0.5281
-}
-2025-09-19 10:36:25,155 [INFO] {
-    "loss": 0.000363,
-    "pesq": 3.75047,
-    "avg_acc_identity": 0.5666,
-    "avg_acc_distorted": 0.527
-}
-2025-09-19 10:38:31,858 [INFO] {
-    "loss": 0.0003636,
-    "pesq": 3.75075,
-    "avg_acc_identity": 0.5648,
-    "avg_acc_distorted": 0.5257
-}
-2025-09-19 10:40:39,422 [INFO] {
-    "loss": 0.0003628,
-    "pesq": 3.75066,
-    "avg_acc_identity": 0.5632,
-    "avg_acc_distorted": 0.5248
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 15:44:34,862 [INFO] {
+    "loss": 0.0110225,
+    "pesq": 1.11803,
+    "avg_acc_identity": 0.9998,
+    "avg_acc_distorted": 0.998
+}
+2025-09-19 15:47:01,197 [INFO] {
+    "loss": 0.0110172,
+    "pesq": 1.12001,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 15:49:30,134 [INFO] {
+    "loss": 0.0110219,
+    "pesq": 1.12292,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 15:51:52,888 [INFO] {
+    "loss": 0.0110014,
+    "pesq": 1.12967,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 15:54:19,477 [INFO] {
+    "loss": 0.0110039,
+    "pesq": 1.12989,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 15:56:45,339 [INFO] {
+    "loss": 0.0110088,
+    "pesq": 1.12961,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 15:59:13,014 [INFO] {
+    "loss": 0.0110229,
+    "pesq": 1.12939,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 16:01:38,620 [INFO] {
+    "loss": 0.0110046,
+    "pesq": 1.13082,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 16:04:03,274 [INFO] {
+    "loss": 0.0109933,
+    "pesq": 1.13386,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 16:06:28,209 [INFO] {
+    "loss": 0.0109795,
+    "pesq": 1.13594,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 16:08:52,170 [INFO] {
+    "loss": 0.010996,
+    "pesq": 1.13578,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 16:11:19,840 [INFO] {
+    "loss": 0.0110048,
+    "pesq": 1.13605,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 16:13:44,447 [INFO] {
+    "loss": 0.0109935,
+    "pesq": 1.1361,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 16:16:09,109 [INFO] {
+    "loss": 0.0109862,
+    "pesq": 1.13772,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 16:18:33,707 [INFO] {
+    "loss": 0.0109878,
+    "pesq": 1.13689,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 16:21:03,257 [INFO] {
+    "loss": 0.0110432,
+    "pesq": 1.13444,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 16:23:26,989 [INFO] {
+    "loss": 0.0110614,
+    "pesq": 1.13517,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 16:25:50,218 [INFO] {
+    "loss": 0.0110618,
+    "pesq": 1.13776,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 16:28:13,915 [INFO] {
+    "loss": 0.0110589,
+    "pesq": 1.14028,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 16:30:38,367 [INFO] {
+    "loss": 0.0110564,
+    "pesq": 1.14242,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:33:03,871 [INFO] {
+    "loss": 0.011053,
+    "pesq": 1.14339,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:35:29,298 [INFO] {
+    "loss": 0.0110484,
+    "pesq": 1.14406,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:37:56,331 [INFO] {
+    "loss": 0.0110586,
+    "pesq": 1.14407,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:40:22,093 [INFO] {
+    "loss": 0.0110607,
+    "pesq": 1.14407,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:42:47,743 [INFO] {
+    "loss": 0.011055,
+    "pesq": 1.14501,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:45:10,061 [INFO] {
+    "loss": 0.0110505,
+    "pesq": 1.14631,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 16:47:34,177 [INFO] {
+    "loss": 0.0110404,
+    "pesq": 1.14735,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 16:50:00,707 [INFO] {
+    "loss": 0.0110455,
+    "pesq": 1.14672,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:52:23,725 [INFO] {
+    "loss": 0.0110445,
+    "pesq": 1.14782,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:54:47,105 [INFO] {
+    "loss": 0.0110382,
+    "pesq": 1.14865,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 16:54:48,657 [INFO] {
+    "loss": 0.0113493,
+    "pesq": 1.1604,
+    "avg_acc": 1.0
+}
+2025-09-19 16:56:05,461 [INFO] {
+    "loss": 0.0109159,
+    "pesq": 1.1639,
+    "avg_acc": 1.0
+}
+2025-09-19 16:56:24,932 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.1622357954978944_acc_1.0.pt | Acc: 1.0, PESQ: 1.1622357954978944
+2025-09-19 16:56:24,932 [INFO] Decreased lambda m to 0.003125
+2025-09-19 16:56:28,591 [INFO] {
+    "loss": 0.0061525,
+    "pesq": 1.15436,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 16:58:49,567 [INFO] {
+    "loss": 0.0058205,
+    "pesq": 1.22741,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 17:01:11,886 [INFO] {
+    "loss": 0.0057939,
+    "pesq": 1.22317,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 17:03:35,075 [INFO] {
+    "loss": 0.005778,
+    "pesq": 1.2351,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:05:55,716 [INFO] {
+    "loss": 0.0057607,
+    "pesq": 1.24006,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 17:08:18,336 [INFO] {
+    "loss": 0.0057429,
+    "pesq": 1.23853,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 17:10:39,675 [INFO] {
+    "loss": 0.0057541,
+    "pesq": 1.23381,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:13:01,290 [INFO] {
+    "loss": 0.0057566,
+    "pesq": 1.23337,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:15:22,980 [INFO] {
+    "loss": 0.0057555,
+    "pesq": 1.23781,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:17:47,248 [INFO] {
+    "loss": 0.0057524,
+    "pesq": 1.23861,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 17:20:07,314 [INFO] {
+    "loss": 0.0057563,
+    "pesq": 1.24279,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:22:29,782 [INFO] {
+    "loss": 0.0057467,
+    "pesq": 1.24612,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 17:24:51,622 [INFO] {
+    "loss": 0.0057456,
+    "pesq": 1.24787,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 17:27:12,334 [INFO] {
+    "loss": 0.0057407,
+    "pesq": 1.24843,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 17:29:33,672 [INFO] {
+    "loss": 0.0057366,
+    "pesq": 1.25003,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 17:31:56,335 [INFO] {
+    "loss": 0.0057565,
+    "pesq": 1.24718,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:34:18,445 [INFO] {
+    "loss": 0.0057588,
+    "pesq": 1.24611,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 17:36:36,937 [INFO] {
+    "loss": 0.0057632,
+    "pesq": 1.24776,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:38:56,364 [INFO] {
+    "loss": 0.0057587,
+    "pesq": 1.25268,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:41:16,115 [INFO] {
+    "loss": 0.0057535,
+    "pesq": 1.25579,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 17:43:36,633 [INFO] {
+    "loss": 0.0057499,
+    "pesq": 1.25873,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 17:45:59,218 [INFO] {
+    "loss": 0.0057602,
+    "pesq": 1.25692,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 17:48:20,855 [INFO] {
+    "loss": 0.0057673,
+    "pesq": 1.25609,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 17:50:40,297 [INFO] {
+    "loss": 0.0057656,
+    "pesq": 1.25768,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 17:53:00,470 [INFO] {
+    "loss": 0.0057612,
+    "pesq": 1.25972,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 17:55:21,341 [INFO] {
+    "loss": 0.0057575,
+    "pesq": 1.26125,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 17:57:40,509 [INFO] {
+    "loss": 0.0057523,
+    "pesq": 1.26327,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 18:00:05,031 [INFO] {
+    "loss": 0.005768,
+    "pesq": 1.26044,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 18:02:27,442 [INFO] {
+    "loss": 0.0057731,
+    "pesq": 1.26009,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 18:04:48,261 [INFO] {
+    "loss": 0.0057722,
+    "pesq": 1.26289,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 18:07:09,799 [INFO] {
+    "loss": 0.0057677,
+    "pesq": 1.26519,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 18:07:13,149 [INFO] {
+    "loss": 0.0059091,
+    "pesq": 1.3295,
+    "avg_acc": 1.0
+}
+2025-09-19 18:08:25,324 [INFO] {
+    "loss": 0.005656,
+    "pesq": 1.3113,
+    "avg_acc": 0.9998
+}
+2025-09-19 18:08:43,661 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.3086652846336364_acc_0.9997333333333334.pt | Acc: 0.9997333333333334, PESQ: 1.3086652846336364
+2025-09-19 18:08:43,661 [INFO] Decreased lambda m to 0.0015625
+2025-09-19 18:08:48,525 [INFO] {
+    "loss": 0.0029686,
+    "pesq": 1.28507,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 18:11:07,340 [INFO] {
+    "loss": 0.0031537,
+    "pesq": 1.38646,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 18:13:25,485 [INFO] {
+    "loss": 0.0030999,
+    "pesq": 1.40745,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 18:15:41,499 [INFO] {
+    "loss": 0.0030943,
+    "pesq": 1.41893,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 18:17:57,938 [INFO] {
+    "loss": 0.0030856,
+    "pesq": 1.42491,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 18:20:15,580 [INFO] {
+    "loss": 0.0030866,
+    "pesq": 1.41809,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 18:22:31,804 [INFO] {
+    "loss": 0.0030851,
+    "pesq": 1.42188,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9992
+}
+2025-09-19 18:24:49,515 [INFO] {
+    "loss": 0.0030772,
+    "pesq": 1.42825,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 18:27:06,862 [INFO] {
+    "loss": 0.003074,
+    "pesq": 1.43367,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9992
+}
+2025-09-19 18:29:25,773 [INFO] {
+    "loss": 0.0030831,
+    "pesq": 1.42891,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 18:31:43,208 [INFO] {
+    "loss": 0.0030909,
+    "pesq": 1.42402,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 18:33:59,614 [INFO] {
+    "loss": 0.0030888,
+    "pesq": 1.42663,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 18:36:16,515 [INFO] {
+    "loss": 0.0030867,
+    "pesq": 1.43364,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 18:38:34,244 [INFO] {
+    "loss": 0.0030874,
+    "pesq": 1.43867,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 18:40:53,562 [INFO] {
+    "loss": 0.0030999,
+    "pesq": 1.43269,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 18:43:10,980 [INFO] {
+    "loss": 0.0031006,
+    "pesq": 1.43165,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 18:45:27,632 [INFO] {
+    "loss": 0.0030969,
+    "pesq": 1.4382,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 18:47:43,547 [INFO] {
+    "loss": 0.0030977,
+    "pesq": 1.4407,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 18:50:01,929 [INFO] {
+    "loss": 0.0031026,
+    "pesq": 1.43692,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 18:52:18,008 [INFO] {
+    "loss": 0.0031016,
+    "pesq": 1.43939,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 18:54:35,377 [INFO] {
+    "loss": 0.0031007,
+    "pesq": 1.44213,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 18:56:52,185 [INFO] {
+    "loss": 0.0030995,
+    "pesq": 1.44476,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 18:59:08,678 [INFO] {
+    "loss": 0.003098,
+    "pesq": 1.44679,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 19:01:23,721 [INFO] {
+    "loss": 0.0030969,
+    "pesq": 1.4492,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 19:03:39,667 [INFO] {
+    "loss": 0.003099,
+    "pesq": 1.44792,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 19:05:57,775 [INFO] {
+    "loss": 0.0031037,
+    "pesq": 1.44447,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 19:08:14,187 [INFO] {
+    "loss": 0.0031071,
+    "pesq": 1.4427,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 19:10:31,498 [INFO] {
+    "loss": 0.0031094,
+    "pesq": 1.44225,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 19:12:48,648 [INFO] {
+    "loss": 0.0031089,
+    "pesq": 1.44258,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 19:15:04,972 [INFO] {
+    "loss": 0.0031085,
+    "pesq": 1.44544,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 19:17:20,656 [INFO] {
+    "loss": 0.0031083,
+    "pesq": 1.44807,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 19:17:22,421 [INFO] {
+    "loss": 0.002919,
+    "pesq": 1.5553,
+    "avg_acc": 1.0
+}
+2025-09-19 19:18:31,631 [INFO] {
+    "loss": 0.0030365,
+    "pesq": 1.5494,
+    "avg_acc": 1.0
+}
+2025-09-19 19:18:48,789 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.5472262995243073_acc_1.0.pt | Acc: 1.0, PESQ: 1.5472262995243073
+2025-09-19 19:18:48,789 [INFO] Decreased lambda m to 0.00078125
+2025-09-19 19:18:52,570 [INFO] {
+    "loss": 0.0016784,
+    "pesq": 1.53365,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 19:21:07,334 [INFO] {
+    "loss": 0.0017089,
+    "pesq": 1.63992,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9993
+}
+2025-09-19 19:23:22,004 [INFO] {
+    "loss": 0.001743,
+    "pesq": 1.64486,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9994
+}
+2025-09-19 19:25:37,170 [INFO] {
+    "loss": 0.0017498,
+    "pesq": 1.65413,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9996
+}
+2025-09-19 19:27:52,589 [INFO] {
+    "loss": 0.0017418,
+    "pesq": 1.66543,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9995
+}
+2025-09-19 19:30:07,697 [INFO] {
+    "loss": 0.0017464,
+    "pesq": 1.66008,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9994
+}
+2025-09-19 19:32:23,178 [INFO] {
+    "loss": 0.0017634,
+    "pesq": 1.6421,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9993
+}
+2025-09-19 19:34:38,835 [INFO] {
+    "loss": 0.0017668,
+    "pesq": 1.63784,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:36:54,275 [INFO] {
+    "loss": 0.0017675,
+    "pesq": 1.63504,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:39:09,568 [INFO] {
+    "loss": 0.0017683,
+    "pesq": 1.64502,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:41:25,601 [INFO] {
+    "loss": 0.0017653,
+    "pesq": 1.6533,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:43:41,053 [INFO] {
+    "loss": 0.0017625,
+    "pesq": 1.65989,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 19:45:56,818 [INFO] {
+    "loss": 0.0017657,
+    "pesq": 1.65488,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 19:48:12,920 [INFO] {
+    "loss": 0.0017698,
+    "pesq": 1.64873,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:50:27,185 [INFO] {
+    "loss": 0.0017711,
+    "pesq": 1.6456,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:52:41,673 [INFO] {
+    "loss": 0.001772,
+    "pesq": 1.65049,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:54:56,590 [INFO] {
+    "loss": 0.0017706,
+    "pesq": 1.6568,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:57:11,270 [INFO] {
+    "loss": 0.0017711,
+    "pesq": 1.66034,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 19:59:26,031 [INFO] {
+    "loss": 0.0017669,
+    "pesq": 1.66417,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:01:43,074 [INFO] {
+    "loss": 0.0017669,
+    "pesq": 1.66584,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:03:58,521 [INFO] {
+    "loss": 0.0017668,
+    "pesq": 1.66639,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:06:13,807 [INFO] {
+    "loss": 0.001766,
+    "pesq": 1.66863,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:08:28,648 [INFO] {
+    "loss": 0.0017673,
+    "pesq": 1.6711,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:10:44,036 [INFO] {
+    "loss": 0.0017688,
+    "pesq": 1.66947,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:12:59,255 [INFO] {
+    "loss": 0.0017672,
+    "pesq": 1.67319,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9992
+}
+2025-09-19 20:15:14,411 [INFO] {
+    "loss": 0.001766,
+    "pesq": 1.67564,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:17:29,218 [INFO] {
+    "loss": 0.0017664,
+    "pesq": 1.67686,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9992
+}
+2025-09-19 20:19:44,887 [INFO] {
+    "loss": 0.0017651,
+    "pesq": 1.6744,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:21:59,733 [INFO] {
+    "loss": 0.0017669,
+    "pesq": 1.67168,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 20:24:16,891 [INFO] {
+    "loss": 0.001766,
+    "pesq": 1.6724,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:26:32,001 [INFO] {
+    "loss": 0.0017649,
+    "pesq": 1.67514,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9991
+}
+2025-09-19 20:26:34,878 [INFO] {
+    "loss": 0.0016972,
+    "pesq": 1.8095,
+    "avg_acc": 1.0
+}
+2025-09-19 20:27:42,451 [INFO] {
+    "loss": 0.0017321,
+    "pesq": 1.7507,
+    "avg_acc": 1.0
+}
+2025-09-19 20:27:59,776 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.7486411027908326_acc_1.0.pt | Acc: 1.0, PESQ: 1.7486411027908326
+2025-09-19 20:27:59,776 [INFO] Decreased lambda m to 0.000390625
+2025-09-19 20:28:03,937 [INFO] {
+    "loss": 0.0008443,
+    "pesq": 1.57221,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 20:30:17,600 [INFO] {
+    "loss": 0.0010925,
+    "pesq": 1.84778,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9995
+}
+2025-09-19 20:32:32,054 [INFO] {
+    "loss": 0.0010824,
+    "pesq": 1.86921,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9994
+}
+2025-09-19 20:34:49,054 [INFO] {
+    "loss": 0.0010777,
+    "pesq": 1.88515,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9993
+}
+2025-09-19 20:37:04,105 [INFO] {
+    "loss": 0.0010772,
+    "pesq": 1.89561,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9992
+}
+2025-09-19 20:39:17,812 [INFO] {
+    "loss": 0.0010819,
+    "pesq": 1.88026,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 20:41:32,510 [INFO] {
+    "loss": 0.0010792,
+    "pesq": 1.86432,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9982
+}
+2025-09-19 20:43:46,661 [INFO] {
+    "loss": 0.0010765,
+    "pesq": 1.87132,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9983
+}
+2025-09-19 20:46:01,141 [INFO] {
+    "loss": 0.0010755,
+    "pesq": 1.87974,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 20:48:16,728 [INFO] {
+    "loss": 0.0010726,
+    "pesq": 1.88824,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 20:50:32,064 [INFO] {
+    "loss": 0.0010748,
+    "pesq": 1.89244,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 20:52:47,581 [INFO] {
+    "loss": 0.0010786,
+    "pesq": 1.89321,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 20:55:02,076 [INFO] {
+    "loss": 0.0010784,
+    "pesq": 1.89323,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 20:57:16,147 [INFO] {
+    "loss": 0.0010803,
+    "pesq": 1.89895,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 20:59:30,317 [INFO] {
+    "loss": 0.0010807,
+    "pesq": 1.8972,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 21:01:44,140 [INFO] {
+    "loss": 0.0010821,
+    "pesq": 1.89214,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 21:03:58,375 [INFO] {
+    "loss": 0.0010817,
+    "pesq": 1.8922,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 21:06:11,968 [INFO] {
+    "loss": 0.0010808,
+    "pesq": 1.89543,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:08:25,817 [INFO] {
+    "loss": 0.0010813,
+    "pesq": 1.89705,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:10:40,314 [INFO] {
+    "loss": 0.0010825,
+    "pesq": 1.90121,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:12:54,548 [INFO] {
+    "loss": 0.0010833,
+    "pesq": 1.9006,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:15:09,719 [INFO] {
+    "loss": 0.0010837,
+    "pesq": 1.90065,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:17:23,811 [INFO] {
+    "loss": 0.0010831,
+    "pesq": 1.89984,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:19:39,255 [INFO] {
+    "loss": 0.0010838,
+    "pesq": 1.89745,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:21:53,349 [INFO] {
+    "loss": 0.0010846,
+    "pesq": 1.89732,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:24:06,883 [INFO] {
+    "loss": 0.0010837,
+    "pesq": 1.89599,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:26:20,374 [INFO] {
+    "loss": 0.0010842,
+    "pesq": 1.89799,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:28:33,959 [INFO] {
+    "loss": 0.0010836,
+    "pesq": 1.89873,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:30:49,373 [INFO] {
+    "loss": 0.0010857,
+    "pesq": 1.89424,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:33:03,754 [INFO] {
+    "loss": 0.0010871,
+    "pesq": 1.89433,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:35:18,824 [INFO] {
+    "loss": 0.0010876,
+    "pesq": 1.89462,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:35:20,963 [INFO] {
+    "loss": 0.0009868,
+    "pesq": 1.9336,
+    "avg_acc": 1.0
+}
+2025-09-19 21:36:28,118 [INFO] {
+    "loss": 0.0010743,
+    "pesq": 1.9512,
+    "avg_acc": 0.9998
+}
+2025-09-19 21:36:45,193 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_1.9516217646598817_acc_0.9998666666666667.pt | Acc: 0.9998666666666667, PESQ: 1.9516217646598817
+2025-09-19 21:36:45,193 [INFO] Decreased lambda m to 0.0001953125
+2025-09-19 21:36:48,251 [INFO] {
+    "loss": 0.0007073,
+    "pesq": 1.84576,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 21:39:01,360 [INFO] {
+    "loss": 0.0007568,
+    "pesq": 1.98397,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.999
+}
+2025-09-19 21:41:15,079 [INFO] {
+    "loss": 0.0007378,
+    "pesq": 2.02911,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:43:27,015 [INFO] {
+    "loss": 0.0007518,
+    "pesq": 2.0689,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9989
+}
+2025-09-19 21:45:41,113 [INFO] {
+    "loss": 0.0007467,
+    "pesq": 2.08373,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 21:47:56,423 [INFO] {
+    "loss": 0.0007397,
+    "pesq": 2.08707,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:50:11,636 [INFO] {
+    "loss": 0.0007425,
+    "pesq": 2.08626,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 21:52:25,312 [INFO] {
+    "loss": 0.0007474,
+    "pesq": 2.08621,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 21:54:39,299 [INFO] {
+    "loss": 0.0007454,
+    "pesq": 2.08855,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 21:56:52,874 [INFO] {
+    "loss": 0.0007422,
+    "pesq": 2.08924,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 21:59:06,225 [INFO] {
+    "loss": 0.000742,
+    "pesq": 2.0969,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:01:19,986 [INFO] {
+    "loss": 0.0007403,
+    "pesq": 2.10229,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 22:03:34,078 [INFO] {
+    "loss": 0.0007389,
+    "pesq": 2.10442,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 22:05:47,461 [INFO] {
+    "loss": 0.0007418,
+    "pesq": 2.10584,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:08:01,858 [INFO] {
+    "loss": 0.0007411,
+    "pesq": 2.0998,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:10:15,798 [INFO] {
+    "loss": 0.0007435,
+    "pesq": 2.09794,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 22:12:29,308 [INFO] {
+    "loss": 0.0007413,
+    "pesq": 2.09835,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:14:42,355 [INFO] {
+    "loss": 0.0007405,
+    "pesq": 2.10252,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:16:56,411 [INFO] {
+    "loss": 0.0007422,
+    "pesq": 2.105,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:19:09,746 [INFO] {
+    "loss": 0.0007427,
+    "pesq": 2.10669,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 22:21:23,182 [INFO] {
+    "loss": 0.0007422,
+    "pesq": 2.10765,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:23:37,076 [INFO] {
+    "loss": 0.0007423,
+    "pesq": 2.10444,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:25:50,415 [INFO] {
+    "loss": 0.0007422,
+    "pesq": 2.10353,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 22:28:04,374 [INFO] {
+    "loss": 0.000741,
+    "pesq": 2.10488,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 22:30:18,223 [INFO] {
+    "loss": 0.0007406,
+    "pesq": 2.10535,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 22:32:31,960 [INFO] {
+    "loss": 0.00074,
+    "pesq": 2.10723,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 22:34:46,578 [INFO] {
+    "loss": 0.0007396,
+    "pesq": 2.10895,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:36:59,726 [INFO] {
+    "loss": 0.0007398,
+    "pesq": 2.10819,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9985
+}
+2025-09-19 22:39:14,318 [INFO] {
+    "loss": 0.0007394,
+    "pesq": 2.10421,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9982
+}
+2025-09-19 22:41:27,439 [INFO] {
+    "loss": 0.0007406,
+    "pesq": 2.10409,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9982
+}
+2025-09-19 22:43:41,137 [INFO] {
+    "loss": 0.0007402,
+    "pesq": 2.10466,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9982
+}
+2025-09-19 22:43:43,245 [INFO] {
+    "loss": 0.0006535,
+    "pesq": 2.2247,
+    "avg_acc": 1.0
+}
+2025-09-19 22:44:50,515 [INFO] {
+    "loss": 0.000733,
+    "pesq": 2.1641,
+    "avg_acc": 1.0
+}
+2025-09-19 22:45:07,541 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_2.1626937227249146_acc_1.0.pt | Acc: 1.0, PESQ: 2.1626937227249146
+2025-09-19 22:45:07,541 [INFO] Decreased lambda m to 9.765625e-05
+2025-09-19 22:45:10,987 [INFO] {
+    "loss": 0.0003488,
+    "pesq": 2.17263,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 22:47:22,622 [INFO] {
+    "loss": 0.0005697,
+    "pesq": 2.24115,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9988
+}
+2025-09-19 22:49:36,076 [INFO] {
+    "loss": 0.0005662,
+    "pesq": 2.278,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 22:51:49,827 [INFO] {
+    "loss": 0.0005637,
+    "pesq": 2.29577,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9984
+}
+2025-09-19 22:54:03,410 [INFO] {
+    "loss": 0.0005604,
+    "pesq": 2.30627,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 22:56:17,303 [INFO] {
+    "loss": 0.000558,
+    "pesq": 2.31265,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 22:58:31,250 [INFO] {
+    "loss": 0.0005624,
+    "pesq": 2.31907,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9987
+}
+2025-09-19 23:00:44,432 [INFO] {
+    "loss": 0.0005573,
+    "pesq": 2.31527,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9986
+}
+2025-09-19 23:02:57,856 [INFO] {
+    "loss": 0.0005632,
+    "pesq": 2.30537,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.998
+}
+2025-09-19 23:05:10,769 [INFO] {
+    "loss": 0.0005687,
+    "pesq": 2.29541,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9978
+}
+2025-09-19 23:07:24,766 [INFO] {
+    "loss": 0.0005643,
+    "pesq": 2.29966,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9978
+}
+2025-09-19 23:09:38,545 [INFO] {
+    "loss": 0.0005618,
+    "pesq": 2.30513,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9978
+}
+2025-09-19 23:11:52,875 [INFO] {
+    "loss": 0.0005614,
+    "pesq": 2.30957,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9978
+}
+2025-09-19 23:14:06,653 [INFO] {
+    "loss": 0.0005613,
+    "pesq": 2.31698,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9978
+}
+2025-09-19 23:16:20,857 [INFO] {
+    "loss": 0.000561,
+    "pesq": 2.31569,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9976
+}
+2025-09-19 23:18:35,329 [INFO] {
+    "loss": 0.0005609,
+    "pesq": 2.309,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:20:48,822 [INFO] {
+    "loss": 0.0005608,
+    "pesq": 2.3098,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9974
+}
+2025-09-19 23:23:02,422 [INFO] {
+    "loss": 0.0005619,
+    "pesq": 2.31277,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9974
+}
+2025-09-19 23:25:15,715 [INFO] {
+    "loss": 0.0005598,
+    "pesq": 2.31723,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:27:29,096 [INFO] {
+    "loss": 0.0005634,
+    "pesq": 2.31792,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:29:43,715 [INFO] {
+    "loss": 0.0005621,
+    "pesq": 2.31815,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:31:57,482 [INFO] {
+    "loss": 0.0005615,
+    "pesq": 2.31947,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:34:11,129 [INFO] {
+    "loss": 0.0005606,
+    "pesq": 2.31866,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:36:24,966 [INFO] {
+    "loss": 0.0005622,
+    "pesq": 2.3193,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:38:39,356 [INFO] {
+    "loss": 0.0005613,
+    "pesq": 2.32008,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:40:53,307 [INFO] {
+    "loss": 0.0005631,
+    "pesq": 2.32269,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:43:06,500 [INFO] {
+    "loss": 0.0005635,
+    "pesq": 2.32377,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:45:20,318 [INFO] {
+    "loss": 0.0005632,
+    "pesq": 2.31932,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9975
+}
+2025-09-19 23:47:34,674 [INFO] {
+    "loss": 0.0005629,
+    "pesq": 2.31901,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9974
+}
+2025-09-19 23:49:49,277 [INFO] {
+    "loss": 0.0005616,
+    "pesq": 2.32014,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9974
+}
+2025-09-19 23:52:03,227 [INFO] {
+    "loss": 0.0005617,
+    "pesq": 2.31968,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9974
+}
+2025-09-19 23:52:06,441 [INFO] {
+    "loss": 0.0004677,
+    "pesq": 2.3409,
+    "avg_acc": 1.0
+}
+2025-09-19 23:53:13,015 [INFO] {
+    "loss": 0.0005604,
+    "pesq": 2.4053,
+    "avg_acc": 1.0
+}
+2025-09-19 23:53:30,075 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_2.403000524044037_acc_1.0.pt | Acc: 1.0, PESQ: 2.403000524044037
+2025-09-19 23:53:30,075 [INFO] Decreased lambda m to 4.8828125e-05
+2025-09-19 23:53:32,690 [INFO] {
+    "loss": 0.0004036,
+    "pesq": 2.49736,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-19 23:55:44,910 [INFO] {
+    "loss": 0.0004718,
+    "pesq": 2.45013,
+    "avg_acc_identity": 0.9998,
+    "avg_acc_distorted": 0.9953
+}
+2025-09-19 23:57:58,167 [INFO] {
+    "loss": 0.0004709,
+    "pesq": 2.49057,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9958
+}
+2025-09-20 00:00:12,430 [INFO] {
+    "loss": 0.0004751,
+    "pesq": 2.52076,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9962
+}
+2025-09-20 00:02:25,748 [INFO] {
+    "loss": 0.0004741,
+    "pesq": 2.5373,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9962
+}
+2025-09-20 00:04:39,243 [INFO] {
+    "loss": 0.0004658,
+    "pesq": 2.54639,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9964
+}
+2025-09-20 00:06:52,754 [INFO] {
+    "loss": 0.0004654,
+    "pesq": 2.54199,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9962
+}
+2025-09-20 00:09:05,763 [INFO] {
+    "loss": 0.0004684,
+    "pesq": 2.53025,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9957
+}
+2025-09-20 00:11:18,809 [INFO] {
+    "loss": 0.0004733,
+    "pesq": 2.52937,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9953
+}
+2025-09-20 00:13:32,810 [INFO] {
+    "loss": 0.0004736,
+    "pesq": 2.52789,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9952
+}
+2025-09-20 00:15:45,501 [INFO] {
+    "loss": 0.0004724,
+    "pesq": 2.53386,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9953
+}
+2025-09-20 00:18:01,131 [INFO] {
+    "loss": 0.0004726,
+    "pesq": 2.54171,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9955
+}
+2025-09-20 00:20:15,283 [INFO] {
+    "loss": 0.0004718,
+    "pesq": 2.54505,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9954
+}
+2025-09-20 00:22:29,055 [INFO] {
+    "loss": 0.0004716,
+    "pesq": 2.54351,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9953
+}
+2025-09-20 00:24:43,140 [INFO] {
+    "loss": 0.0004712,
+    "pesq": 2.54427,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9953
+}
+2025-09-20 00:26:58,659 [INFO] {
+    "loss": 0.0004723,
+    "pesq": 2.54725,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9954
+}
+2025-09-20 00:29:12,453 [INFO] {
+    "loss": 0.0004722,
+    "pesq": 2.55195,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9955
+}
+2025-09-20 00:31:25,075 [INFO] {
+    "loss": 0.0004729,
+    "pesq": 2.55509,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9955
+}
+2025-09-20 00:33:38,233 [INFO] {
+    "loss": 0.0004719,
+    "pesq": 2.55953,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9955
+}
+2025-09-20 00:35:52,162 [INFO] {
+    "loss": 0.0004708,
+    "pesq": 2.56016,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 00:38:06,315 [INFO] {
+    "loss": 0.0004726,
+    "pesq": 2.55912,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 00:40:20,938 [INFO] {
+    "loss": 0.0004714,
+    "pesq": 2.56017,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 00:42:35,031 [INFO] {
+    "loss": 0.0004714,
+    "pesq": 2.56065,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9955
+}
+2025-09-20 00:44:49,013 [INFO] {
+    "loss": 0.0004706,
+    "pesq": 2.56014,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9955
+}
+2025-09-20 00:47:02,729 [INFO] {
+    "loss": 0.0004715,
+    "pesq": 2.56118,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9955
+}
+2025-09-20 00:49:17,937 [INFO] {
+    "loss": 0.0004708,
+    "pesq": 2.56263,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 00:51:32,171 [INFO] {
+    "loss": 0.000469,
+    "pesq": 2.56381,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 00:53:45,910 [INFO] {
+    "loss": 0.0004703,
+    "pesq": 2.56349,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 00:56:00,317 [INFO] {
+    "loss": 0.0004692,
+    "pesq": 2.56353,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 00:58:14,223 [INFO] {
+    "loss": 0.0004695,
+    "pesq": 2.56533,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9956
+}
+2025-09-20 01:00:27,165 [INFO] {
+    "loss": 0.0004691,
+    "pesq": 2.56664,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9957
+}
+2025-09-20 01:00:29,322 [INFO] {
+    "loss": 0.0003758,
+    "pesq": 2.7165,
+    "avg_acc": 1.0
+}
+2025-09-20 01:01:37,557 [INFO] {
+    "loss": 0.0004692,
+    "pesq": 2.6385,
+    "avg_acc": 1.0
+}
+2025-09-20 01:01:54,640 [INFO] Checkpoint saved: model_ckpts/lj/cl/wm_model_lj_pesq_2.641973177909851_acc_1.0.pt | Acc: 1.0, PESQ: 2.641973177909851
+2025-09-20 01:01:54,640 [INFO] Decreased lambda m to 2.44140625e-05
+2025-09-20 01:01:59,487 [INFO] {
+    "loss": 0.0008708,
+    "pesq": 2.77279,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 1.0
+}
+2025-09-20 01:04:11,086 [INFO] {
+    "loss": 0.0004146,
+    "pesq": 2.71979,
+    "avg_acc_identity": 0.9998,
+    "avg_acc_distorted": 0.9915
+}
+2025-09-20 10:29:45,656 [INFO] {
+    "loss": 0.0004193,
+    "pesq": 2.75497,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9926
+}
+2025-09-20 10:31:59,296 [INFO] {
+    "loss": 0.0004199,
+    "pesq": 2.77558,
+    "avg_acc_identity": 0.9999,
+    "avg_acc_distorted": 0.9931
+}
+2025-09-20 10:34:11,654 [INFO] {
+    "loss": 0.0004333,
+    "pesq": 2.78164,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.993
+}
+2025-09-20 10:36:25,585 [INFO] {
+    "loss": 0.0004279,
+    "pesq": 2.78732,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.993
+}
+2025-09-20 10:38:38,250 [INFO] {
+    "loss": 0.0004304,
+    "pesq": 2.79425,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9926
+}
+2025-09-20 10:40:51,822 [INFO] {
+    "loss": 0.0004317,
+    "pesq": 2.79499,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.992
+}
+2025-09-20 10:43:06,721 [INFO] {
+    "loss": 0.0004275,
+    "pesq": 2.80366,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9923
+}
+2025-09-20 10:45:20,167 [INFO] {
+    "loss": 0.0004237,
+    "pesq": 2.81002,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9923
+}
+2025-09-20 10:47:32,982 [INFO] {
+    "loss": 0.0004199,
+    "pesq": 2.81305,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9923
+}
+2025-09-20 10:49:45,995 [INFO] {
+    "loss": 0.000419,
+    "pesq": 2.81204,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9922
+}
+2025-09-20 10:52:00,780 [INFO] {
+    "loss": 0.000418,
+    "pesq": 2.81421,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9922
+}
+2025-09-20 10:54:13,957 [INFO] {
+    "loss": 0.0004177,
+    "pesq": 2.81706,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9923
+}
+2025-09-20 10:56:28,532 [INFO] {
+    "loss": 0.0004148,
+    "pesq": 2.81959,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9921
+}
+2025-09-20 10:58:42,065 [INFO] {
+    "loss": 0.0004187,
+    "pesq": 2.81926,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9919
+}
+2025-09-20 11:00:56,248 [INFO] {
+    "loss": 0.0004194,
+    "pesq": 2.81885,
+    "avg_acc_identity": 1.0,
+    "avg_acc_distorted": 0.9919
 }
