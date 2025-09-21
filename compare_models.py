@@ -1,22 +1,21 @@
+"""
+Compare robustness of wm model with wm models trained with contrastive learning
+"""
+import argparse
 import os
-import random
 import warnings
 
 import matplotlib.pyplot as plt
-import soundfile as sf
 import torch
 import yaml
 from tqdm import tqdm
 
-from data.dataset import AudioDataset
-from distortions.attacks import delete_samples, resample
-from model.utils import (
-    accuracy,
-    get_model_average_pesq_dataset,
-    get_model_average_stoi_dataset,
-    load_from_ckpt,
-    truncate_or_pad_np,
-)
+from data.lj_dataset import LjAudioDataset
+from distortions.attacks import (delete_samples, mp3_compression,
+                                 pcm_bit_depth_conversion, resample)
+from model.utils import (accuracy, get_model_average_pesq_dataset,
+                         get_model_average_stoi_dataset, load_from_ckpt,
+                         truncate_or_pad_np)
 
 warnings.filterwarnings(
     "ignore", message=".*TorchCodec's decoder.*", category=UserWarning
@@ -27,18 +26,11 @@ warnings.filterwarnings(
     category=UserWarning,
 )
 
-device = torch.device("cpu")
-
-# Load configs
-with open("config/train_part_cl.yaml", "r") as f:
-    train_config = yaml.safe_load(f)
-with open("config/process.yaml", "r") as f:
-    process_config = yaml.safe_load(f)
-with open("config/model.yaml", "r") as f:
-    model_config = yaml.safe_load(f)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Device: {device}")
 
 
-def evaluate(embedder, decoder, dataset, resample_ratio):
+def evaluate(embedder, decoder, dataset, attack_fn, attack_param, process_config, train_config):
     embedder.eval()
     decoder.eval()
 
@@ -46,20 +38,13 @@ def evaluate(embedder, decoder, dataset, resample_ratio):
     total_bits = 0
 
     with torch.no_grad():
-        tbar = tqdm(
-            enumerate(dataset),
-            total=len(dataset),
-            desc=f"Resample Ratio {resample_ratio:.4f}",
-        )
-        for idx, item in tbar:
+        tbar = tqdm(dataset, total=len(dataset), desc=f"Attack {attack_fn.__name__}")
+        for item in tbar:
             wav = item["wav"].unsqueeze(0).to(device)
             curr_bs = wav.shape[0]
             msg = (
                 torch.randint(
-                    0,
-                    2,
-                    (curr_bs, 1, train_config["watermark"]["length"]),
-                    device=device,
+                    0, 2, (curr_bs, 1, train_config["watermark"]["length"]), device=device
                 ).float()
                 * 2
                 - 1
@@ -70,18 +55,20 @@ def evaluate(embedder, decoder, dataset, resample_ratio):
 
             # --- Step 3: attack on embedded signal ---
             embedded_np = embedded.squeeze(0).cpu().numpy()
-            flattened_embedded_np = embedded_np.flatten()
-            attacked_np = truncate_or_pad_np(
-                resample(
-                    audio=flattened_embedded_np,
-                    sr=process_config["audio"]["sample_rate"],
-                    downsample_sr=resample_ratio,
-                ),
-                process_config["audio"]["max_len"],
-            )
-            attacked_embedded = (
-                torch.from_numpy(attacked_np).unsqueeze(0).float().to(device)
-            )
+
+            if attack_fn.__name__ == "delete_samples":
+                attacked_np = attack_fn(embedded_np, percentage=attack_param)
+            elif attack_fn.__name__ == "resample":
+                attacked_np = attack_fn(embedded_np, downsample_sr=attack_param, sr=process_config["audio"]["sample_rate"])
+            elif attack_fn.__name__ == "mp3_compression":
+                attacked_np = attack_fn(embedded_np, sr=process_config["audio"]["sample_rate"], quality=attack_param)
+            elif attack_fn.__name__ == "pcm_bit_depth_conversion":
+                attacked_np = attack_fn(embedded_np, sr=process_config["audio"]["sample_rate"], pcm=attack_param)
+            else:
+                raise ValueError(f"Unsupported attack: {attack_fn.__name__}")
+
+            attacked_np = truncate_or_pad_np(attacked_np, process_config["audio"]["max_len"])
+            attacked_embedded = torch.from_numpy(attacked_np).unsqueeze(0).float().to(device)
 
             # --- Step 4: decode attacked embedded ---
             decoded = decoder(attacked_embedded.unsqueeze(0))
@@ -96,111 +83,134 @@ def evaluate(embedder, decoder, dataset, resample_ratio):
     return {"acc": total_acc / total_bits if total_bits > 0 else 0.0}
 
 
-# --- Load dataset ---
-test_ds = AudioDataset(process_config, split="test", take_num=100)
+def main(args):
+    # Load configs
+    with open("config/train_part_cl.yaml", "r") as f:
+        train_config = yaml.safe_load(f)
+    with open("config/process_lj.yaml", "r") as f:
+        process_config = yaml.safe_load(f)
+    with open("config/model.yaml", "r") as f:
+        model_config = yaml.safe_load(f)
 
-# config
-config = [
-    {
-        "model_ckpt": "model_ckpts/finetune_wm_model_pesq_3.359905179619789_acc_0.9998.pt",
-        "model_desc": "wm model",
-    },
-    {
-        "model_ckpt": "model_ckpts/wm_model_cl_pesq_1.753751079440117_acc_1.0.pt",
-        "model_desc": "wm cl model",
-    },
-]
+    # --- Load dataset ---
+    test_ds = LjAudioDataset(process_config=process_config, split="test")
 
-for model in config:
-    embedder, decoder = load_from_ckpt(
-        ckpt=model["model_ckpt"],
-        model_config=model_config,
-        train_config=train_config,
-        process_config=process_config,
-        device=device,
-    )
-    avg_pesq = get_model_average_pesq_dataset(
-        embedder=embedder,
-        dataset=test_ds,
-        msg_length=train_config["watermark"]["length"],
-        device=device,
-        sr=process_config["audio"]["sample_rate"],
-    )
-    avg_stoi = get_model_average_stoi_dataset(
-        embedder=embedder,
-        dataset=test_ds,
-        msg_length=train_config["watermark"]["length"],
-        device=device,
-        sr=process_config["audio"]["sample_rate"],
-    )
-    print(
-        f"Loaded model from: {model['model_ckpt']} with avg pesq: {avg_pesq} and avg stoi: {avg_stoi}"
-    )
-    model.update(
+    # config
+    config = [
         {
-            "embedder": embedder,
-            "decoder": decoder,
-            "avg_pesq": avg_pesq,
-            "avg_stoi": avg_stoi,
-        }
-    )
+            "model_ckpt": "model_ckpts/lj/wm_model_lj_pesq_3.5471976661682127_acc_0.9989333333333333.pt",
+            "model_desc": "wm model",
+        },
+        {
+            "model_ckpt": "model_ckpts/lj/cl/wm_model_lj_pesq_3.583921991825104_acc_0.9930666666666667.pt",
+            "model_desc": "wm cl model",
+        },
+    ]
 
-# --- Pick one random audio from dataset ---
-idx = random.randint(0, len(test_ds) - 1)
-item = test_ds[idx]
-wav = item["wav"].unsqueeze(0).to(device)  # [1, T]
-orig_np = wav.squeeze(0).cpu().numpy()
+    # Map attack types
+    attack_map = {
+        "delete": delete_samples,
+        "resample": resample,
+        "mp3": mp3_compression,
+        "pcm": pcm_bit_depth_conversion,
+    }
+    if args.attack_type not in attack_map:
+        raise ValueError(f"Unknown attack type: {args.attack_type}")
+    attack_fn = attack_map[args.attack_type]
 
-# --- Evaluate for delete ratios ---
-resample_values = [
-    44100,  # baseline
-    22050,  # half
-    14700,  # one-third
-    11025,  # quarter
-    8820,  # one-fifth
-    7350,  # one-sixth
-    6300,  # one-seventh
-]
-results = {}
+    # Different parameter sweeps depending on attack type
+    if args.attack_type == "delete":
+        sweep = [0.1 * x for x in range(10)]  # delete percentages
+    elif args.attack_type == "resample":
+        sweep = [16000, 12000, 8000, 4000]  # downsample target rates
+    elif args.attack_type == "mp3":
+        sweep = [0, 2, 5, 9]  # ffmpeg quality settings
+    elif args.attack_type == "pcm":
+        sweep = [8, 16, 24]  # bit depths
 
-for model in config:
-    embedder = model["embedder"]
-    decoder = model["decoder"]
-    model_desc = model["model_desc"]
+    # Load models
+    for model in config:
+        embedder, decoder = load_from_ckpt(
+            ckpt=model["model_ckpt"],
+            model_config=model_config,
+            train_config=train_config,
+            process_config=process_config,
+            device=device,
+        )
+        avg_pesq = get_model_average_pesq_dataset(
+            embedder=embedder,
+            dataset=test_ds,
+            msg_length=train_config["watermark"]["length"],
+            device=device,
+            sr=process_config["audio"]["sample_rate"],
+        )
+        avg_stoi = get_model_average_stoi_dataset(
+            embedder=embedder,
+            dataset=test_ds,
+            msg_length=train_config["watermark"]["length"],
+            device=device,
+            sr=process_config["audio"]["sample_rate"],
+        )
+        print(
+            f"Loaded model from: {model['model_ckpt']} with avg pesq: {avg_pesq} and avg stoi: {avg_stoi}"
+        )
+        model.update(
+            {
+                "embedder": embedder,
+                "decoder": decoder,
+                "avg_pesq": avg_pesq,
+                "avg_stoi": avg_stoi,
+            }
+        )
 
-    results[model_desc] = {}
+    # Run evaluations
+    results = {}
+    for model in config:
+        embedder = model["embedder"]
+        decoder = model["decoder"]
+        model_desc = model["model_desc"]
 
-    for resample_ratio in resample_values:
-        print(f"Evaluating {model_desc} at resample ratio: {resample_ratio:.2f}")
-        metrics = evaluate(embedder, decoder, test_ds, resample_ratio)
-        results[model_desc][resample_ratio] = metrics
+        results[model_desc] = {}
+        for param in sweep:
+            print(f"Evaluating {model_desc} with {args.attack_type}, param={param}")
+            metrics = evaluate(embedder, decoder, test_ds, attack_fn, param, process_config, train_config)
+            results[model_desc][param] = metrics
 
-# --- Extract metrics for plotting ---
-plt.figure(figsize=(10, 7))
+    # Plot results
+    plt.figure(figsize=(10, 7))
+    for model in config:
+        model_desc = model["model_desc"]
+        avg_pesq = model["avg_pesq"]
+        avg_stoi = model["avg_stoi"]
 
-for model in config:
-    model_desc = model["model_desc"]
-    avg_pesq = model["avg_pesq"]
-    avg_stoi = model["avg_stoi"]
+        acc_values = [results[model_desc][p]["acc"] for p in sweep]
+        labels = [str(p) for p in sweep]
 
-    acc_values = [results[model_desc][r]["acc"] for r in resample_values]
-    plt.plot(
-        resample_values,
-        acc_values,
-        marker="o",
-        label=f"{model_desc} (PESQ={avg_pesq:.2f}, STOI={avg_stoi:.2f})",
-    )
+        plt.plot(
+            labels,
+            acc_values,
+            marker="o",
+            label=f"{model_desc} (PESQ={avg_pesq:.5f}, STOI={avg_stoi:.5f})",
+        )
 
-plt.xlabel("Downsample Rate (Hz)")
-plt.ylabel("Bitwise Accuracy")
-plt.title("Watermark Accuracy vs Resampling Rate")
-plt.legend()
-plt.grid(True)
-plt.tight_layout()
+    plt.xlabel(f"{args.attack_type} parameter")
+    plt.ylabel("Bitwise Accuracy")
+    plt.title(f"Watermark Accuracy vs {args.attack_type}")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
 
-# Save figure
-output_dir = "results_images"
-os.makedirs(output_dir, exist_ok=True)
-plt.savefig(os.path.join(output_dir, "accuracy_vs_resample_rate.png"), dpi=300)
+    # Save figure
+    output_dir = "results_images"
+    os.makedirs(output_dir, exist_ok=True)
+    plt.savefig(os.path.join(output_dir, f"accuracy_vs_{args.attack_type}.png"), dpi=300)
+    plt.show()
 
-plt.show()
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--attack_type", type=str, required=True,
+                        choices=["delete", "resample", "mp3", "pcm"],
+                        help="Type of attack to evaluate")
+    args = parser.parse_args()
+    main(args)

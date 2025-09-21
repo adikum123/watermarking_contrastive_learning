@@ -5,27 +5,29 @@ import soundfile as sf
 import torch
 import yaml
 
-from data.dataset import AudioDataset
+from data.lj_dataset import LjAudioDataset
 from model.utils import load_from_ckpt
 
 # Load configs
 with open("config/train_part_cl.yaml", "r") as f:
     train_config = yaml.safe_load(f)
-with open("config/process.yaml", "r") as f:
+with open("config/process_lj.yaml", "r") as f:
     process_config = yaml.safe_load(f)
 with open("config/model.yaml", "r") as f:
     model_config = yaml.safe_load(f)
+
+print(process_config)
 
 device = torch.device("cpu")
 
 # config
 config = [
     {
-        "model_ckpt": "model_ckpts/finetune_wm_model_pesq_3.359905179619789_acc_0.9998.pt",
+        "model_ckpt": "model_ckpts/lj/wm_model_lj_pesq_3.5471976661682127_acc_0.9989333333333333.pt",
         "model_desc": "wm model",
     },
     {
-        "model_ckpt": "model_ckpts/wm_model_cl_pesq_1.753751079440117_acc_1.0.pt",
+        "model_ckpt": "model_ckpts/lj/cl/wm_model_lj_pesq_3.583921991825104_acc_0.9930666666666667.pt",
         "model_desc": "wm cl model",
     },
 ]
@@ -46,7 +48,7 @@ for model in config:
     )
 
 # --- Load dataset ---
-test_ds = AudioDataset(process_config, split="test", take_num=100)
+test_ds = LjAudioDataset(process_config, split="test")
 
 # --- Pick one random audio from dataset ---
 idx = random.randint(0, len(test_ds) - 1)

@@ -57,18 +57,15 @@ class LjAudioDataset(Dataset):
             self.files = self.files[12500:]
 
     def truncate_or_pad(self, wav):
-        # get actual length of the audio
-        max_patch_num = self.max_len // self.win_len
-        target_len = max_patch_num * self.win_len
+        target_len = self.max_len
 
-        # Truncate the audio to max_len if longer
+        # Truncate
         if wav.shape[1] > target_len:
-            return wav[:, :target_len]
-
-        # Otherwise, pad zeros to reach max_len
-        if wav.shape[1] < target_len:
+            wav = wav[:, :target_len]
+        # Pad
+        elif wav.shape[1] < target_len:
             pad_num = target_len - wav.shape[1]
-            return torch.cat((wav, torch.zeros(1, pad_num)), dim=1)
+            wav = torch.cat((wav, torch.zeros(1, pad_num)), dim=1)
 
         return wav
 
