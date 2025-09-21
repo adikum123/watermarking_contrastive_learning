@@ -31,6 +31,9 @@ print(f"Device: {device}")
 
 
 def evaluate(embedder, decoder, dataset, attack_fn, attack_param, process_config, train_config):
+    """
+    Evaluate wm model performance on attack_fn with attack_param
+    """
     embedder.eval()
     decoder.eval()
 
@@ -38,7 +41,7 @@ def evaluate(embedder, decoder, dataset, attack_fn, attack_param, process_config
     total_bits = 0
 
     with torch.no_grad():
-        tbar = tqdm(dataset, total=len(dataset), desc=f"Attack {attack_fn.__name__}")
+        tbar = tqdm(dataset, total=len(dataset), desc=f"Attack {attack_fn.__name__}, param: {attack_param}")
         for item in tbar:
             wav = item["wav"].unsqueeze(0).to(device)
             curr_bs = wav.shape[0]
@@ -54,7 +57,7 @@ def evaluate(embedder, decoder, dataset, attack_fn, attack_param, process_config
             embedded, _ = embedder(wav, msg)  # embedded: [1, T]
 
             # --- Step 3: attack on embedded signal ---
-            embedded_np = embedded.squeeze(0).cpu().numpy()
+            embedded_np = embedded.squeeze(0).cpu().numpy().flatten()
 
             if attack_fn.__name__ == "delete_samples":
                 attacked_np = attack_fn(embedded_np, percentage=attack_param)
@@ -120,7 +123,7 @@ def main(args):
 
     # Different parameter sweeps depending on attack type
     if args.attack_type == "delete":
-        sweep = [0.1 * x for x in range(10)]  # delete percentages
+        sweep = [0.05 * x for x in range(1, 20)]  # delete percentages
     elif args.attack_type == "resample":
         sweep = [16000, 12000, 8000, 4000]  # downsample target rates
     elif args.attack_type == "mp3":
@@ -184,7 +187,7 @@ def main(args):
         avg_stoi = model["avg_stoi"]
 
         acc_values = [results[model_desc][p]["acc"] for p in sweep]
-        labels = [str(p) for p in sweep]
+        labels = [str(round(p, 2)) for p in sweep]
 
         plt.plot(
             labels,

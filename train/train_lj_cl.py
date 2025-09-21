@@ -369,7 +369,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
 
     # ------------------ Plot ------------------
     os.makedirs("train_plots", exist_ok=True)
-    save_path = os.path.join("train_plots", "wm_train_plot.png")
+    save_path = os.path.join("train_plots", "wm_train_cl_plot.png")
     epochs_range = range(1, len(metric_history["train_loss"]) + 1)
 
     plt.figure(figsize=(12, 6))

@@ -16,8 +16,8 @@ class WatermarkLoss(nn.Module):
         adversarial,
         contrastive,
         contrastive_loss_type,
-        decay_rate_m=0.5,  # faster decay for message loss
-        decay_rate_cl=0.5,  # slower decay for contrastive loss
+        decay_rate_m=0.6,  # faster decay for message loss
+        decay_rate_cl=0.6,  # slower decay for contrastive loss
     ):
         """
         Custom loss for audio watermarking.
