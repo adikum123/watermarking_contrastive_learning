@@ -326,7 +326,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     ):
         best_acc, best_pesq = curr_acc, curr_pesq
         checkpoint_path = os.path.join(
-            checkpoint_dir, f"wm_model_lj_pesq_{curr_pesq}_acc_{curr_acc}.pt"
+            checkpoint_dir, f"wm_model_lj_pesq_{curr_pesq:.2f}_acc_{curr_acc:.2f}.pt"
         )
         torch.save(
             {
