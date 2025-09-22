@@ -1,3 +1,4 @@
+import logging
 from itertools import chain
 
 import numpy as np
@@ -6,7 +7,10 @@ import torchaudio
 from pesq import pesq
 from pystoi import stoi
 from torch.optim.lr_scheduler import StepLR
+from torch.utils.data import DataLoader
 from tqdm import tqdm
+
+logger = logging.getLogger(__name__)
 
 from data.lj_dataset import LjAudioDataset
 from model.decoder import Decoder
@@ -78,6 +82,9 @@ def pesq_score_batch(source_batch, target_batch, sr, mode="wb"):
     for ref, deg in zip(source_batch, target_batch):
         ref_np = ref.numpy()
         deg_np = deg.numpy()
+        # Assert they are 1D arrays
+        assert ref_np.ndim == 1, f"Reference audio must be 1D, got shape {ref_np.shape}"
+        assert deg_np.ndim == 1, f"Degraded audio must be 1D, got shape {deg_np.shape}"
         try:
             score = pesq(sr, ref_np, deg_np, mode)
         except Exception:
@@ -113,6 +120,46 @@ def get_datasets(dataset_type, contrastive, **kwargs):
         )
         return train_ds, val_ds, test_ds
     raise ValueError("Must use lj speech dataset")
+
+
+def create_loader(
+    dataset,
+    batch_size,
+    shuffle,
+    num_workers=0,
+    prefetch_factor=2,
+    timeout=0,
+    persistent_workers=False,
+    drop_last=False,
+    name="train"
+):
+    """
+    Create a DataLoader with consistent logging and worker setup.
+    """
+
+    num_gpus = torch.cuda.device_count() if torch.cuda.is_available() else 1
+    effective_batch_size = batch_size * num_gpus
+    workers_per_gpu = num_workers
+    total_workers = workers_per_gpu * num_gpus
+
+    logger.info(
+        f":package: {name} loader ready → "
+        f"samples={len(dataset)}, batch_size={effective_batch_size}, "
+        f"total_workers={total_workers}, workers_per_gpu={workers_per_gpu}, "
+        f"num_gpus={num_gpus}, shuffle={shuffle}"
+    )
+
+    return DataLoader(
+        dataset,
+        batch_size=effective_batch_size,
+        shuffle=shuffle,
+        num_workers=total_workers,
+        persistent_workers=persistent_workers if total_workers > 0 else False,
+        pin_memory=torch.cuda.is_available(),
+        prefetch_factor=prefetch_factor if total_workers > 0 else None,
+        timeout=timeout,
+        drop_last=drop_last,
+    )
 
 
 def save_model(best_pesq, best_acc, new_pesq, new_acc, min_pesq=4.0, min_acc=0.9):

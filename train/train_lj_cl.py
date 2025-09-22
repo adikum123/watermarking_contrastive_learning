@@ -75,9 +75,6 @@ train_ds, val_ds, test_ds = get_datasets(
     dataset_type="ljspeech",
 )
 
-# Safe prefetching DataLoader setup
-num_workers = min(4, os.cpu_count())  # 4 workers or # of CPUs if less
-prefetch_factor = 2  # Each worker preloads 2 batches
 
 train_dl = DataLoader(
     train_ds,
@@ -353,7 +350,6 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         dis_sch.step()
 
     loss.schedule_lambdas(epoch=epoch + 1)
-    logger.info(f"Decreased lambda m to {loss.lambda_m}")
 
     # ------------------ Store metrics ------------------
     train_summary = train_metrics.summary()
