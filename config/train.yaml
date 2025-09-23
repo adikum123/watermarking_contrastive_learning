@@ -11,7 +11,7 @@ optimize:
   lambda_a: 0.01
   lambda_cl: 0.1
   batch_size: 2
-  step_size: 5 # large value means do not decay
+  step_size: 2 # large value means do not decay
   gamma: 0.9
   betas: [0.9, 0.98]
   eps: 0.000000001

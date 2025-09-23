@@ -81,7 +81,7 @@ class LjAudioDataset(Dataset):
             augmentations = [
                 lambda x: mp3_compression(x, sr, quality=np.random.choice([2, 4, 6])),
                 lambda x: pcm_bit_depth_conversion(x, sr, pcm=np.random.choice([8, 16, 24])),
-                lambda x: delete_samples(x, deletion_percentage=np.random.uniform(0.5, 0.05)),
+                lambda x: delete_samples(x, percentage=np.random.uniform(0.5, 0.05)),
                 lambda x: resample(x, sr=sr, downsample_sr=np.random.choice([16000, 12000, 8000, 4000]))
             ]
 

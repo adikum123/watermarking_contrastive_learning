@@ -23,8 +23,8 @@ from model.utils import (create_loader, get_datasets, init_models,
 # ------------------ Logging Setup ------------------
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
-    filename="logs/train.log",
-    filemode="w",
+    filename="logs/train_cl.log",
+    filemode="a",
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
@@ -289,9 +289,6 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     em_de_sch.step()
     if train_config["adv"]:
         dis_sch.step()
-
-    loss.schedule_lambdas(epoch=epoch + 1)
-    logger.info(f"Decreased lambda m to {loss.lambda_m}")
 
     # ------------------ Store metrics ------------------
     train_summary = train_metrics.summary()
