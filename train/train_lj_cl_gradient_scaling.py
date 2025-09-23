@@ -13,7 +13,6 @@ import matplotlib.pyplot as plt
 import torch
 import yaml
 from torch.utils.data import DataLoader
-from tqdm import tqdm
 
 from loss.loss_gradient_scaling import LossGradientScaling
 from model.metrics_tracker import MetricsTracker
@@ -30,11 +29,13 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 logger = logging.getLogger()
-# Also print to console
+
+# Also print to console with flushing
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.INFO)
 console_formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
 console_handler.setFormatter(console_formatter)
+console_handler.flush = sys.stdout.flush  # ensure flushing
 logger.addHandler(console_handler)
 
 # ------------------ Warnings ------------------
@@ -95,7 +96,7 @@ embedder, decoder, discriminator = init_models(
 # ------------------ Loss ------------------
 loss = LossGradientScaling(
     contrastive=True,
-    contrastive_loss_type=train_config["contrastive"]["loss_type"]
+    contrastive_loss_type=train_config["contrastive"]["loss_type"],
     adversarial=False,
     clip_grad_norm=None,  # or a float if you want gradient clipping
     beta=1,             # scaling exponent
@@ -119,7 +120,7 @@ em_de_sch, dis_sch = init_schedulers(
 logger.info(f"Training with params:\n{json.dumps(train_config, indent=4)}\nLength of train dataset: {len(train_ds)}")
 
 # ------------------ Checkpoints ------------------
-checkpoint_dir = os.path.join("model_ckpts", "lj")
+checkpoint_dir = os.path.join("model_ckpts", "lj", "cl")
 os.makedirs(checkpoint_dir, exist_ok=True)
 
 start_epoch = 0
@@ -157,7 +158,7 @@ metric_history = {
 for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     train_metrics = MetricsTracker(name="train")
 
-    for i, batch in enumerate(tqdm(train_dl, desc=f"Epoch {epoch+1} [Train]", file=sys.stdout)):
+    for i, batch in enumerate(train_dl):
         if i < start_batch:
             logger.info(f"Skipping batch {i} < {start_batch} to resume from checkpoint")
             continue
@@ -210,7 +211,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         discriminator.eval()
 
         val_metrics = MetricsTracker(name="val")
-        for i, batch in enumerate(tqdm(val_dl, desc=f"Epoch {epoch+1} [Val]", file=sys.stdout)):
+        for i, batch in enumerate(val_dl):
             wav, msg = prepare_batch(batch, train_config["watermark"]["length"], device)
             curr_bs = wav.shape[0]
 
@@ -252,10 +253,16 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         new_acc=curr_acc,
         min_pesq=3.5,
         min_acc=0.85,
-    ):
+    ) or True:
         best_acc, best_pesq = curr_acc, curr_pesq
         checkpoint_path = os.path.join(
-            checkpoint_dir, f"wm_model_lj_pesq_{curr_pesq:.2f}_acc_{curr_acc:2f}_gs.pt"
+            checkpoint_dir,
+            "wm_model_lj_pesq_{:.2f}_acc_{:.2f}_dist_acc_{:.2f}_epoch_{}_gs.pt".format(
+                curr_pesq,
+                curr_acc,
+                train_metrics.avg_acc_distorted(),
+                epoch + 1
+            )
         )
         torch.save(
             {
@@ -298,7 +305,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
 
     # ------------------ Plot ------------------
     os.makedirs("train_plots", exist_ok=True)
-    save_path = os.path.join("train_plots", "wm_train_plot_reg_models.png")
+    save_path = os.path.join("train_plots", "wm_train_cl_plot.png")
     epochs_range = range(1, len(metric_history["train_loss"]) + 1)
 
     plt.figure(figsize=(12, 6))

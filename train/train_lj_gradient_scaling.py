@@ -29,11 +29,13 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
 logger = logging.getLogger()
-# Also print to console
+
+# Also print to console with flushing
 console_handler = logging.StreamHandler(sys.stdout)
 console_handler.setLevel(logging.INFO)
 console_formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s")
 console_handler.setFormatter(console_formatter)
+console_handler.flush = sys.stdout.flush  # ensure flushing
 logger.addHandler(console_handler)
 
 # ------------------ Warnings ------------------
@@ -79,7 +81,7 @@ val_dl = create_loader(dataset=val_ds, batch_size=batch_size, shuffle=False)
 
 
 # ------------------ Device ------------------
-device = torch.device("cpu") if args.use_cpu else torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logger.info(f"Device: {device}")
 
 # ------------------ Models ------------------
@@ -194,6 +196,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         )
 
         if (i + 1) % 100 == 0 or i == 0:
+            logger.info("Processed %s batches", i+1)
             logger.info(json.dumps(train_metrics.summary(), indent=4))
 
     # ------------------ Validation ------------------
@@ -245,10 +248,16 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         new_acc=curr_acc,
         min_pesq=3.5,
         min_acc=0.95,
-    ):
+    ) or True: # save all models
         best_acc, best_pesq = curr_acc, curr_pesq
         checkpoint_path = os.path.join(
-            checkpoint_dir, f"wm_model_lj_pesq_{curr_pesq:.2f}_acc_{curr_acc:.2f}_gs.pt"
+            checkpoint_dir,
+            "wm_model_lj_pesq_{:.2f}_acc_{:.2f}_dist_acc_{:.2f}_epoch_{}_gs.pt".format(
+                curr_pesq,
+                curr_acc,
+                train_metrics.avg_acc_distorted(),
+                epoch + 1
+            )
         )
         torch.save(
             {
@@ -286,7 +295,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
 
     # ------------------ Plot ------------------
     os.makedirs("train_plots", exist_ok=True)
-    save_path = os.path.join("train_plots", "wm_train_plot_reg_models.png")
+    save_path = os.path.join("train_plots", "wm_train_plot.png")
     epochs_range = range(1, len(metric_history["train_loss"]) + 1)
 
     plt.figure(figsize=(12, 6))
