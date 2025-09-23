@@ -24,7 +24,7 @@ from model.utils import (create_loader, get_datasets, init_models,
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
     filename="logs/train.log",
-    filemode="w",
+    filemode="a",
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
 )
