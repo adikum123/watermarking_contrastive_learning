@@ -236,6 +236,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             )
 
             if (i + 1) % 100 == 0 or i == 0:
+                logger.info("Processed %s batches", i+1)
                 logger.info(json.dumps(val_metrics.summary(), indent=4))
 
     # ------------------ Save checkpoint ------------------
