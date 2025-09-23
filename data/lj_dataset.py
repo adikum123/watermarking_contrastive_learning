@@ -77,32 +77,24 @@ class LjAudioDataset(Dataset):
         def random_augment(audio, sr):
             aug_audio = np.copy(audio)
 
-            if np.random.rand() < 0.5:
-                aug_audio = mp3_compression(
-                    aug_audio, sr, quality=np.random.choice([2, 4, 6])
-                )
+            # List of possible augmentations as lambdas
+            augmentations = [
+                lambda x: mp3_compression(x, sr, quality=np.random.choice([2, 4, 6])),
+                lambda x: pcm_bit_depth_conversion(x, sr, pcm=np.random.choice([8, 16, 24])),
+                lambda x: delete_samples(x, deletion_percentage=np.random.uniform(0.5, 0.05)),
+                lambda x: resample(x, sr=sr, downsample_sr=np.random.choice([16000, 12000, 8000, 4000]))
+            ]
 
-            if np.random.rand() < 0.5:
-                bit_depth = np.random.choice([8, 16, 24])
-                aug_audio = pcm_bit_depth_conversion(aug_audio, sr, pcm=bit_depth)
-
-            if np.random.rand() < 0.5:
-                deletion_percentage = np.random.uniform(0.5, 1)
-                aug_audio = delete_samples(aug_audio, deletion_percentage)
-
-            if np.random.rand() < 0.5:
-                aug_audio = resample(
-                    audio=aug_audio,
-                    sr=sr,
-                    downsample_sr=np.random.choice([16000, 12000, 8000, 4000])
-                )
+            # Choose exactly one augmentation at random and apply it
+            chosen_aug = np.random.choice(augmentations)
+            aug_audio = chosen_aug(aug_audio)
 
             return aug_audio
 
         # Remove channel dim (1, N) → (N,)
         x_np = x.squeeze().numpy()
 
-        # Apply augmentations
+        # Apply exactly one augmentation per view
         view1 = random_augment(x_np, self.sample_rate)
         view2 = random_augment(x_np, self.sample_rate)
 
