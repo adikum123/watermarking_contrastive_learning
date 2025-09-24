@@ -23,11 +23,11 @@ device = torch.device("cpu")
 # config
 config = [
     {
-        "model_ckpt": "model_ckpts/lj/wm_model_lj_pesq_3.5471976661682127_acc_0.9989333333333333.pt",
+        "model_ckpt": "model_ckpts/lj/wm_model_lj_pesq_3.56_acc_0.99_dist_acc_0.86_epoch_5_gs.pt",
         "model_desc": "wm model",
     },
     {
-        "model_ckpt": "model_ckpts/lj/cl/wm_model_lj_pesq_3.583921991825104_acc_0.9930666666666667.pt",
+        "model_ckpt": "model_ckpts/lj/cl/wm_model_lj_pesq_3.65_acc_1.00_dist_acc_0.84_epoch_2_gs.pt",
         "model_desc": "wm cl model",
     },
 ]
