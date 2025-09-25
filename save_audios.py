@@ -1,9 +1,12 @@
 import os
 import random
 
+import librosa
+import numpy as np
 import soundfile as sf
 import torch
 import yaml
+from pesq import pesq  # pip install pesq
 
 from data.lj_dataset import LjAudioDataset
 from model.utils import load_from_ckpt
@@ -19,8 +22,9 @@ with open("config/model.yaml", "r") as f:
 print(process_config)
 
 device = torch.device("cpu")
+target_sr = int(process_config["audio"]["sample_rate"])
 
-# config
+# --- Model config ---
 config = [
     {
         "model_ckpt": "model_ckpts/lj/wm_model_lj_pesq_3.56_acc_0.99_dist_acc_0.86_epoch_5_gs.pt",
@@ -32,6 +36,7 @@ config = [
     },
 ]
 
+# Load models
 for model in config:
     embedder, decoder = load_from_ckpt(
         ckpt=model["model_ckpt"],
@@ -56,9 +61,8 @@ item = test_ds[idx]
 wav = item["wav"].unsqueeze(0).to(device)  # [1, T]
 orig_np = wav.squeeze(0).cpu().numpy().astype("float32").flatten()
 
-# Debug info
-print(f"[DEBUG] Picked sample index: {idx}")
-print(f"[DEBUG] Original audio shape: {orig_np.shape}, dtype: {orig_np.dtype}")
+# --- Normalize original waveform ---
+orig_np = orig_np / max(1e-9, np.max(np.abs(orig_np)))  # avoid division by zero
 
 # Save original audio
 output_dir = "results_audios"
@@ -66,7 +70,7 @@ os.makedirs(output_dir, exist_ok=True)
 sf.write(
     os.path.join(output_dir, f"sample_{idx}_original.wav"),
     orig_np,
-    int(process_config["audio"]["sample_rate"]),
+    target_sr,
     format="WAV",
 )
 
@@ -97,18 +101,32 @@ for model in config:
 
     embedded_np = embedded.squeeze(0).cpu().numpy().astype("float32").flatten()
 
+    # --- Normalize embedded waveform ---
+    embedded_np = embedded_np / max(1e-9, np.max(np.abs(embedded_np)))
+
+    # --- Compute PESQ (resample to 16 kHz) ---
+    try:
+        orig_16k = librosa.resample(orig_np, orig_sr=target_sr, target_sr=16000)
+        embedded_16k = librosa.resample(embedded_np, orig_sr=target_sr, target_sr=16000)
+        pesq_score = pesq(16000, orig_16k, embedded_16k, 'wb')  # wideband
+    except Exception as e:
+        print(f"Warning: PESQ computation failed: {e}")
+        pesq_score = -1  # fallback
+
     # Debug info
     print(
-        f"[DEBUG] Embedded audio ({model_desc}) shape: {embedded_np.shape}, dtype: {embedded_np.dtype}"
+        f"[DEBUG] Embedded audio ({model_desc}) shape: {embedded_np.shape}, "
+        f"dtype: {embedded_np.dtype}, PESQ: {pesq_score:.2f}"
     )
 
-    # Save embedded audio
+    # Save embedded audio with PESQ in filename
     sf.write(
         os.path.join(
-            output_dir, f"sample_{idx}_{model_desc.replace(' ', '_')}_embedded.wav"
+            output_dir,
+            f"sample_{idx}_{model_desc.replace(' ', '_')}_pesq_{pesq_score:.2f}.wav",
         ),
         embedded_np,
-        int(process_config["audio"]["sample_rate"]),
+        target_sr,
         format="WAV",
     )
 

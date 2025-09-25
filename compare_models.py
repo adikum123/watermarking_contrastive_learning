@@ -11,8 +11,9 @@ import yaml
 from tqdm import tqdm
 
 from data.lj_dataset import LjAudioDataset
-from distortions.attacks import (delete_samples, mp3_compression,
-                                 pcm_bit_depth_conversion, resample)
+from distortions.attacks import (delete_samples, gaussian_noise,
+                                 mp3_compression, pcm_bit_depth_conversion,
+                                 pink_noise, pitch_shift, resample, wavelet)
 from model.utils import (accuracy, get_model_average_pesq_dataset,
                          get_model_average_stoi_dataset, load_from_ckpt,
                          truncate_or_pad_np)
@@ -67,6 +68,14 @@ def evaluate(embedder, decoder, dataset, attack_fn, attack_param, process_config
                 attacked_np = attack_fn(embedded_np, sr=process_config["audio"]["sample_rate"], quality=attack_param)
             elif attack_fn.__name__ == "pcm_bit_depth_conversion":
                 attacked_np = attack_fn(embedded_np, sr=process_config["audio"]["sample_rate"], pcm=attack_param)
+            elif attack_fn.__name__ == "wavelet":
+                attacked_np = attack_fn(embedded_np, threshold_factor=attack_param)
+            elif attack_fn.__name__ == "pitch_shift":
+                attacked_np = attack_fn(embedded_np, sr=process_config["audio"]["sample_rate"], cents=attack_param)
+            elif attack_fn.__name__ == "gaussian_noise":
+                attacked_np = attack_fn(embedded_np, snr_db=attack_param)
+            elif attack_fn.__name__ == "pink_noise":
+                attacked_np = attack_fn(embedded_np, amplitude=attack_param)
             else:
                 raise ValueError(f"Unsupported attack: {attack_fn.__name__}")
 
@@ -116,6 +125,10 @@ def main(args):
         "resample": resample,
         "mp3": mp3_compression,
         "pcm": pcm_bit_depth_conversion,
+        "wavelet": wavelet,
+        "pitch_shift": pitch_shift,
+        "gaussian_noise": gaussian_noise,
+        "pink_noise": pink_noise,
     }
     if args.attack_type not in attack_map:
         raise ValueError(f"Unknown attack type: {args.attack_type}")
@@ -130,6 +143,14 @@ def main(args):
         sweep = [0, 2, 5, 9]  # ffmpeg quality settings
     elif args.attack_type == "pcm":
         sweep = [8, 16, 24]  # bit depths
+    elif args.attack_type == "wavelet":
+        sweep = [0.5, 0.8, 1, 1.5, 2]
+    elif args.attack_type == "pitch_shift":
+        sweep = [-5, 5]
+    elif args.attack_type == "gaussian_noise":
+        sweep = [30, 20, 10, 0, -5]
+    elif args.attack_type == "pink_noise":
+        sweep = [0.01, 0.03, 0.05, 0.07]
 
     # Load models
     for model in config:
@@ -213,7 +234,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--attack_type", type=str, required=True,
-                        choices=["delete", "resample", "mp3", "pcm"],
+                        choices=["delete", "resample", "mp3", "pcm", "wavelet", "pitch_shift", "gaussian_noise", "pink_noise"],
                         help="Type of attack to evaluate")
     args = parser.parse_args()
     main(args)
