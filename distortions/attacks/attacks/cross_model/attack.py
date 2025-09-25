@@ -2,7 +2,7 @@ import random
 
 import numpy as np
 
-from core.base_attack import BaseAttack
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class CrossModelAttack(BaseAttack):
@@ -24,7 +24,9 @@ class CrossModelAttack(BaseAttack):
         models = kwargs.get("models", None)
         model = kwargs.get("model", None)
         if model is None:
-            raise ValueError("A model must be specified for cross_model_watermarking.")
+            raise ValueError(
+                "A model must be specified for cross_model_watermarking."
+            )
         model = self.get_different_model(model, models)
         sampling_rate = kwargs.get("sampling_rate", None)
 
@@ -53,5 +55,5 @@ class CrossModelAttack(BaseAttack):
                 f"No other models are available (all we have is '{current_model_name}')."
             )
         key = random.choice(filtered_list)
-        model_cls = models[key]["class"]
+        model_cls = models[key]['class']
         return model_cls()

@@ -4,30 +4,23 @@ import os
 import numpy as np
 import requests
 
-from core.base_attack import BaseAttack
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 logger = logging.getLogger(__name__)
-
 
 class SpeechTokenizationAttack(BaseAttack):
     def __init__(self):
         super().__init__()
 
-        host = "localhost"  # Client always connects to localhost
+        host = "localhost" # Client always connects to localhost
         # Read the specific port variable for this attack service
-        port = os.getenv(
-            "SPEECH_TOKENIZATION_PORT", "10003"
-        )  # Default specific to SpeechTokenization
+        port = os.getenv("SPEECH_TOKENIZATION_PORT", "10003") # Default specific to SpeechTokenization
         if not port:
-            logging.error("SPEECH_TOKENIZATION_PORT environment variable not set.")
-            raise ValueError(
-                "SPEECH_TOKENIZATION_PORT must be set for SpeechTokenizationAttack"
-            )
+             logging.error("SPEECH_TOKENIZATION_PORT environment variable not set.")
+             raise ValueError("SPEECH_TOKENIZATION_PORT must be set for SpeechTokenizationAttack")
 
         self.endpoint = f"http://{host}:{port}"
-        logging.info(
-            f"SpeechTokenizationAttack initialized. Target API: {self.endpoint}"
-        )
+        logging.info(f"SpeechTokenizationAttack initialized. Target API: {self.endpoint}")
 
     def apply(self, audio: np.ndarray, **kwargs) -> np.ndarray:
         sampling_rate = kwargs.get("sampling_rate", None)
@@ -47,6 +40,7 @@ class SpeechTokenizationAttack(BaseAttack):
             raise
 
         if "audio" not in response_data:
-            logger.error("'/apply' response does not contain 'audio' key.")
-            raise KeyError("Missing 'audio' in response from /apply")
+             logger.error("'/apply' response does not contain 'audio' key.")
+             raise KeyError("Missing 'audio' in response from /apply")
         return np.array(response_data["audio"])
+

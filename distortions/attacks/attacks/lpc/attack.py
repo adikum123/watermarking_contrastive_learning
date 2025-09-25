@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import signal
-from core.base_attack import BaseAttack
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class LPCAttack(BaseAttack):
@@ -38,8 +39,9 @@ class LPCAttack(BaseAttack):
         """
 
         sampling_rate = kwargs.get("sampling_rate", None)
-        order = kwargs.get("order", self.config.get("order"))
-        axis = kwargs.get("axis", self.config.get("axis", -1))
+        order = kwargs.get("order",self.config.get("order"))
+        axis = kwargs.get("axis",self.config.get("axis", -1))
+
 
         audio = audio.swapaxes(axis, 0)
 
@@ -62,26 +64,23 @@ class LPCAttack(BaseAttack):
 
         # Call the helper, and swap the results back to the target axis position
         a = np.swapaxes(
-            self._lpc(
-                audio, order, ar_coeffs, ar_coeffs_prev, reflect_coeff, den, epsilon
-            ),
-            0,
-            axis,
+            self._lpc(audio, order, ar_coeffs, ar_coeffs_prev, reflect_coeff, den, epsilon), 0, axis
         )
-        # synthesize the audio signal using the LPC coefficients
+        #synthesize the audio signal using the LPC coefficients
         b = np.hstack([[0], -1 * a[1:]])
         y_hat = signal.lfilter(b, [1], audio)
         return y_hat
 
+
     def _lpc(
-        self,
-        y: np.ndarray,
-        order: int,
-        ar_coeffs: np.ndarray,
-        ar_coeffs_prev: np.ndarray,
-        reflect_coeff: np.ndarray,
-        den: np.ndarray,
-        epsilon: float,
+    self,
+    y: np.ndarray,
+    order: int,
+    ar_coeffs: np.ndarray,
+    ar_coeffs_prev: np.ndarray,
+    reflect_coeff: np.ndarray,
+    den: np.ndarray,
+    epsilon: float,
     ) -> np.ndarray:
         """Linear Prediction Coefficients via Burg's method
 

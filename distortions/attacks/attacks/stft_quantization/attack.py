@@ -1,6 +1,7 @@
 import numpy as np
-from scipy.signal import stft, istft
-from core.base_attack import BaseAttack
+from scipy.signal import istft, stft
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class STFTQuantizationAttack(BaseAttack):
@@ -29,34 +30,22 @@ class STFTQuantizationAttack(BaseAttack):
         sr = kwargs.get("sampling_rate", None)
         n_fft = kwargs.get("n_fft", self.config.get("n_fft"))
         hop_length = kwargs.get("hop_length", self.config.get("hop_length"))
-        quantization_levels = kwargs.get(
-            "quantization_levels", self.config.get("quantization_levels")
-        )
+        quantization_levels = kwargs.get("quantization_levels", self.config.get("quantization_levels"))
 
         # Compute STFT
-        _, _, Zxx = stft(
-            audio, fs=sr, nperseg=n_fft, noverlap=n_fft - hop_length, window="hann"
-        )
+        _, _, Zxx = stft(audio, fs=sr, nperseg=n_fft, noverlap=n_fft - hop_length, window='hann')
 
         # Quantize magnitude while preserving phase
         magnitude = np.abs(Zxx)
         phase = np.angle(Zxx)
         mag_min, mag_max = magnitude.min(), magnitude.max()
         mag_norm = (magnitude - mag_min) / (mag_max - mag_min + 1e-8)
-        mag_quant = np.round(mag_norm * (quantization_levels - 1)) / (
-            quantization_levels - 1
-        )
+        mag_quant = np.round(mag_norm * (quantization_levels - 1)) / (quantization_levels - 1)
         mag_quant_rescaled = mag_quant * (mag_max - mag_min) + mag_min
 
         # Reconstruct complex STFT
         Zxx_quantized = mag_quant_rescaled * np.exp(1j * phase)
 
-        _, signal_quantized = istft(
-            Zxx_quantized,
-            fs=sr,
-            nperseg=n_fft,
-            noverlap=n_fft - hop_length,
-            window="hann",
-        )
+        _, signal_quantized = istft(Zxx_quantized, fs=sr, nperseg=n_fft, noverlap=n_fft - hop_length, window='hann')
 
         return signal_quantized

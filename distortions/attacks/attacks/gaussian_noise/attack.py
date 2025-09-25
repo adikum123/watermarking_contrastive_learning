@@ -1,5 +1,6 @@
 import numpy as np
-from core.base_attack import BaseAttack
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class GaussianNoiseAttack(BaseAttack):
@@ -16,15 +17,18 @@ class GaussianNoiseAttack(BaseAttack):
 
         """
 
-        snr_db = kwargs.get("snr_db", self.config.get("snr_db"))
-        signal_power = np.mean(audio**2)
+        snr_db = kwargs.get(
+            "snr_db", self.config.get("snr_db")
+        )
+        signal_power = np.mean(audio ** 2)
         snr_linear = 10 ** (snr_db / 10.0)
         noise_power = signal_power / snr_linear
         noise = np.random.randn(*audio.shape) * np.sqrt(noise_power)
         audio_noisy = audio + noise
 
-        # actual_noise_power = np.mean((audio_noisy - audio) ** 2)
-        # actual_snr = 10 * np.log10(signal_power / actual_noise_power)
-        # print(f"Target SNR: {snr_db} dB, Achieved SNR: {actual_snr:.2f} dB")
+
+        #actual_noise_power = np.mean((audio_noisy - audio) ** 2)
+        #actual_snr = 10 * np.log10(signal_power / actual_noise_power)
+        #print(f"Target SNR: {snr_db} dB, Achieved SNR: {actual_snr:.2f} dB")
 
         return audio_noisy

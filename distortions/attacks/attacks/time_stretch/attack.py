@@ -1,12 +1,12 @@
-import numpy as np
-import pyrubberband as pyrb
-import librosa
 import logging
 
-from core.base_attack import BaseAttack
+import librosa
+import numpy as np
+import pyrubberband as pyrb
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 logger = logging.getLogger(__name__)
-
 
 class TimeStretchAttack(BaseAttack):
 
@@ -40,15 +40,15 @@ class TimeStretchAttack(BaseAttack):
         stretch_rate = kwargs.get("stretch_rate", self.config.get("stretch_rate"))
 
         if sampling_rate is None:
-            raise ValueError("'sampling_rate' must be provided in kwargs.")
+            raise ValueError(
+                "'sampling_rate' must be provided in kwargs."
+            )
 
         try:
             # Try using pyrubberband first
             return pyrb.time_stretch(audio, sampling_rate, stretch_rate)
         except Exception as e:
-            logger.warning(
-                f"Pyrubberband failed: {str(e)}. Falling back to librosa time_stretch."
-            )
+            logger.warning(f"Pyrubberband failed: {str(e)}. Falling back to librosa time_stretch.")
             # Use librosa as a fallback
             # Note: librosa uses rate=1/stretch_rate, so we need to invert it
-            return librosa.effects.time_stretch(audio, rate=1 / stretch_rate)
+            return librosa.effects.time_stretch(audio, rate=1/stretch_rate)

@@ -1,6 +1,6 @@
 import numpy as np
 
-from core.base_attack import BaseAttack
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class CollusionAttack(BaseAttack):
@@ -30,9 +30,7 @@ class CollusionAttack(BaseAttack):
                 "'model', 'orig_audio' and 'sampling_rate' must be provided for the collusion attack."
             )
 
-        second_audio = model.embed(
-            orig_audio, model.generate_watermark(), sampling_rate
-        )
+        second_audio = model.embed(orig_audio, model.generate_watermark(), sampling_rate)
 
         segment_size = kwargs.get("collusion_size", 25)
         num_segments = len(audio) // segment_size

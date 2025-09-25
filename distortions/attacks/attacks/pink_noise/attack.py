@@ -1,7 +1,7 @@
-from scipy.signal import lfilter
 import numpy as np
+from scipy.signal import lfilter
 
-from core.base_attack import BaseAttack
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class PinkNoiseAttack(BaseAttack):
@@ -18,7 +18,9 @@ class PinkNoiseAttack(BaseAttack):
 
         """
 
-        amplitude = kwargs.get("amplitude", self.config.get("amplitude"))
+        amplitude = kwargs.get(
+            "amplitude", self.config.get("amplitude")
+        )
         n_samples = len(audio)
         white = np.random.normal(0, 1, n_samples)
 
@@ -30,6 +32,6 @@ class PinkNoiseAttack(BaseAttack):
         pink = pink / np.max(np.abs(pink)) * amplitude
         pink = pink.astype(np.float32)
 
-        noisy_audio = audio + pink
+        noisy_audio=audio+pink
 
         return noisy_audio

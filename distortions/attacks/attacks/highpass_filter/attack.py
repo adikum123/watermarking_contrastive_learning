@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import signal
-from core.base_attack import BaseAttack
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class HighpassFilterAttack(BaseAttack):
@@ -26,7 +27,7 @@ class HighpassFilterAttack(BaseAttack):
         cutoff_freq = kwargs.get(
             "cutoff_freq_highpass", self.config.get("cutoff_freq_highpass")
         )
-        order = kwargs.get("order", self.config.get("order"))
+        order = kwargs.get("order",self.config.get("order"))
 
         if sampling_rate is None:
             raise ValueError("'sampling_rate' must be provided in kwargs.")
@@ -34,7 +35,7 @@ class HighpassFilterAttack(BaseAttack):
         nyquist = 0.5 * sampling_rate
         normalized_cutoff = cutoff_freq / nyquist
 
-        b, a = signal.butter(order, normalized_cutoff, btype="highpass", analog=False)
+        b, a = signal.butter(order, normalized_cutoff, btype='highpass', analog=False)
         filtered_signal = signal.lfilter(b, a, audio)
 
         return filtered_signal

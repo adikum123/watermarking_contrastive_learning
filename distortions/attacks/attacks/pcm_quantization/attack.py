@@ -1,5 +1,6 @@
 import numpy as np
-from core.base_attack import BaseAttack
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class PCMQuantizationAttack(BaseAttack):
@@ -25,7 +26,7 @@ class PCMQuantizationAttack(BaseAttack):
         """
 
         sr = kwargs.get("sampling_rate", None)
-        pcm = kwargs.get("pcm", self.config.get("pcm"))
+        pcm = kwargs.get("pcm",self.config.get("pcm"))
         # Convert to specified PCM bit depth and back (simulates quantization)
         if pcm == 8:
             # 8-bit signed: -128 to 127

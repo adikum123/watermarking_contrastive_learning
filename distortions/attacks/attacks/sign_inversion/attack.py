@@ -1,6 +1,6 @@
 import numpy as np
 
-from core.base_attack import BaseAttack
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class SignInversionAttack(BaseAttack):

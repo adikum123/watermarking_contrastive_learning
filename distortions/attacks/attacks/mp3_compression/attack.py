@@ -1,11 +1,12 @@
-import subprocess
-import time
 import os
+import subprocess
+import tempfile
+import time
+
 import numpy as np
 import soundfile as sf
-import tempfile
 
-from core.base_attack import BaseAttack
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class Mp3CompressionAttack(BaseAttack):
@@ -26,20 +27,20 @@ class Mp3CompressionAttack(BaseAttack):
 
         """
         sampling_rate = kwargs.get("sampling_rate", None)
-        quality = kwargs.get("quality", self.config.get("quality"))
+        quality = kwargs.get(
+            "quality", self.config.get("quality")
+        )
 
         try:
-            subprocess.run(["ffmpeg", "-version"], capture_output=True, check=True)
+            subprocess.run(['ffmpeg', '-version'], capture_output=True, check=True)
         except (subprocess.CalledProcessError, FileNotFoundError):
-            raise RuntimeError(
-                "FFmpeg not found. Please install FFmpeg or skip MP3 tests."
-            )
+            raise RuntimeError("FFmpeg not found. Please install FFmpeg or skip MP3 tests.")
 
-        temp_wav_fd, temp_wav_path = tempfile.mkstemp(suffix=".wav")
-        temp_mp3_fd, mp3_path = tempfile.mkstemp(suffix=".mp3")
+        temp_wav_fd, temp_wav_path = tempfile.mkstemp(suffix='.wav')
+        temp_mp3_fd, mp3_path = tempfile.mkstemp(suffix='.mp3')
 
         try:
-            # Close file descriptors immediately to avoid conflicts
+        # Close file descriptors immediately to avoid conflicts
             os.close(temp_wav_fd)
             os.close(temp_mp3_fd)
 
@@ -48,11 +49,8 @@ class Mp3CompressionAttack(BaseAttack):
             sf.write(temp_wav_path, audio, sampling_rate)
 
             # Convert to MP3 using ffmpeg
-            _ = subprocess.run(
-                ["ffmpeg", "-i", temp_wav_path, "-q:a", str(quality), mp3_path, "-y"],
-                capture_output=True,
-                check=True,
-            )
+            _ = subprocess.run(['ffmpeg', '-i', temp_wav_path, '-q:a', str(quality), mp3_path, '-y'],
+                                capture_output=True, check=True)
 
             # Small delay to ensure FFmpeg fully releases files
             time.sleep(0.1)
@@ -66,15 +64,14 @@ class Mp3CompressionAttack(BaseAttack):
             return audio_data
 
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(
-                f"FFmpeg conversion failed: {e.stderr.decode() if e.stderr else str(e)}"
-            )
+            raise RuntimeError(f"FFmpeg conversion failed: {e.stderr.decode() if e.stderr else str(e)}")
         except Exception as e:
             raise e
         finally:
             # Clean up temporary files with retry logic
             self.safe_delete(temp_wav_path)
             self.safe_delete(mp3_path)
+
 
     def safe_delete(self, filepath: str, max_retries: int = 5) -> None:
         """Safely delete a file with retries for Windows file locking issues"""
@@ -87,13 +84,10 @@ class Mp3CompressionAttack(BaseAttack):
                 if attempt < max_retries - 1:
                     time.sleep(0.1)  # Wait 100ms before retry
                 else:
-                    print(
-                        f"Warning: Could not delete {filepath} after {max_retries} attempts"
-                    )
+                    print(f"Warning: Could not delete {filepath} after {max_retries} attempts")
 
-    def pcm_bit_depth_conversion(
-        self, audio: np.ndarray, sr: int, pcm: int = 16
-    ) -> np.ndarray:
+
+    def pcm_bit_depth_conversion(self, audio: np.ndarray, sr: int, pcm: int = 16) -> np.ndarray:
         """
         Simulate MP3 compression with PCM bit depth conversion
         Args:

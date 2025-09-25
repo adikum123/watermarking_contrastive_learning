@@ -1,7 +1,8 @@
-import numpy as np
 import math
 
-from core.base_attack import BaseAttack
+import numpy as np
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 
 class ChorusAttack(BaseAttack):
@@ -27,13 +28,15 @@ class ChorusAttack(BaseAttack):
 
         """
         sampling_rate = kwargs.get("sampling_rate", None)
-        start_delays = kwargs.get("start_delays", self.config.get("start_delays"))
-        w_delays = kwargs.get("w_delays", self.config.get("w_delays"))
-        delay_rates = kwargs.get("delay_rates", self.config.get("delay_rates"))
-        self.dry_gain = kwargs.get("dry_gain", self.config.get("dry_gain"))
-        self.chorus_gains = kwargs.get("chorus_gains", self.config.get("chorus_gains"))
+        start_delays = kwargs.get( "start_delays", self.config.get("start_delays"))
+        w_delays = kwargs.get("w_delays",self.config.get("w_delays"))
+        delay_rates = kwargs.get("delay_rates",self.config.get("delay_rates"))
+        self.dry_gain = kwargs.get("dry_gain",self.config.get("dry_gain"))
+        self.chorus_gains = kwargs.get("chorus_gains",self.config.get("chorus_gains"))
 
         self.chorus_count = len(self.chorus_gains)
+
+
 
         # Multiple chorus
         max_delay = 0
@@ -48,16 +51,16 @@ class ChorusAttack(BaseAttack):
                 max_delay = max_delay_i
             self.lfo_array.append(self.LFO(sampling_rate, delay_rates[i], width))
 
-        self.delay_line = self.Delay(
-            int(max_delay)
-        )  # one delay line used for all paths
+        self.delay_line = self.Delay(int(max_delay))  # one delay line used for all paths
 
-        filtered = np.zeros_like(audio)
+
+        filtered=np.zeros_like(audio)
         for i in range(len(audio)):
-            filtered[i] = self.apply_one_step(audio[i])
+            filtered[i]=self.apply_one_step(audio[i])
 
         filtered = filtered / max(np.abs(filtered))
         return filtered
+
 
     def apply_one_step(self, x: float) -> float:
         y = x * self.dry_gain
@@ -75,16 +78,10 @@ class ChorusAttack(BaseAttack):
         self.delay_line.push(x)
         return y
 
+
     class LFO:
-        def __init__(
-            self,
-            sample_rate: int,
-            frequency: float,
-            width: float,
-            waveform: str = "sine",
-            offset: float = 0.0,
-            bias: float = 0.0,
-        ) -> None:
+        def __init__(self, sample_rate: int, frequency: float, width: float,
+                    waveform: str = 'sine', offset: float = 0.0, bias: float = 0.0) -> None:
             """
             Low-Frequency Oscillator (LFO) for modulating parameters such as delay time.
             Args:
@@ -168,6 +165,6 @@ class ChorusAttack(BaseAttack):
             target = self.pos - idx
             if target < 0:
                 target += self.length
-            if target >= len(self.buffer):
-                target = target % len(self.buffer)
+            if (target>=len(self.buffer)):
+                target=target%len(self.buffer)
             return self.buffer[target]

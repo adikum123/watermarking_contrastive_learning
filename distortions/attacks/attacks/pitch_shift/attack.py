@@ -1,12 +1,12 @@
-import numpy as np
-import pyrubberband as pyrb
-import librosa
 import logging
 
-from core.base_attack import BaseAttack
+import librosa
+import numpy as np
+import pyrubberband as pyrb
+
+from distortions.attacks.attacks.base_attack import BaseAttack
 
 logger = logging.getLogger(__name__)
-
 
 class PitchShiftAttack(BaseAttack):
 
@@ -45,10 +45,6 @@ class PitchShiftAttack(BaseAttack):
             # Try using pyrubberband first
             return pyrb.pitch_shift(audio, sampling_rate, semitones)
         except Exception as e:
-            logger.warning(
-                f"Pyrubberband failed: {str(e)}. Falling back to librosa pitch_shift."
-            )
+            logger.warning(f"Pyrubberband failed: {str(e)}. Falling back to librosa pitch_shift.")
             # Use librosa as a fallback
-            return librosa.effects.pitch_shift(
-                audio, sr=sampling_rate, n_steps=semitones
-            )
+            return librosa.effects.pitch_shift(audio, sr=sampling_rate, n_steps=semitones)
