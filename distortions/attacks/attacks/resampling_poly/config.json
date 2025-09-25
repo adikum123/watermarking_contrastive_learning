@@ -1,3 +1,4 @@
 {
-    "down_factor" : 2
+    "down_factor" : 2,
+    "type": "spectral"
 }

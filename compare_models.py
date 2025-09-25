@@ -11,9 +11,10 @@ import yaml
 from tqdm import tqdm
 
 from data.lj_dataset import LjAudioDataset
-from distortions.attacks import (delete_samples, gaussian_noise,
-                                 mp3_compression, pcm_bit_depth_conversion,
-                                 pink_noise, pitch_shift, resample, wavelet)
+from distortions.some_attacks import (delete_samples, gaussian_noise,
+                                      mp3_compression,
+                                      pcm_bit_depth_conversion, pink_noise,
+                                      pitch_shift, resample, wavelet)
 from model.utils import (accuracy, get_model_average_pesq_dataset,
                          get_model_average_stoi_dataset, load_from_ckpt,
                          truncate_or_pad_np)

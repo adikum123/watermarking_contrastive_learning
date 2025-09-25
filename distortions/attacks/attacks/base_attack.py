@@ -3,6 +3,7 @@ import inspect
 import json
 import logging
 import os
+import sys
 
 import numpy as np
 
@@ -16,7 +17,6 @@ class BaseAttack(abc.ABC):
     All attacks must implement the `apply` method.
     Each attack should have its own `config.json` stored in its respective folder.
     """
-
     def __init__(self):
         """
         Initializes the attack by loading its configuration file.
@@ -25,17 +25,31 @@ class BaseAttack(abc.ABC):
         - Constructs the path to `config.json` in the attack's directory.
         - Loads the configuration if the file exists, otherwise sets `_config` to None.
         """
-        model_file = inspect.getfile(self.__class__)
-        model_dir = os.path.dirname(os.path.abspath(model_file))
+        try:
+            # Try to get the source file via inspect (works for normal Python files)
+            model_file = inspect.getfile(self.__class__)
+        except TypeError:
+            # If inspect fails (dynamically loaded module), fallback to __module__
+            module = __import__(self.__class__.__module__)
+            model_file = getattr(module, "__file__", None)
+
+        if model_file is None:
+            logging.warning(
+                "Could not determine source file for class %s", self.__class__.__name__
+            )
+            model_dir = os.getcwd()  # fallback to cwd
+        else:
+            model_dir = os.path.dirname(os.path.abspath(model_file))
 
         self.config_path = os.path.join(model_dir, "config.json")
 
         if not os.path.exists(self.config_path):
-            logging.warning(f"config.json not found in {self.config_path}")
+            logging.warning("config.json not found in %s", self.config_path)
             self._config = None
         else:
             with open(self.config_path, "r") as json_file:
                 self._config = json.load(json_file)
+
 
     @abc.abstractmethod
     def apply(self, audio: np.ndarray, **kwargs) -> np.ndarray:

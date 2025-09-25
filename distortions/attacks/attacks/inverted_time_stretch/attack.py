@@ -1,7 +1,7 @@
 import logging
 
 import numpy as np
-from plugins.attacks.time_stretch.attack import TimeStretchAttack
+from distortions.attacks.attacks.time_stretch.attack import TimeStretchAttack
 
 from distortions.attacks.attacks.base_attack import BaseAttack
 

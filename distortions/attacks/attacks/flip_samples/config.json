@@ -1,4 +1,5 @@
 {
     "num_flips": 50,
-    "flip_duration": 0.5
+    "flip_duration": 0.5,
+    "type": "structural"
 }

@@ -34,7 +34,7 @@ class BandstopFilterAttack(BaseAttack):
 
         nyquist = 0.5 * sampling_rate
 
-        b, a = signal.butter(order,[freq_range[0]/nyquist, freq_range[1]/nyquist], btype='bandstop', analog=False)
+        b, a = signal.butter(order, [freq_range[0]/nyquist, freq_range[1]/nyquist], btype='bandstop', analog=False)
 
         filtered_signal = signal.filtfilt(b, a, audio)
 

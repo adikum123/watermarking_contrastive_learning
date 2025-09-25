@@ -3,7 +3,8 @@ import logging
 import numpy as np
 from tqdm import tqdm
 
-from plugins.attacks.replacement.psychoacoustic_model import PsychoacousticModel
+from distortions.attacks.attacks.replacement.psychoacoustic_model import \
+    PsychoacousticModel
 
 logger = logging.getLogger(__name__)
 

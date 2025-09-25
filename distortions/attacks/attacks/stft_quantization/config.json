@@ -1,6 +1,7 @@
 {
     "n_fft" : 1024,
     "hop_length" : 512,
-    "quantization_levels" : 256
+    "quantization_levels" : 256,
+    "type": "spectral"
 }
 

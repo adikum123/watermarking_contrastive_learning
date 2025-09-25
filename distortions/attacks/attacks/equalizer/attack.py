@@ -23,13 +23,11 @@ class EqualizerAttack(BaseAttack):
         """
 
         sampling_rate = kwargs.get("sampling_rate", None)
-        gains = kwargs.get( "gains", self.config.get("gains"))
+        gains = kwargs.get("gains", self.config.get("gains"))
 
-        center_freqs = [31.5, 63, 125, 250, 500,
-                1000, 2000, 4000, 8000, 16000] #add 8000, 16000 for higher sample rates
+        center_freqs = [31.5, 63, 125, 250, 500, 1000, 2000, 4000, 8000, 16000] #add 8000, 16000 for higher sample rates
 
-        band_widths = [22, 44, 88, 177, 355, 710,
-               1420, 2840, 5680, 11360]
+        band_widths = [22, 44, 88, 177, 355, 710, 1420, 2840, 5680, 11360]
 
         self.filters = []
         self.filters.append(self.Biquad(sampling_rate, 'LowShelf', center_freqs[0],

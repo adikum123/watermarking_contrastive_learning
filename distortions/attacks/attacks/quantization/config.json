@@ -1,3 +1,4 @@
 {
-    "quantization_bit": 256
+    "quantization_bit": 256,
+    "type": "spectral"
 }

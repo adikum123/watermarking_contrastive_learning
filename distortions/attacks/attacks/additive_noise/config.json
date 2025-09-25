@@ -1,3 +1,4 @@
 {
-    "noise_level": 0.003
+    "noise_level": 0.003,
+    "type": "spectral"
 }

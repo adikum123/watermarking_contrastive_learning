@@ -24,7 +24,7 @@ class ResamplingSimpleAttack(BaseAttack):
         sampling_rate = kwargs.get("sampling_rate", None)
         if sampling_rate is None:
             raise ValueError("'sampling_rate' must be provided in kwargs.")
-        audio=audio.copy()
+        audio = audio.copy()
 
         downsample_factor = sampling_rate // 16000
         if downsample_factor > 1:

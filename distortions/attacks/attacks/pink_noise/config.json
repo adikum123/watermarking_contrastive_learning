@@ -1,3 +1,4 @@
 {
-    "amplitude": 0.03
+    "amplitude": 0.03,
+    "type": "spectral"
 }

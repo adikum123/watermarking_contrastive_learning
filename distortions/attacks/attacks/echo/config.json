@@ -1,4 +1,5 @@
 {
   "volume_range": [0.1, 0.5],
-  "duration_range": [0.1, 0.5]
+  "duration_range": [0.1, 0.5],
+  "type": "spectral"
 }

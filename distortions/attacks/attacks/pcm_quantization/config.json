@@ -1,3 +1,4 @@
 {
-    "pcm" : 16
+    "pcm" : 16,
+    "type": "spectral"
 }

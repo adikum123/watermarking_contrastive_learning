@@ -1,7 +1,8 @@
 import numpy as np
-from plugins.attacks.replacement.replacement_attack import replacement_attack
 
 from distortions.attacks.attacks.base_attack import BaseAttack
+from distortions.attacks.attacks.replacement.replacement_attack import \
+    replacement_attack
 
 
 class ReplacementAttack(BaseAttack):

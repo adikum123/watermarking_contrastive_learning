@@ -1,4 +1,5 @@
 {
     "cutoff_freq_highpass" : 50,
-    "order" : 4
+    "order" : 4,
+    "type": "spectral"
 }

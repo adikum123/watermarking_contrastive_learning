@@ -19,7 +19,7 @@
         "pylint"
     ],
     "pylint.args": [
-        "--disable=C0115,C0116,E0401,R0913"
+        "--disable=C0115,C0116,E0401,R0913,C0114,W1514,R0903"
     ],
     "flake8.args": [
         "--ignore=E501,W503"

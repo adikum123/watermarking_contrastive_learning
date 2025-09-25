@@ -7,8 +7,8 @@ import torch
 import torchaudio
 from torch.utils.data import Dataset
 
-from distortions.attacks import (delete_samples, mp3_compression,
-                                 pcm_bit_depth_conversion, resample)
+from distortions.some_attacks import (delete_samples, mp3_compression,
+                                      pcm_bit_depth_conversion, resample)
 
 
 def _parse_s3_url(url: str) -> Tuple[str, str]:

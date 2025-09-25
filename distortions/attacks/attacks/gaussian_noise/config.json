@@ -1,3 +1,4 @@
 {
-    "snr_db": 20
+    "snr_db": 20,
+    "type": "spectral"
 }
