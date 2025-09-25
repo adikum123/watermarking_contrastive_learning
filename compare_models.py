@@ -110,7 +110,7 @@ def main(args):
     # config
     config = [
         {
-            "model_ckpt": "model_ckpts/lj/wm_model_lj_pesq_3.61_acc_0.99_dist_acc_0.87_epoch_7_gs.pt",
+            "model_ckpt": "model_ckpts/lj/wm_model_lj_pesq_3.65_acc_1.00_dist_acc_0.87_epoch_10_gs.pt",
             "model_desc": "wm model",
         },
         {

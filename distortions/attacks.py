@@ -197,6 +197,7 @@ def wavelet(audio, wavelet="db1", wt_mode="soft", threshold_factor=1.0):
 
     return denoised_audio
 
+
 def compute_threshold(audio, wavelet, threshold_factor):
     """
     Compute the universal threshold for wavelet-based denoising.
@@ -225,6 +226,7 @@ def compute_threshold(audio, wavelet, threshold_factor):
     sigma = np.median(np.abs(coeffs[-1])) / 0.6745
     threshold = sigma * np.sqrt(2 * np.log(len(audio))) * threshold_factor
     return threshold
+
 
 def pitch_shift(audio, sr=None, cents=None):
     """
@@ -261,6 +263,7 @@ def pitch_shift(audio, sr=None, cents=None):
         # Use librosa as a fallback
         return librosa.effects.pitch_shift(audio, sr=sr, n_steps=semitones)
 
+
 def gaussian_noise(audio, snr_db):
     """
     Perform a Gaussian noise attack on an audio signal. Adds random noise constrained by SNR.
@@ -279,11 +282,12 @@ def gaussian_noise(audio, snr_db):
     audio_noisy = audio + noise
 
 
-    #actual_noise_power = np.mean((audio_noisy - audio) ** 2)
-    #actual_snr = 10 * np.log10(signal_power / actual_noise_power)
-    #print(f"Target SNR: {snr_db} dB, Achieved SNR: {actual_snr:.2f} dB")
+    # actual_noise_power = np.mean((audio_noisy - audio) ** 2)
+    # actual_snr = 10 * np.log10(signal_power / actual_noise_power)
+    # print(f"Target SNR: {snr_db} dB, Achieved SNR: {actual_snr:.2f} dB")
 
     return audio_noisy
+
 
 def pink_noise(audio, amplitude):
     """
@@ -307,6 +311,6 @@ def pink_noise(audio, amplitude):
     pink = pink / np.max(np.abs(pink)) * amplitude
     pink = pink.astype(np.float32)
 
-    noisy_audio=audio+pink
+    noisy_audio = audio + pink
 
     return noisy_audio

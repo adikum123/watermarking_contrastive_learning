@@ -1,0 +1,5 @@
+{
+    "type": "waveform",
+    "noise_strength": 0.01,
+    "sampling_rate": 16000
+}
