@@ -55,7 +55,6 @@ class WaveletAttack(BaseAttack):
               additive white Gaussian noise.
 
         """
-        print("threshold_factor je ", threshold_factor)
         coeffs = pywt.wavedec(audio, wavelet)
         sigma = np.median(np.abs(coeffs[-1])) / 0.6745
         threshold = sigma * np.sqrt(2 * np.log(len(audio))) * threshold_factor

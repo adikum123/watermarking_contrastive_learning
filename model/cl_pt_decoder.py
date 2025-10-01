@@ -1,3 +1,5 @@
+from itertools import chain
+
 import torch
 import torch.nn as nn
 
@@ -40,7 +42,7 @@ class ContrastiveDecoder(nn.Module):
             input_channel=1,
             hidden_dim=model_config["conv2"]["hidden_dim"],
             block=self.block,
-            n_layers=model_config["layer"]["nlayers_decoder"],
+            n_layers=model_config["conv2"]["nlayers_decoder"],
         )
 
         # add projection head
@@ -109,3 +111,8 @@ class ContrastiveDecoder(nn.Module):
         # tesnor (win_dim, batch_size)
         msg = self.msg_linear_out(msg_features)
         return msg
+
+
+    def get_train_params(self):
+        assert self.mode != "finetune", "Finetune still not implemented"
+        return chain(self.extractor.parameters(), self.projection_head.parameters())

@@ -1,9 +1,16 @@
-nohup: ignoring input
-Loading precomputed ljspeech datasets
-2025-09-23 09:38:57,404 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
-2025-09-23 09:38:57,405 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
-2025-09-23 09:38:57,405 [INFO] Device: cuda
-2025-09-23 09:39:00,989 [INFO] Training with params:
+2025-09-25 14:08:02,523 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-09-25 14:08:02,524 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-09-25 14:08:02,525 [INFO] Device: cuda
+2025-09-25 14:11:05,114 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-09-25 14:11:05,114 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-09-25 14:11:05,114 [INFO] Device: cuda
+2025-09-25 14:12:51,022 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-09-25 14:12:51,023 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-09-25 14:12:51,023 [INFO] Device: cuda
+2025-09-25 14:13:20,167 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-09-25 14:13:20,167 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-09-25 14:13:20,167 [INFO] Device: cuda
+2025-09-25 14:13:22,339 [INFO] Training with params:
 {
     "adv": false,
     "watermark": {
@@ -17,7 +24,7 @@ Loading precomputed ljspeech datasets
         "lambda_a": 0.01,
         "lambda_cl": 0.1,
         "batch_size": 2,
-        "step_size": 3,
+        "step_size": 2,
         "gamma": 0.9,
         "betas": [
             0.9,
@@ -48,2896 +55,615 @@ Loading precomputed ljspeech datasets
     }
 }
 Length of train dataset: 12000
-2025-09-23 09:39:00,990 [INFO] Epoch: 1
-2025-09-23 09:39:02,792 [INFO] Processed 1 batches
-2025-09-23 09:39:02,793 [INFO] {
-    "loss": 2.2149765,
-    "pesq": 1.02289,
-    "avg_acc_identity": 0.5,
-    "avg_acc_distorted": 0.6
-}
-2025-09-23 09:40:52,223 [INFO] Processed 100 batches
-2025-09-23 09:40:52,223 [INFO] {
-    "loss": 2.1227938,
-    "pesq": 1.61053,
-    "avg_acc_identity": 0.5023,
-    "avg_acc_distorted": 0.4993
-}
-2025-09-23 09:42:40,315 [INFO] Processed 200 batches
-2025-09-23 09:42:40,316 [INFO] {
-    "loss": 2.0755113,
-    "pesq": 1.91083,
-    "avg_acc_identity": 0.5103,
-    "avg_acc_distorted": 0.5078
-}
-2025-09-23 09:44:26,875 [INFO] Processed 300 batches
-2025-09-23 09:44:26,875 [INFO] {
-    "loss": 2.0698412,
-    "pesq": 2.11773,
-    "avg_acc_identity": 0.5011,
-    "avg_acc_distorted": 0.5003
-}
-2025-09-23 09:46:12,655 [INFO] Processed 400 batches
-2025-09-23 09:46:12,656 [INFO] {
-    "loss": 2.0590082,
-    "pesq": 2.25215,
-    "avg_acc_identity": 0.5047,
-    "avg_acc_distorted": 0.5045
-}
-2025-09-23 09:47:57,459 [INFO] Processed 500 batches
-2025-09-23 09:47:57,459 [INFO] {
-    "loss": 2.0569815,
-    "pesq": 2.35396,
-    "avg_acc_identity": 0.5025,
-    "avg_acc_distorted": 0.5023
-}
-2025-09-23 09:49:43,603 [INFO] Processed 600 batches
-2025-09-23 09:49:43,603 [INFO] {
-    "loss": 2.0544324,
-    "pesq": 2.44351,
-    "avg_acc_identity": 0.5036,
-    "avg_acc_distorted": 0.5035
-}
-2025-09-23 09:51:28,495 [INFO] Processed 700 batches
-2025-09-23 09:51:28,495 [INFO] {
-    "loss": 2.0540026,
-    "pesq": 2.51262,
-    "avg_acc_identity": 0.5034,
-    "avg_acc_distorted": 0.5029
-}
-2025-09-23 09:53:13,888 [INFO] Processed 800 batches
-2025-09-23 09:53:13,889 [INFO] {
-    "loss": 2.0511511,
-    "pesq": 2.55664,
-    "avg_acc_identity": 0.5043,
-    "avg_acc_distorted": 0.5038
-}
-2025-09-23 09:54:59,760 [INFO] Processed 900 batches
-2025-09-23 09:54:59,760 [INFO] {
-    "loss": 2.0511812,
-    "pesq": 2.60101,
-    "avg_acc_identity": 0.5033,
-    "avg_acc_distorted": 0.5027
-}
-2025-09-23 09:56:46,512 [INFO] Processed 1000 batches
-2025-09-23 09:56:46,512 [INFO] {
-    "loss": 2.0516576,
-    "pesq": 2.63976,
-    "avg_acc_identity": 0.5017,
-    "avg_acc_distorted": 0.5014
-}
-2025-09-23 09:58:33,323 [INFO] Processed 1100 batches
-2025-09-23 09:58:33,323 [INFO] {
-    "loss": 2.0500673,
-    "pesq": 2.67916,
-    "avg_acc_identity": 0.5017,
-    "avg_acc_distorted": 0.501
-}
-2025-09-23 10:00:19,634 [INFO] Processed 1200 batches
-2025-09-23 10:00:19,635 [INFO] {
-    "loss": 2.048502,
-    "pesq": 2.71983,
-    "avg_acc_identity": 0.5026,
-    "avg_acc_distorted": 0.5016
-}
-2025-09-23 10:02:06,391 [INFO] Processed 1300 batches
-2025-09-23 10:02:06,391 [INFO] {
-    "loss": 2.0470068,
-    "pesq": 2.75327,
-    "avg_acc_identity": 0.5035,
-    "avg_acc_distorted": 0.5024
-}
-2025-09-23 10:03:53,685 [INFO] Processed 1400 batches
-2025-09-23 10:03:53,686 [INFO] {
-    "loss": 2.0473645,
-    "pesq": 2.7879,
-    "avg_acc_identity": 0.5023,
-    "avg_acc_distorted": 0.5016
-}
-2025-09-23 10:05:40,947 [INFO] Processed 1500 batches
-2025-09-23 10:05:40,948 [INFO] {
-    "loss": 2.0468874,
-    "pesq": 2.81926,
-    "avg_acc_identity": 0.5018,
-    "avg_acc_distorted": 0.5009
-}
-2025-09-23 10:07:28,314 [INFO] Processed 1600 batches
-2025-09-23 10:07:28,314 [INFO] {
-    "loss": 2.0465528,
-    "pesq": 2.841,
-    "avg_acc_identity": 0.5013,
-    "avg_acc_distorted": 0.5005
-}
-2025-09-23 10:09:14,645 [INFO] Processed 1700 batches
-2025-09-23 10:09:14,645 [INFO] {
-    "loss": 2.0460415,
-    "pesq": 2.86932,
-    "avg_acc_identity": 0.5008,
-    "avg_acc_distorted": 0.5001
-}
-2025-09-23 10:11:02,413 [INFO] Processed 1800 batches
-2025-09-23 10:11:02,413 [INFO] {
-    "loss": 2.0459202,
-    "pesq": 2.8911,
-    "avg_acc_identity": 0.5005,
-    "avg_acc_distorted": 0.5002
-}
-2025-09-23 10:12:50,504 [INFO] Processed 1900 batches
-2025-09-23 10:12:50,504 [INFO] {
-    "loss": 2.0450259,
-    "pesq": 2.91017,
-    "avg_acc_identity": 0.5005,
-    "avg_acc_distorted": 0.5005
-}
-2025-09-23 10:14:37,219 [INFO] Processed 2000 batches
-2025-09-23 10:14:37,219 [INFO] {
-    "loss": 2.0443044,
-    "pesq": 2.92303,
-    "avg_acc_identity": 0.5007,
-    "avg_acc_distorted": 0.5005
-}
-2025-09-23 10:16:23,882 [INFO] Processed 2100 batches
-2025-09-23 10:16:23,882 [INFO] {
-    "loss": 2.0441506,
-    "pesq": 2.94237,
-    "avg_acc_identity": 0.5004,
-    "avg_acc_distorted": 0.5004
-}
-2025-09-23 10:18:12,238 [INFO] Processed 2200 batches
-2025-09-23 10:18:12,238 [INFO] {
-    "loss": 2.0438755,
-    "pesq": 2.96238,
-    "avg_acc_identity": 0.5001,
-    "avg_acc_distorted": 0.5001
-}
-2025-09-23 10:19:57,954 [INFO] Processed 2300 batches
-2025-09-23 10:19:57,954 [INFO] {
-    "loss": 2.042776,
-    "pesq": 2.98472,
-    "avg_acc_identity": 0.5006,
-    "avg_acc_distorted": 0.5006
-}
-2025-09-23 10:21:43,837 [INFO] Processed 2400 batches
-2025-09-23 10:21:43,837 [INFO] {
-    "loss": 2.0418116,
-    "pesq": 2.99449,
-    "avg_acc_identity": 0.5007,
-    "avg_acc_distorted": 0.5006
-}
-2025-09-23 10:23:29,776 [INFO] Processed 2500 batches
-2025-09-23 10:23:29,777 [INFO] {
-    "loss": 2.0419056,
-    "pesq": 3.01454,
-    "avg_acc_identity": 0.5015,
-    "avg_acc_distorted": 0.501
-}
-2025-09-23 10:25:16,231 [INFO] Processed 2600 batches
-2025-09-23 10:25:16,231 [INFO] {
-    "loss": 2.0410063,
-    "pesq": 3.02131,
-    "avg_acc_identity": 0.5026,
-    "avg_acc_distorted": 0.5017
-}
-2025-09-23 10:27:04,692 [INFO] Processed 2700 batches
-2025-09-23 10:27:04,693 [INFO] {
-    "loss": 2.0392683,
-    "pesq": 3.03043,
-    "avg_acc_identity": 0.5038,
-    "avg_acc_distorted": 0.5023
-}
-2025-09-23 10:28:51,842 [INFO] Processed 2800 batches
-2025-09-23 10:28:51,843 [INFO] {
-    "loss": 2.0370631,
-    "pesq": 3.03941,
-    "avg_acc_identity": 0.506,
-    "avg_acc_distorted": 0.5033
-}
-2025-09-23 10:30:37,555 [INFO] Processed 2900 batches
-2025-09-23 10:30:37,555 [INFO] {
-    "loss": 2.0301023,
-    "pesq": 3.04964,
-    "avg_acc_identity": 0.5124,
-    "avg_acc_distorted": 0.5066
-}
-2025-09-23 10:32:24,374 [INFO] Processed 3000 batches
-2025-09-23 10:32:24,374 [INFO] {
-    "loss": 2.0180706,
-    "pesq": 3.0397,
-    "avg_acc_identity": 0.5196,
-    "avg_acc_distorted": 0.5113
-}
-2025-09-23 10:34:11,257 [INFO] Processed 3100 batches
-2025-09-23 10:34:11,257 [INFO] {
-    "loss": 2.000941,
-    "pesq": 3.01941,
-    "avg_acc_identity": 0.5286,
-    "avg_acc_distorted": 0.5169
-}
-2025-09-23 10:35:56,632 [INFO] Processed 3200 batches
-2025-09-23 10:35:56,632 [INFO] {
-    "loss": 1.9782504,
-    "pesq": 2.99353,
-    "avg_acc_identity": 0.5383,
-    "avg_acc_distorted": 0.5236
-}
-2025-09-23 10:37:42,832 [INFO] Processed 3300 batches
-2025-09-23 10:37:42,833 [INFO] {
-    "loss": 1.9613554,
-    "pesq": 2.98525,
-    "avg_acc_identity": 0.5466,
-    "avg_acc_distorted": 0.5287
-}
-2025-09-23 10:39:27,621 [INFO] Processed 3400 batches
-2025-09-23 10:39:27,621 [INFO] {
-    "loss": 1.9391805,
-    "pesq": 2.96867,
-    "avg_acc_identity": 0.5559,
-    "avg_acc_distorted": 0.5351
-}
-2025-09-23 10:41:14,104 [INFO] Processed 3500 batches
-2025-09-23 10:41:14,104 [INFO] {
-    "loss": 1.9137641,
-    "pesq": 2.94359,
-    "avg_acc_identity": 0.5655,
-    "avg_acc_distorted": 0.5419
-}
-2025-09-23 10:42:59,610 [INFO] Processed 3600 batches
-2025-09-23 10:42:59,611 [INFO] {
-    "loss": 1.8889617,
-    "pesq": 2.92493,
-    "avg_acc_identity": 0.5751,
-    "avg_acc_distorted": 0.5486
-}
-2025-09-23 10:44:46,366 [INFO] Processed 3700 batches
-2025-09-23 10:44:46,367 [INFO] {
-    "loss": 1.8675041,
-    "pesq": 2.9045,
-    "avg_acc_identity": 0.5835,
-    "avg_acc_distorted": 0.5543
-}
-2025-09-23 10:46:32,482 [INFO] Processed 3800 batches
-2025-09-23 10:46:32,482 [INFO] {
-    "loss": 1.8460488,
-    "pesq": 2.89093,
-    "avg_acc_identity": 0.592,
-    "avg_acc_distorted": 0.56
-}
-2025-09-23 10:48:17,095 [INFO] Processed 3900 batches
-2025-09-23 10:48:17,095 [INFO] {
-    "loss": 1.8258076,
-    "pesq": 2.87341,
-    "avg_acc_identity": 0.5997,
-    "avg_acc_distorted": 0.5651
-}
-2025-09-23 10:50:02,038 [INFO] Processed 4000 batches
-2025-09-23 10:50:02,039 [INFO] {
-    "loss": 1.8075745,
-    "pesq": 2.86613,
-    "avg_acc_identity": 0.6069,
-    "avg_acc_distorted": 0.5698
-}
-2025-09-23 10:51:47,873 [INFO] Processed 4100 batches
-2025-09-23 10:51:47,874 [INFO] {
-    "loss": 1.7854982,
-    "pesq": 2.84467,
-    "avg_acc_identity": 0.6152,
-    "avg_acc_distorted": 0.5763
-}
-2025-09-23 10:53:33,321 [INFO] Processed 4200 batches
-2025-09-23 10:53:33,322 [INFO] {
-    "loss": 1.7632906,
-    "pesq": 2.82519,
-    "avg_acc_identity": 0.623,
-    "avg_acc_distorted": 0.5818
-}
-2025-09-23 10:55:18,068 [INFO] Processed 4300 batches
-2025-09-23 10:55:18,068 [INFO] {
-    "loss": 1.7441533,
-    "pesq": 2.81473,
-    "avg_acc_identity": 0.6302,
-    "avg_acc_distorted": 0.5866
-}
-2025-09-23 10:57:04,456 [INFO] Processed 4400 batches
-2025-09-23 10:57:04,457 [INFO] {
-    "loss": 1.7242391,
-    "pesq": 2.80073,
-    "avg_acc_identity": 0.637,
-    "avg_acc_distorted": 0.5917
-}
-2025-09-23 10:58:52,691 [INFO] Processed 4500 batches
-2025-09-23 10:58:52,691 [INFO] {
-    "loss": 1.7055058,
-    "pesq": 2.79422,
-    "avg_acc_identity": 0.644,
-    "avg_acc_distorted": 0.5962
-}
-2025-09-23 11:00:38,208 [INFO] Processed 4600 batches
-2025-09-23 11:00:38,208 [INFO] {
-    "loss": 1.6877943,
-    "pesq": 2.78258,
-    "avg_acc_identity": 0.6505,
-    "avg_acc_distorted": 0.6009
-}
-2025-09-23 11:02:25,650 [INFO] Processed 4700 batches
-2025-09-23 11:02:25,650 [INFO] {
-    "loss": 1.6699757,
-    "pesq": 2.77561,
-    "avg_acc_identity": 0.657,
-    "avg_acc_distorted": 0.6054
-}
-2025-09-23 11:04:13,715 [INFO] Processed 4800 batches
-2025-09-23 11:04:13,715 [INFO] {
-    "loss": 1.654615,
-    "pesq": 2.77055,
-    "avg_acc_identity": 0.6628,
-    "avg_acc_distorted": 0.6093
-}
-2025-09-23 11:06:01,492 [INFO] Processed 4900 batches
-2025-09-23 11:06:01,493 [INFO] {
-    "loss": 1.6404039,
-    "pesq": 2.76937,
-    "avg_acc_identity": 0.6685,
-    "avg_acc_distorted": 0.6131
-}
-2025-09-23 11:07:47,018 [INFO] Processed 5000 batches
-2025-09-23 11:07:47,019 [INFO] {
-    "loss": 1.6260093,
-    "pesq": 2.76752,
-    "avg_acc_identity": 0.6741,
-    "avg_acc_distorted": 0.6166
-}
-2025-09-23 11:09:32,979 [INFO] Processed 5100 batches
-2025-09-23 11:09:32,980 [INFO] {
-    "loss": 1.6103234,
-    "pesq": 2.76265,
-    "avg_acc_identity": 0.6797,
-    "avg_acc_distorted": 0.6206
-}
-2025-09-23 11:11:21,397 [INFO] Processed 5200 batches
-2025-09-23 11:11:21,397 [INFO] {
-    "loss": 1.5978376,
-    "pesq": 2.76683,
-    "avg_acc_identity": 0.6848,
-    "avg_acc_distorted": 0.6238
-}
-2025-09-23 11:13:09,858 [INFO] Processed 5300 batches
-2025-09-23 11:13:09,858 [INFO] {
-    "loss": 1.5826385,
-    "pesq": 2.76312,
-    "avg_acc_identity": 0.6902,
-    "avg_acc_distorted": 0.6279
-}
-2025-09-23 11:14:57,261 [INFO] Processed 5400 batches
-2025-09-23 11:14:57,262 [INFO] {
-    "loss": 1.5677333,
-    "pesq": 2.7589,
-    "avg_acc_identity": 0.6953,
-    "avg_acc_distorted": 0.6316
-}
-2025-09-23 11:16:43,089 [INFO] Processed 5500 batches
-2025-09-23 11:16:43,089 [INFO] {
-    "loss": 1.5531599,
-    "pesq": 2.75504,
-    "avg_acc_identity": 0.7003,
-    "avg_acc_distorted": 0.6353
-}
-2025-09-23 11:18:27,182 [INFO] Processed 5600 batches
-2025-09-23 11:18:27,182 [INFO] {
-    "loss": 1.5413601,
-    "pesq": 2.75548,
-    "avg_acc_identity": 0.705,
-    "avg_acc_distorted": 0.6384
-}
-2025-09-23 11:20:14,518 [INFO] Processed 5700 batches
-2025-09-23 11:20:14,519 [INFO] {
-    "loss": 1.5269492,
-    "pesq": 2.74997,
-    "avg_acc_identity": 0.7098,
-    "avg_acc_distorted": 0.642
-}
-2025-09-23 11:22:01,897 [INFO] Processed 5800 batches
-2025-09-23 11:22:01,898 [INFO] {
-    "loss": 1.5131999,
-    "pesq": 2.74497,
-    "avg_acc_identity": 0.7144,
-    "avg_acc_distorted": 0.6457
-}
-2025-09-23 11:23:48,480 [INFO] Processed 5900 batches
-2025-09-23 11:23:48,480 [INFO] {
-    "loss": 1.4984721,
-    "pesq": 2.73995,
-    "avg_acc_identity": 0.7189,
-    "avg_acc_distorted": 0.6493
-}
-2025-09-23 11:25:34,286 [INFO] Processed 6000 batches
-2025-09-23 11:25:34,286 [INFO] {
-    "loss": 1.4828994,
-    "pesq": 2.72973,
-    "avg_acc_identity": 0.7235,
-    "avg_acc_distorted": 0.6534
-}
-2025-09-23 11:25:34,816 [INFO] Processed 1 batches
-2025-09-23 11:25:34,816 [INFO] {
-    "loss": 0.2518944,
-    "pesq": 2.2025,
-    "avg_acc": 0.9333
-}
-2025-09-23 11:26:21,654 [INFO] Processed 100 batches
-2025-09-23 11:26:21,654 [INFO] {
-    "loss": 0.2127787,
-    "pesq": 2.0828,
-    "avg_acc": 0.9843
-}
-2025-09-23 11:27:08,489 [INFO] Processed 200 batches
-2025-09-23 11:27:08,489 [INFO] {
-    "loss": 0.2283894,
-    "pesq": 2.0933,
-    "avg_acc": 0.981
-}
-2025-09-23 11:27:32,948 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_2.09_acc_0.98_dist_acc_0.65_epoch_1_gs.pt | Acc: 0.9809333333333333, PESQ: 2.0946667754650115
-2025-09-23 11:27:33,501 [INFO] Epoch: 2
-2025-09-23 11:27:34,568 [INFO] Processed 1 batches
-2025-09-23 11:27:34,568 [INFO] {
-    "loss": 0.5022788,
-    "pesq": 2.0623,
-    "avg_acc_identity": 0.9667,
-    "avg_acc_distorted": 0.9667
-}
-2025-09-23 11:29:20,263 [INFO] Processed 100 batches
-2025-09-23 11:29:20,263 [INFO] {
-    "loss": 0.7008968,
-    "pesq": 2.35989,
-    "avg_acc_identity": 0.9733,
-    "avg_acc_distorted": 0.8643
-}
-2025-09-23 11:31:06,250 [INFO] Processed 200 batches
-2025-09-23 11:31:06,251 [INFO] {
-    "loss": 0.7152761,
-    "pesq": 2.45068,
-    "avg_acc_identity": 0.9743,
-    "avg_acc_distorted": 0.8588
-}
-2025-09-23 11:32:52,159 [INFO] Processed 300 batches
-2025-09-23 11:32:52,160 [INFO] {
-    "loss": 0.6803391,
-    "pesq": 2.43838,
-    "avg_acc_identity": 0.9789,
-    "avg_acc_distorted": 0.8647
-}
-2025-09-23 11:34:36,972 [INFO] Processed 400 batches
-2025-09-23 11:34:36,972 [INFO] {
-    "loss": 0.7019214,
-    "pesq": 2.5454,
-    "avg_acc_identity": 0.9768,
-    "avg_acc_distorted": 0.8568
-}
-2025-09-23 11:36:21,222 [INFO] Processed 500 batches
-2025-09-23 11:36:21,222 [INFO] {
-    "loss": 0.7058445,
-    "pesq": 2.55553,
-    "avg_acc_identity": 0.9768,
-    "avg_acc_distorted": 0.8566
-}
-2025-09-23 11:38:06,320 [INFO] Processed 600 batches
-2025-09-23 11:38:06,321 [INFO] {
-    "loss": 0.7169739,
-    "pesq": 2.62453,
-    "avg_acc_identity": 0.9772,
-    "avg_acc_distorted": 0.8561
-}
-2025-09-23 11:39:51,502 [INFO] Processed 700 batches
-2025-09-23 11:39:51,503 [INFO] {
-    "loss": 0.7346245,
-    "pesq": 2.63513,
-    "avg_acc_identity": 0.9765,
-    "avg_acc_distorted": 0.8536
-}
-2025-09-23 11:41:38,297 [INFO] Processed 800 batches
-2025-09-23 11:41:38,298 [INFO] {
-    "loss": 0.7245831,
-    "pesq": 2.64556,
-    "avg_acc_identity": 0.9779,
-    "avg_acc_distorted": 0.855
-}
-2025-09-23 11:43:24,646 [INFO] Processed 900 batches
-2025-09-23 11:43:24,646 [INFO] {
-    "loss": 0.7204749,
-    "pesq": 2.62524,
-    "avg_acc_identity": 0.9784,
-    "avg_acc_distorted": 0.8575
-}
-2025-09-23 11:45:08,434 [INFO] Processed 1000 batches
-2025-09-23 11:45:08,435 [INFO] {
-    "loss": 0.7208081,
-    "pesq": 2.64875,
-    "avg_acc_identity": 0.9787,
-    "avg_acc_distorted": 0.8566
-}
-2025-09-23 11:46:52,769 [INFO] Processed 1100 batches
-2025-09-23 11:46:52,770 [INFO] {
-    "loss": 0.7329507,
-    "pesq": 2.6902,
-    "avg_acc_identity": 0.978,
-    "avg_acc_distorted": 0.8534
-}
-2025-09-23 11:48:38,146 [INFO] Processed 1200 batches
-2025-09-23 11:48:38,147 [INFO] {
-    "loss": 0.7391585,
-    "pesq": 2.71185,
-    "avg_acc_identity": 0.9772,
-    "avg_acc_distorted": 0.8523
-}
-2025-09-23 11:50:24,329 [INFO] Processed 1300 batches
-2025-09-23 11:50:24,330 [INFO] {
-    "loss": 0.7323583,
-    "pesq": 2.70595,
-    "avg_acc_identity": 0.9778,
-    "avg_acc_distorted": 0.8538
-}
-2025-09-23 11:52:08,348 [INFO] Processed 1400 batches
-2025-09-23 11:52:08,349 [INFO] {
-    "loss": 0.719441,
-    "pesq": 2.70066,
-    "avg_acc_identity": 0.979,
-    "avg_acc_distorted": 0.857
-}
-2025-09-23 11:53:53,034 [INFO] Processed 1500 batches
-2025-09-23 11:53:53,034 [INFO] {
-    "loss": 0.7130151,
-    "pesq": 2.7016,
-    "avg_acc_identity": 0.9796,
-    "avg_acc_distorted": 0.8592
-}
-2025-09-23 11:55:37,611 [INFO] Processed 1600 batches
-2025-09-23 11:55:37,611 [INFO] {
-    "loss": 0.7218274,
-    "pesq": 2.72695,
-    "avg_acc_identity": 0.9794,
-    "avg_acc_distorted": 0.858
-}
-2025-09-23 11:57:22,486 [INFO] Processed 1700 batches
-2025-09-23 11:57:22,486 [INFO] {
-    "loss": 0.7201773,
-    "pesq": 2.73446,
-    "avg_acc_identity": 0.9797,
-    "avg_acc_distorted": 0.8588
-}
-2025-09-23 11:59:05,462 [INFO] Processed 1800 batches
-2025-09-23 11:59:05,462 [INFO] {
-    "loss": 0.717003,
-    "pesq": 2.73495,
-    "avg_acc_identity": 0.9802,
-    "avg_acc_distorted": 0.8594
-}
-2025-09-23 12:00:49,729 [INFO] Processed 1900 batches
-2025-09-23 12:00:49,730 [INFO] {
-    "loss": 0.712526,
-    "pesq": 2.73478,
-    "avg_acc_identity": 0.9804,
-    "avg_acc_distorted": 0.86
-}
-2025-09-23 12:02:34,907 [INFO] Processed 2000 batches
-2025-09-23 12:02:34,907 [INFO] {
-    "loss": 0.7162323,
-    "pesq": 2.7537,
-    "avg_acc_identity": 0.9807,
-    "avg_acc_distorted": 0.8593
-}
-2025-09-23 12:04:21,138 [INFO] Processed 2100 batches
-2025-09-23 12:04:21,138 [INFO] {
-    "loss": 0.7098693,
-    "pesq": 2.74616,
-    "avg_acc_identity": 0.9811,
-    "avg_acc_distorted": 0.8606
-}
-2025-09-23 12:06:07,908 [INFO] Processed 2200 batches
-2025-09-23 12:06:07,908 [INFO] {
-    "loss": 0.7081486,
-    "pesq": 2.75105,
-    "avg_acc_identity": 0.9814,
-    "avg_acc_distorted": 0.8615
-}
-2025-09-23 12:07:53,380 [INFO] Processed 2300 batches
-2025-09-23 12:07:53,381 [INFO] {
-    "loss": 0.6968058,
-    "pesq": 2.74078,
-    "avg_acc_identity": 0.9821,
-    "avg_acc_distorted": 0.8645
-}
-2025-09-23 12:09:40,566 [INFO] Processed 2400 batches
-2025-09-23 12:09:40,566 [INFO] {
-    "loss": 0.6890697,
-    "pesq": 2.7371,
-    "avg_acc_identity": 0.9826,
-    "avg_acc_distorted": 0.8669
-}
-2025-09-23 12:11:26,695 [INFO] Processed 2500 batches
-2025-09-23 12:11:26,695 [INFO] {
-    "loss": 0.6843015,
-    "pesq": 2.74333,
-    "avg_acc_identity": 0.9831,
-    "avg_acc_distorted": 0.8677
-}
-2025-09-23 12:13:13,293 [INFO] Processed 2600 batches
-2025-09-23 12:13:13,294 [INFO] {
-    "loss": 0.6809811,
-    "pesq": 2.74741,
-    "avg_acc_identity": 0.9834,
-    "avg_acc_distorted": 0.8689
-}
-2025-09-23 12:14:57,744 [INFO] Processed 2700 batches
-2025-09-23 12:14:57,744 [INFO] {
-    "loss": 0.6824544,
-    "pesq": 2.75792,
-    "avg_acc_identity": 0.9836,
-    "avg_acc_distorted": 0.8685
-}
-2025-09-23 12:16:43,101 [INFO] Processed 2800 batches
-2025-09-23 12:16:43,101 [INFO] {
-    "loss": 0.6850905,
-    "pesq": 2.75661,
-    "avg_acc_identity": 0.9834,
-    "avg_acc_distorted": 0.8683
-}
-2025-09-23 12:18:29,939 [INFO] Processed 2900 batches
-2025-09-23 12:18:29,940 [INFO] {
-    "loss": 0.6938122,
-    "pesq": 2.77173,
-    "avg_acc_identity": 0.9825,
-    "avg_acc_distorted": 0.8661
-}
-2025-09-23 12:20:14,489 [INFO] Processed 3000 batches
-2025-09-23 12:20:14,489 [INFO] {
-    "loss": 0.6887332,
-    "pesq": 2.77827,
-    "avg_acc_identity": 0.9829,
-    "avg_acc_distorted": 0.8674
-}
-2025-09-23 12:22:02,565 [INFO] Processed 3100 batches
-2025-09-23 12:22:02,566 [INFO] {
-    "loss": 0.6846975,
-    "pesq": 2.78177,
-    "avg_acc_identity": 0.9833,
-    "avg_acc_distorted": 0.8685
-}
-2025-09-23 12:23:45,892 [INFO] Processed 3200 batches
-2025-09-23 12:23:45,892 [INFO] {
-    "loss": 0.681605,
-    "pesq": 2.78983,
-    "avg_acc_identity": 0.9836,
-    "avg_acc_distorted": 0.8693
-}
-2025-09-23 12:25:31,605 [INFO] Processed 3300 batches
-2025-09-23 12:25:31,606 [INFO] {
-    "loss": 0.6812528,
-    "pesq": 2.80226,
-    "avg_acc_identity": 0.9838,
-    "avg_acc_distorted": 0.869
-}
-2025-09-23 12:27:15,693 [INFO] Processed 3400 batches
-2025-09-23 12:27:15,694 [INFO] {
-    "loss": 0.6878535,
-    "pesq": 2.81754,
-    "avg_acc_identity": 0.9833,
-    "avg_acc_distorted": 0.8676
-}
-2025-09-23 12:29:01,946 [INFO] Processed 3500 batches
-2025-09-23 12:29:01,947 [INFO] {
-    "loss": 0.6977465,
-    "pesq": 2.83354,
-    "avg_acc_identity": 0.983,
-    "avg_acc_distorted": 0.8661
-}
-2025-09-23 12:30:46,940 [INFO] Processed 3600 batches
-2025-09-23 12:30:46,940 [INFO] {
-    "loss": 0.696609,
-    "pesq": 2.83563,
-    "avg_acc_identity": 0.9832,
-    "avg_acc_distorted": 0.8662
-}
-2025-09-23 12:32:34,375 [INFO] Processed 3700 batches
-2025-09-23 12:32:34,375 [INFO] {
-    "loss": 0.697001,
-    "pesq": 2.84463,
-    "avg_acc_identity": 0.9833,
-    "avg_acc_distorted": 0.8659
-}
-2025-09-23 12:34:19,801 [INFO] Processed 3800 batches
-2025-09-23 12:34:19,801 [INFO] {
-    "loss": 0.6970243,
-    "pesq": 2.85348,
-    "avg_acc_identity": 0.9835,
-    "avg_acc_distorted": 0.866
-}
-2025-09-23 12:36:04,516 [INFO] Processed 3900 batches
-2025-09-23 12:36:04,516 [INFO] {
-    "loss": 0.6981515,
-    "pesq": 2.86675,
-    "avg_acc_identity": 0.9836,
-    "avg_acc_distorted": 0.8658
-}
-2025-09-23 12:37:49,189 [INFO] Processed 4000 batches
-2025-09-23 12:37:49,190 [INFO] {
-    "loss": 0.7017762,
-    "pesq": 2.88055,
-    "avg_acc_identity": 0.9837,
-    "avg_acc_distorted": 0.8652
-}
-2025-09-23 12:39:35,606 [INFO] Processed 4100 batches
-2025-09-23 12:39:35,606 [INFO] {
-    "loss": 0.698253,
-    "pesq": 2.88462,
-    "avg_acc_identity": 0.9841,
-    "avg_acc_distorted": 0.8664
-}
-2025-09-23 12:41:20,911 [INFO] Processed 4200 batches
-2025-09-23 12:41:20,911 [INFO] {
-    "loss": 0.6939411,
-    "pesq": 2.88809,
-    "avg_acc_identity": 0.9843,
-    "avg_acc_distorted": 0.8676
-}
-2025-09-23 12:43:06,678 [INFO] Processed 4300 batches
-2025-09-23 12:43:06,679 [INFO] {
-    "loss": 0.6916573,
-    "pesq": 2.8951,
-    "avg_acc_identity": 0.9846,
-    "avg_acc_distorted": 0.8681
-}
-2025-09-23 12:44:51,884 [INFO] Processed 4400 batches
-2025-09-23 12:44:51,884 [INFO] {
-    "loss": 0.6916084,
-    "pesq": 2.90497,
-    "avg_acc_identity": 0.9847,
-    "avg_acc_distorted": 0.8682
-}
-2025-09-23 12:46:36,966 [INFO] Processed 4500 batches
-2025-09-23 12:46:36,966 [INFO] {
-    "loss": 0.6912648,
-    "pesq": 2.91197,
-    "avg_acc_identity": 0.9849,
-    "avg_acc_distorted": 0.8685
-}
-2025-09-23 12:48:24,787 [INFO] Processed 4600 batches
-2025-09-23 12:48:24,788 [INFO] {
-    "loss": 0.6884237,
-    "pesq": 2.91406,
-    "avg_acc_identity": 0.9852,
-    "avg_acc_distorted": 0.8695
-}
-2025-09-23 12:50:11,315 [INFO] Processed 4700 batches
-2025-09-23 12:50:11,316 [INFO] {
-    "loss": 0.6847521,
-    "pesq": 2.91596,
-    "avg_acc_identity": 0.9854,
-    "avg_acc_distorted": 0.8703
-}
-2025-09-23 12:51:56,816 [INFO] Processed 4800 batches
-2025-09-23 12:51:56,817 [INFO] {
-    "loss": 0.6798788,
-    "pesq": 2.91455,
-    "avg_acc_identity": 0.9857,
-    "avg_acc_distorted": 0.8717
-}
-2025-09-23 12:53:43,715 [INFO] Processed 4900 batches
-2025-09-23 12:53:43,715 [INFO] {
-    "loss": 0.6771958,
-    "pesq": 2.91351,
-    "avg_acc_identity": 0.9858,
-    "avg_acc_distorted": 0.8726
-}
-2025-09-23 12:55:28,931 [INFO] Processed 5000 batches
-2025-09-23 12:55:28,931 [INFO] {
-    "loss": 0.6751514,
-    "pesq": 2.91686,
-    "avg_acc_identity": 0.986,
-    "avg_acc_distorted": 0.8732
-}
-2025-09-23 12:57:14,768 [INFO] Processed 5100 batches
-2025-09-23 12:57:14,768 [INFO] {
-    "loss": 0.676822,
-    "pesq": 2.92453,
-    "avg_acc_identity": 0.9861,
-    "avg_acc_distorted": 0.873
-}
-2025-09-23 12:59:01,388 [INFO] Processed 5200 batches
-2025-09-23 12:59:01,389 [INFO] {
-    "loss": 0.6794746,
-    "pesq": 2.93622,
-    "avg_acc_identity": 0.9862,
-    "avg_acc_distorted": 0.8725
-}
-2025-09-23 13:00:48,088 [INFO] Processed 5300 batches
-2025-09-23 13:00:48,088 [INFO] {
-    "loss": 0.6790532,
-    "pesq": 2.94458,
-    "avg_acc_identity": 0.9864,
-    "avg_acc_distorted": 0.8726
-}
-2025-09-23 13:02:34,531 [INFO] Processed 5400 batches
-2025-09-23 13:02:34,531 [INFO] {
-    "loss": 0.6766673,
-    "pesq": 2.95107,
-    "avg_acc_identity": 0.9866,
-    "avg_acc_distorted": 0.8733
-}
-2025-09-23 13:04:19,582 [INFO] Processed 5500 batches
-2025-09-23 13:04:19,582 [INFO] {
-    "loss": 0.6778217,
-    "pesq": 2.9593,
-    "avg_acc_identity": 0.9866,
-    "avg_acc_distorted": 0.873
-}
-2025-09-23 13:06:08,700 [INFO] Processed 5600 batches
-2025-09-23 13:06:08,700 [INFO] {
-    "loss": 0.6754637,
-    "pesq": 2.96151,
-    "avg_acc_identity": 0.9868,
-    "avg_acc_distorted": 0.8735
-}
-2025-09-23 13:07:55,885 [INFO] Processed 5700 batches
-2025-09-23 13:07:55,886 [INFO] {
-    "loss": 0.6739681,
-    "pesq": 2.96457,
-    "avg_acc_identity": 0.9869,
-    "avg_acc_distorted": 0.874
-}
-2025-09-23 13:09:42,125 [INFO] Processed 5800 batches
-2025-09-23 13:09:42,125 [INFO] {
-    "loss": 0.6734718,
-    "pesq": 2.9694,
-    "avg_acc_identity": 0.9871,
-    "avg_acc_distorted": 0.8741
-}
-2025-09-23 13:11:28,758 [INFO] Processed 5900 batches
-2025-09-23 13:11:28,758 [INFO] {
-    "loss": 0.6746313,
-    "pesq": 2.97895,
-    "avg_acc_identity": 0.9872,
-    "avg_acc_distorted": 0.8735
-}
-2025-09-23 13:13:16,367 [INFO] Processed 6000 batches
-2025-09-23 13:13:16,367 [INFO] {
-    "loss": 0.675392,
-    "pesq": 2.98654,
-    "avg_acc_identity": 0.9873,
-    "avg_acc_distorted": 0.8733
-}
-2025-09-23 13:13:16,865 [INFO] Processed 1 batches
-2025-09-23 13:13:16,866 [INFO] {
-    "loss": 0.1326827,
-    "pesq": 3.319,
-    "avg_acc": 1.0
-}
-2025-09-23 13:14:04,027 [INFO] Processed 100 batches
-2025-09-23 13:14:04,027 [INFO] {
-    "loss": 0.1080967,
-    "pesq": 3.2664,
-    "avg_acc": 0.9977
-}
-2025-09-23 13:14:52,320 [INFO] Processed 200 batches
-2025-09-23 13:14:52,321 [INFO] {
-    "loss": 0.1158643,
-    "pesq": 3.3067,
-    "avg_acc": 0.998
-}
-2025-09-23 13:15:17,316 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.32_acc_1.00_dist_acc_0.87_epoch_2_gs.pt | Acc: 0.998, PESQ: 3.3236869559288027
-2025-09-23 13:15:17,900 [INFO] Epoch: 3
-2025-09-23 13:15:18,978 [INFO] Processed 1 batches
-2025-09-23 13:15:18,979 [INFO] {
-    "loss": 0.3916355,
-    "pesq": 3.19096,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9667
-}
-2025-09-23 13:17:03,705 [INFO] Processed 100 batches
-2025-09-23 13:17:03,706 [INFO] {
-    "loss": 0.4894752,
-    "pesq": 3.0332,
-    "avg_acc_identity": 0.9967,
-    "avg_acc_distorted": 0.9257
-}
-2025-09-23 13:18:48,880 [INFO] Processed 200 batches
-2025-09-23 13:18:48,880 [INFO] {
-    "loss": 0.5334655,
-    "pesq": 3.0537,
-    "avg_acc_identity": 0.9963,
-    "avg_acc_distorted": 0.9132
-}
-2025-09-23 13:20:34,088 [INFO] Processed 300 batches
-2025-09-23 13:20:34,089 [INFO] {
-    "loss": 0.5869058,
-    "pesq": 3.09982,
-    "avg_acc_identity": 0.9947,
-    "avg_acc_distorted": 0.8973
-}
-2025-09-23 13:22:20,669 [INFO] Processed 400 batches
-2025-09-23 13:22:20,669 [INFO] {
-    "loss": 0.5836861,
-    "pesq": 3.09469,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8992
-}
-2025-09-23 13:24:07,112 [INFO] Processed 500 batches
-2025-09-23 13:24:07,112 [INFO] {
-    "loss": 0.5754434,
-    "pesq": 3.1065,
-    "avg_acc_identity": 0.9951,
-    "avg_acc_distorted": 0.8994
-}
-2025-09-23 13:25:53,224 [INFO] Processed 600 batches
-2025-09-23 13:25:53,225 [INFO] {
-    "loss": 0.5822473,
-    "pesq": 3.15542,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8979
-}
-2025-09-23 13:27:39,004 [INFO] Processed 700 batches
-2025-09-23 13:27:39,004 [INFO] {
-    "loss": 0.5959326,
-    "pesq": 3.19519,
-    "avg_acc_identity": 0.995,
-    "avg_acc_distorted": 0.8942
-}
-2025-09-23 13:29:25,793 [INFO] Processed 800 batches
-2025-09-23 13:29:25,793 [INFO] {
-    "loss": 0.5843334,
-    "pesq": 3.19482,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8979
-}
-2025-09-23 13:31:10,345 [INFO] Processed 900 batches
-2025-09-23 13:31:10,346 [INFO] {
-    "loss": 0.5646506,
-    "pesq": 3.16097,
-    "avg_acc_identity": 0.9958,
-    "avg_acc_distorted": 0.9034
-}
-2025-09-23 13:32:55,544 [INFO] Processed 1000 batches
-2025-09-23 13:32:55,545 [INFO] {
-    "loss": 0.5540765,
-    "pesq": 3.15108,
-    "avg_acc_identity": 0.996,
-    "avg_acc_distorted": 0.9065
-}
-2025-09-23 13:34:42,275 [INFO] Processed 1100 batches
-2025-09-23 13:34:42,275 [INFO] {
-    "loss": 0.5472681,
-    "pesq": 3.16454,
-    "avg_acc_identity": 0.9962,
-    "avg_acc_distorted": 0.9081
-}
-2025-09-23 13:36:28,223 [INFO] Processed 1200 batches
-2025-09-23 13:36:28,224 [INFO] {
-    "loss": 0.5469833,
-    "pesq": 3.17793,
-    "avg_acc_identity": 0.9964,
-    "avg_acc_distorted": 0.909
-}
-2025-09-23 13:38:14,818 [INFO] Processed 1300 batches
-2025-09-23 13:38:14,818 [INFO] {
-    "loss": 0.5536731,
-    "pesq": 3.19849,
-    "avg_acc_identity": 0.9964,
-    "avg_acc_distorted": 0.9071
-}
-2025-09-23 13:40:01,212 [INFO] Processed 1400 batches
-2025-09-23 13:40:01,213 [INFO] {
-    "loss": 0.5675779,
-    "pesq": 3.22181,
-    "avg_acc_identity": 0.9958,
-    "avg_acc_distorted": 0.9032
-}
-2025-09-23 13:41:46,735 [INFO] Processed 1500 batches
-2025-09-23 13:41:46,736 [INFO] {
-    "loss": 0.60851,
-    "pesq": 3.24373,
-    "avg_acc_identity": 0.9913,
-    "avg_acc_distorted": 0.8927
-}
-2025-09-23 13:43:32,924 [INFO] Processed 1600 batches
-2025-09-23 13:43:32,924 [INFO] {
-    "loss": 0.619249,
-    "pesq": 3.26626,
-    "avg_acc_identity": 0.9912,
-    "avg_acc_distorted": 0.8916
-}
-2025-09-23 13:45:19,854 [INFO] Processed 1700 batches
-2025-09-23 13:45:19,854 [INFO] {
-    "loss": 0.61918,
-    "pesq": 3.25916,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.8912
-}
-2025-09-23 13:47:05,450 [INFO] Processed 1800 batches
-2025-09-23 13:47:05,450 [INFO] {
-    "loss": 0.6148152,
-    "pesq": 3.25618,
-    "avg_acc_identity": 0.9918,
-    "avg_acc_distorted": 0.8918
-}
-2025-09-23 13:48:52,990 [INFO] Processed 1900 batches
-2025-09-23 13:48:52,991 [INFO] {
-    "loss": 0.612312,
-    "pesq": 3.26003,
-    "avg_acc_identity": 0.9921,
-    "avg_acc_distorted": 0.8931
-}
-2025-09-23 13:50:39,712 [INFO] Processed 2000 batches
-2025-09-23 13:50:39,713 [INFO] {
-    "loss": 0.6251856,
-    "pesq": 3.27657,
-    "avg_acc_identity": 0.9919,
-    "avg_acc_distorted": 0.8897
-}
-2025-09-23 13:52:26,224 [INFO] Processed 2100 batches
-2025-09-23 13:52:26,225 [INFO] {
-    "loss": 0.6247494,
-    "pesq": 3.28362,
-    "avg_acc_identity": 0.992,
-    "avg_acc_distorted": 0.8893
-}
-2025-09-23 13:54:12,908 [INFO] Processed 2200 batches
-2025-09-23 13:54:12,909 [INFO] {
-    "loss": 0.6352736,
-    "pesq": 3.28283,
-    "avg_acc_identity": 0.9913,
-    "avg_acc_distorted": 0.886
-}
-2025-09-23 13:55:59,665 [INFO] Processed 2300 batches
-2025-09-23 13:55:59,665 [INFO] {
-    "loss": 0.6482047,
-    "pesq": 3.29214,
-    "avg_acc_identity": 0.9911,
-    "avg_acc_distorted": 0.883
-}
-2025-09-23 13:57:46,671 [INFO] Processed 2400 batches
-2025-09-23 13:57:46,671 [INFO] {
-    "loss": 0.651532,
-    "pesq": 3.29787,
-    "avg_acc_identity": 0.991,
-    "avg_acc_distorted": 0.8806
-}
-2025-09-23 13:59:33,587 [INFO] Processed 2500 batches
-2025-09-23 13:59:33,587 [INFO] {
-    "loss": 0.6471039,
-    "pesq": 3.29462,
-    "avg_acc_identity": 0.9912,
-    "avg_acc_distorted": 0.8813
-}
-2025-09-23 14:01:20,929 [INFO] Processed 2600 batches
-2025-09-23 14:01:20,929 [INFO] {
-    "loss": 0.6417431,
-    "pesq": 3.28835,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.8832
-}
-2025-09-23 14:03:07,690 [INFO] Processed 2700 batches
-2025-09-23 14:03:07,690 [INFO] {
-    "loss": 0.6434865,
-    "pesq": 3.28878,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.8825
-}
-2025-09-23 14:04:54,513 [INFO] Processed 2800 batches
-2025-09-23 14:04:54,514 [INFO] {
-    "loss": 0.6460059,
-    "pesq": 3.29757,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.8812
-}
-2025-09-23 14:06:42,267 [INFO] Processed 2900 batches
-2025-09-23 14:06:42,267 [INFO] {
-    "loss": 0.6481723,
-    "pesq": 3.30293,
-    "avg_acc_identity": 0.9916,
-    "avg_acc_distorted": 0.8808
-}
-2025-09-23 14:08:29,095 [INFO] Processed 3000 batches
-2025-09-23 14:08:29,095 [INFO] {
-    "loss": 0.6486359,
-    "pesq": 3.30363,
-    "avg_acc_identity": 0.9917,
-    "avg_acc_distorted": 0.881
-}
-2025-09-23 14:10:16,856 [INFO] Processed 3100 batches
-2025-09-23 14:10:16,856 [INFO] {
-    "loss": 0.6529747,
-    "pesq": 3.30371,
-    "avg_acc_identity": 0.9917,
-    "avg_acc_distorted": 0.8801
-}
-2025-09-23 14:12:05,058 [INFO] Processed 3200 batches
-2025-09-23 14:12:05,058 [INFO] {
-    "loss": 0.6501647,
-    "pesq": 3.30491,
-    "avg_acc_identity": 0.9919,
-    "avg_acc_distorted": 0.8804
-}
-2025-09-23 14:13:52,583 [INFO] Processed 3300 batches
-2025-09-23 14:13:52,584 [INFO] {
-    "loss": 0.6450557,
-    "pesq": 3.30283,
-    "avg_acc_identity": 0.9921,
-    "avg_acc_distorted": 0.8817
-}
-2025-09-23 14:15:38,804 [INFO] Processed 3400 batches
-2025-09-23 14:15:38,804 [INFO] {
-    "loss": 0.6407019,
-    "pesq": 3.30241,
-    "avg_acc_identity": 0.9923,
-    "avg_acc_distorted": 0.8828
-}
-2025-09-23 14:17:27,451 [INFO] Processed 3500 batches
-2025-09-23 14:17:27,451 [INFO] {
-    "loss": 0.6360936,
-    "pesq": 3.30223,
-    "avg_acc_identity": 0.9925,
-    "avg_acc_distorted": 0.8838
-}
-2025-09-23 14:19:15,332 [INFO] Processed 3600 batches
-2025-09-23 14:19:15,333 [INFO] {
-    "loss": 0.6321919,
-    "pesq": 3.30291,
-    "avg_acc_identity": 0.9926,
-    "avg_acc_distorted": 0.8848
-}
-2025-09-23 14:21:02,607 [INFO] Processed 3700 batches
-2025-09-23 14:21:02,607 [INFO] {
-    "loss": 0.6306499,
-    "pesq": 3.30635,
-    "avg_acc_identity": 0.9927,
-    "avg_acc_distorted": 0.8852
-}
-2025-09-23 14:22:49,488 [INFO] Processed 3800 batches
-2025-09-23 14:22:49,489 [INFO] {
-    "loss": 0.6364628,
-    "pesq": 3.31422,
-    "avg_acc_identity": 0.9926,
-    "avg_acc_distorted": 0.8832
-}
-2025-09-23 14:24:37,854 [INFO] Processed 3900 batches
-2025-09-23 14:24:37,854 [INFO] {
-    "loss": 0.6338001,
-    "pesq": 3.31385,
-    "avg_acc_identity": 0.9928,
-    "avg_acc_distorted": 0.8842
-}
-2025-09-23 14:26:25,384 [INFO] Processed 4000 batches
-2025-09-23 14:26:25,384 [INFO] {
-    "loss": 0.6389897,
-    "pesq": 3.31268,
-    "avg_acc_identity": 0.9922,
-    "avg_acc_distorted": 0.8832
-}
-2025-09-23 14:28:11,395 [INFO] Processed 4100 batches
-2025-09-23 14:28:11,395 [INFO] {
-    "loss": 0.6520642,
-    "pesq": 3.31698,
-    "avg_acc_identity": 0.9908,
-    "avg_acc_distorted": 0.8803
-}
-2025-09-23 14:29:59,136 [INFO] Processed 4200 batches
-2025-09-23 14:29:59,136 [INFO] {
-    "loss": 0.6532267,
-    "pesq": 3.31171,
-    "avg_acc_identity": 0.9907,
-    "avg_acc_distorted": 0.8794
-}
-2025-09-23 14:31:48,122 [INFO] Processed 4300 batches
-2025-09-23 14:31:48,122 [INFO] {
-    "loss": 0.6526605,
-    "pesq": 3.30503,
-    "avg_acc_identity": 0.9907,
-    "avg_acc_distorted": 0.8799
-}
-2025-09-23 14:33:35,218 [INFO] Processed 4400 batches
-2025-09-23 14:33:35,218 [INFO] {
-    "loss": 0.6520368,
-    "pesq": 3.30597,
-    "avg_acc_identity": 0.9908,
-    "avg_acc_distorted": 0.8801
-}
-2025-09-23 14:35:24,008 [INFO] Processed 4500 batches
-2025-09-23 14:35:24,008 [INFO] {
-    "loss": 0.65998,
-    "pesq": 3.30625,
-    "avg_acc_identity": 0.9903,
-    "avg_acc_distorted": 0.878
-}
-2025-09-23 14:37:11,256 [INFO] Processed 4600 batches
-2025-09-23 14:37:11,256 [INFO] {
-    "loss": 0.659923,
-    "pesq": 3.30495,
-    "avg_acc_identity": 0.9903,
-    "avg_acc_distorted": 0.8778
-}
-2025-09-23 14:38:59,697 [INFO] Processed 4700 batches
-2025-09-23 14:38:59,698 [INFO] {
-    "loss": 0.6553714,
-    "pesq": 3.29963,
-    "avg_acc_identity": 0.9905,
-    "avg_acc_distorted": 0.879
-}
-2025-09-23 14:40:46,105 [INFO] Processed 4800 batches
-2025-09-23 14:40:46,105 [INFO] {
-    "loss": 0.6527884,
-    "pesq": 3.29892,
-    "avg_acc_identity": 0.9907,
-    "avg_acc_distorted": 0.8795
-}
-2025-09-23 14:42:34,009 [INFO] Processed 4900 batches
-2025-09-23 14:42:34,010 [INFO] {
-    "loss": 0.6512195,
-    "pesq": 3.3007,
-    "avg_acc_identity": 0.9908,
-    "avg_acc_distorted": 0.8798
-}
-2025-09-23 14:44:19,935 [INFO] Processed 5000 batches
-2025-09-23 14:44:19,935 [INFO] {
-    "loss": 0.648356,
-    "pesq": 3.29883,
-    "avg_acc_identity": 0.991,
-    "avg_acc_distorted": 0.8805
-}
-2025-09-23 14:46:07,433 [INFO] Processed 5100 batches
-2025-09-23 14:46:07,433 [INFO] {
-    "loss": 0.6451414,
-    "pesq": 3.29759,
-    "avg_acc_identity": 0.9911,
-    "avg_acc_distorted": 0.8812
-}
-2025-09-23 14:47:55,185 [INFO] Processed 5200 batches
-2025-09-23 14:47:55,185 [INFO] {
-    "loss": 0.6418825,
-    "pesq": 3.29556,
-    "avg_acc_identity": 0.9913,
-    "avg_acc_distorted": 0.8821
-}
-2025-09-23 14:49:44,143 [INFO] Processed 5300 batches
-2025-09-23 14:49:44,143 [INFO] {
-    "loss": 0.6378685,
-    "pesq": 3.29062,
-    "avg_acc_identity": 0.9914,
-    "avg_acc_distorted": 0.8832
-}
-2025-09-23 14:51:31,951 [INFO] Processed 5400 batches
-2025-09-23 14:51:31,951 [INFO] {
-    "loss": 0.636274,
-    "pesq": 3.28947,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.8836
-}
-2025-09-23 14:53:18,783 [INFO] Processed 5500 batches
-2025-09-23 14:53:18,783 [INFO] {
-    "loss": 0.6392545,
-    "pesq": 3.29364,
-    "avg_acc_identity": 0.9914,
-    "avg_acc_distorted": 0.8826
-}
-2025-09-23 14:55:06,032 [INFO] Processed 5600 batches
-2025-09-23 14:55:06,032 [INFO] {
-    "loss": 0.6418864,
-    "pesq": 3.29905,
-    "avg_acc_identity": 0.9914,
-    "avg_acc_distorted": 0.882
-}
-2025-09-23 14:56:53,325 [INFO] Processed 5700 batches
-2025-09-23 14:56:53,325 [INFO] {
-    "loss": 0.6401714,
-    "pesq": 3.29807,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.8826
-}
-2025-09-23 14:58:40,381 [INFO] Processed 5800 batches
-2025-09-23 14:58:40,382 [INFO] {
-    "loss": 0.6373255,
-    "pesq": 3.29427,
-    "avg_acc_identity": 0.9917,
-    "avg_acc_distorted": 0.8834
-}
-2025-09-23 15:00:26,493 [INFO] Processed 5900 batches
-2025-09-23 15:00:26,494 [INFO] {
-    "loss": 0.6348541,
-    "pesq": 3.29291,
-    "avg_acc_identity": 0.9918,
-    "avg_acc_distorted": 0.8842
-}
-2025-09-23 15:02:13,753 [INFO] Processed 6000 batches
-2025-09-23 15:02:13,753 [INFO] {
-    "loss": 0.6340249,
-    "pesq": 3.29358,
-    "avg_acc_identity": 0.9919,
-    "avg_acc_distorted": 0.8843
-}
-2025-09-23 15:02:14,266 [INFO] Processed 1 batches
-2025-09-23 15:02:14,267 [INFO] {
-    "loss": 0.1658568,
-    "pesq": 3.3795,
-    "avg_acc": 1.0
-}
-2025-09-23 15:03:02,480 [INFO] Processed 100 batches
-2025-09-23 15:03:02,480 [INFO] {
-    "loss": 0.1893951,
-    "pesq": 3.3671,
-    "avg_acc": 0.9897
-}
-2025-09-23 15:03:50,815 [INFO] Processed 200 batches
-2025-09-23 15:03:50,816 [INFO] {
-    "loss": 0.2272549,
-    "pesq": 3.3645,
-    "avg_acc": 0.9808
-}
-2025-09-23 15:04:15,311 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.35_acc_0.98_dist_acc_0.88_epoch_3_gs.pt | Acc: 0.9766666666666667, PESQ: 3.3540608673095704
-2025-09-23 15:04:15,906 [INFO] Epoch: 4
-2025-09-23 15:04:17,067 [INFO] Processed 1 batches
-2025-09-23 15:04:17,067 [INFO] {
-    "loss": 0.8604247,
-    "pesq": 3.19854,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.8
-}
-2025-09-23 15:06:03,323 [INFO] Processed 100 batches
-2025-09-23 15:06:03,323 [INFO] {
-    "loss": 0.8686769,
-    "pesq": 3.51656,
-    "avg_acc_identity": 0.989,
-    "avg_acc_distorted": 0.8173
-}
-2025-09-23 15:07:51,804 [INFO] Processed 200 batches
-2025-09-23 15:07:51,804 [INFO] {
-    "loss": 0.7530557,
-    "pesq": 3.52695,
-    "avg_acc_identity": 0.9943,
-    "avg_acc_distorted": 0.8505
-}
-2025-09-23 15:09:39,924 [INFO] Processed 300 batches
-2025-09-23 15:09:39,925 [INFO] {
-    "loss": 0.7339663,
-    "pesq": 3.48611,
-    "avg_acc_identity": 0.9956,
-    "avg_acc_distorted": 0.857
-}
-2025-09-23 15:11:27,717 [INFO] Processed 400 batches
-2025-09-23 15:11:27,717 [INFO] {
-    "loss": 0.7112041,
-    "pesq": 3.48087,
-    "avg_acc_identity": 0.9962,
-    "avg_acc_distorted": 0.8633
-}
-2025-09-23 15:13:14,980 [INFO] Processed 500 batches
-2025-09-23 15:13:14,981 [INFO] {
-    "loss": 0.6918975,
-    "pesq": 3.48817,
-    "avg_acc_identity": 0.9961,
-    "avg_acc_distorted": 0.8667
-}
-2025-09-23 15:15:02,376 [INFO] Processed 600 batches
-2025-09-23 15:15:02,376 [INFO] {
-    "loss": 0.6552247,
-    "pesq": 3.46599,
-    "avg_acc_identity": 0.9964,
-    "avg_acc_distorted": 0.8769
-}
-2025-09-23 15:16:50,627 [INFO] Processed 700 batches
-2025-09-23 15:16:50,628 [INFO] {
-    "loss": 0.6316864,
-    "pesq": 3.43736,
-    "avg_acc_identity": 0.9969,
-    "avg_acc_distorted": 0.8839
-}
-2025-09-23 15:18:38,302 [INFO] Processed 800 batches
-2025-09-23 15:18:38,303 [INFO] {
-    "loss": 0.6254471,
-    "pesq": 3.4359,
-    "avg_acc_identity": 0.9972,
-    "avg_acc_distorted": 0.8859
-}
-2025-09-23 15:20:24,775 [INFO] Processed 900 batches
-2025-09-23 15:20:24,776 [INFO] {
-    "loss": 0.6499334,
-    "pesq": 3.45424,
-    "avg_acc_identity": 0.9959,
-    "avg_acc_distorted": 0.8783
-}
-2025-09-23 15:22:11,957 [INFO] Processed 1000 batches
-2025-09-23 15:22:11,957 [INFO] {
-    "loss": 0.660572,
-    "pesq": 3.47376,
-    "avg_acc_identity": 0.9956,
-    "avg_acc_distorted": 0.874
-}
-2025-09-23 15:23:58,960 [INFO] Processed 1100 batches
-2025-09-23 15:23:58,960 [INFO] {
-    "loss": 0.6508547,
-    "pesq": 3.46083,
-    "avg_acc_identity": 0.9957,
-    "avg_acc_distorted": 0.8773
-}
-2025-09-23 15:25:44,982 [INFO] Processed 1200 batches
-2025-09-23 15:25:44,983 [INFO] {
-    "loss": 0.6428889,
-    "pesq": 3.43916,
-    "avg_acc_identity": 0.9958,
-    "avg_acc_distorted": 0.8791
-}
-2025-09-23 15:27:31,259 [INFO] Processed 1300 batches
-2025-09-23 15:27:31,259 [INFO] {
-    "loss": 0.6295508,
-    "pesq": 3.41878,
-    "avg_acc_identity": 0.9961,
-    "avg_acc_distorted": 0.8814
-}
-2025-09-23 15:29:20,772 [INFO] Processed 1400 batches
-2025-09-23 15:29:20,772 [INFO] {
-    "loss": 0.6154166,
-    "pesq": 3.39294,
-    "avg_acc_identity": 0.9963,
-    "avg_acc_distorted": 0.8852
-}
-2025-09-23 15:31:07,071 [INFO] Processed 1500 batches
-2025-09-23 15:31:07,071 [INFO] {
-    "loss": 0.6119606,
-    "pesq": 3.3942,
-    "avg_acc_identity": 0.9964,
-    "avg_acc_distorted": 0.8863
-}
-2025-09-23 15:32:54,884 [INFO] Processed 1600 batches
-2025-09-23 15:32:54,885 [INFO] {
-    "loss": 0.6124881,
-    "pesq": 3.40545,
-    "avg_acc_identity": 0.9965,
-    "avg_acc_distorted": 0.8862
-}
-2025-09-23 15:34:41,700 [INFO] Processed 1700 batches
-2025-09-23 15:34:41,700 [INFO] {
-    "loss": 0.6075478,
-    "pesq": 3.40582,
-    "avg_acc_identity": 0.9966,
-    "avg_acc_distorted": 0.8877
-}
-2025-09-23 15:36:29,830 [INFO] Processed 1800 batches
-2025-09-23 15:36:29,830 [INFO] {
-    "loss": 0.599116,
-    "pesq": 3.39873,
-    "avg_acc_identity": 0.9968,
-    "avg_acc_distorted": 0.89
-}
-2025-09-23 15:38:17,386 [INFO] Processed 1900 batches
-2025-09-23 15:38:17,386 [INFO] {
-    "loss": 0.5919479,
-    "pesq": 3.39114,
-    "avg_acc_identity": 0.9969,
-    "avg_acc_distorted": 0.8921
-}
-2025-09-23 15:40:02,570 [INFO] Processed 2000 batches
-2025-09-23 15:40:02,571 [INFO] {
-    "loss": 0.5836051,
-    "pesq": 3.37973,
-    "avg_acc_identity": 0.997,
-    "avg_acc_distorted": 0.8945
-}
-2025-09-23 15:41:49,311 [INFO] Processed 2100 batches
-2025-09-23 15:41:49,311 [INFO] {
-    "loss": 0.5771025,
-    "pesq": 3.37171,
-    "avg_acc_identity": 0.9971,
-    "avg_acc_distorted": 0.8968
-}
-2025-09-23 15:43:35,560 [INFO] Processed 2200 batches
-2025-09-23 15:43:35,560 [INFO] {
-    "loss": 0.5780879,
-    "pesq": 3.376,
-    "avg_acc_identity": 0.9972,
-    "avg_acc_distorted": 0.8974
-}
-2025-09-23 15:45:23,388 [INFO] Processed 2300 batches
-2025-09-23 15:45:23,389 [INFO] {
-    "loss": 0.5914531,
-    "pesq": 3.38924,
-    "avg_acc_identity": 0.9966,
-    "avg_acc_distorted": 0.8936
-}
-2025-09-23 15:47:11,111 [INFO] Processed 2400 batches
-2025-09-23 15:47:11,111 [INFO] {
-    "loss": 0.5974349,
-    "pesq": 3.40027,
-    "avg_acc_identity": 0.9965,
-    "avg_acc_distorted": 0.8924
-}
-2025-09-23 15:48:58,334 [INFO] Processed 2500 batches
-2025-09-23 15:48:58,334 [INFO] {
-    "loss": 0.5960184,
-    "pesq": 3.40065,
-    "avg_acc_identity": 0.9966,
-    "avg_acc_distorted": 0.8928
-}
-2025-09-23 15:50:44,944 [INFO] Processed 2600 batches
-2025-09-23 15:50:44,944 [INFO] {
-    "loss": 0.6008154,
-    "pesq": 3.40088,
-    "avg_acc_identity": 0.9965,
-    "avg_acc_distorted": 0.892
-}
-2025-09-23 15:52:31,514 [INFO] Processed 2700 batches
-2025-09-23 15:52:31,515 [INFO] {
-    "loss": 0.6006824,
-    "pesq": 3.40123,
-    "avg_acc_identity": 0.9965,
-    "avg_acc_distorted": 0.8911
-}
-2025-09-23 15:54:17,384 [INFO] Processed 2800 batches
-2025-09-23 15:54:17,385 [INFO] {
-    "loss": 0.6024859,
-    "pesq": 3.39889,
-    "avg_acc_identity": 0.9965,
-    "avg_acc_distorted": 0.8901
-}
-2025-09-23 15:56:03,342 [INFO] Processed 2900 batches
-2025-09-23 15:56:03,342 [INFO] {
-    "loss": 0.6004718,
-    "pesq": 3.39467,
-    "avg_acc_identity": 0.9966,
-    "avg_acc_distorted": 0.8909
-}
-2025-09-23 15:57:47,684 [INFO] Processed 3000 batches
-2025-09-23 15:57:47,684 [INFO] {
-    "loss": 0.6006747,
-    "pesq": 3.39837,
-    "avg_acc_identity": 0.9966,
-    "avg_acc_distorted": 0.8912
-}
-2025-09-23 15:59:34,619 [INFO] Processed 3100 batches
-2025-09-23 15:59:34,619 [INFO] {
-    "loss": 0.6033145,
-    "pesq": 3.40541,
-    "avg_acc_identity": 0.9966,
-    "avg_acc_distorted": 0.8907
-}
-2025-09-23 16:01:20,970 [INFO] Processed 3200 batches
-2025-09-23 16:01:20,971 [INFO] {
-    "loss": 0.6095621,
-    "pesq": 3.41083,
-    "avg_acc_identity": 0.9965,
-    "avg_acc_distorted": 0.8896
-}
-2025-09-23 16:03:07,131 [INFO] Processed 3300 batches
-2025-09-23 16:03:07,131 [INFO] {
-    "loss": 0.6187812,
-    "pesq": 3.41886,
-    "avg_acc_identity": 0.996,
-    "avg_acc_distorted": 0.8872
-}
-2025-09-23 16:04:55,730 [INFO] Processed 3400 batches
-2025-09-23 16:04:55,730 [INFO] {
-    "loss": 0.6227016,
-    "pesq": 3.4238,
-    "avg_acc_identity": 0.9959,
-    "avg_acc_distorted": 0.8863
-}
-2025-09-23 16:06:42,748 [INFO] Processed 3500 batches
-2025-09-23 16:06:42,749 [INFO] {
-    "loss": 0.6191406,
-    "pesq": 3.42059,
-    "avg_acc_identity": 0.996,
-    "avg_acc_distorted": 0.8871
-}
-2025-09-23 16:08:30,003 [INFO] Processed 3600 batches
-2025-09-23 16:08:30,003 [INFO] {
-    "loss": 0.6185083,
-    "pesq": 3.41616,
-    "avg_acc_identity": 0.9959,
-    "avg_acc_distorted": 0.8872
-}
-2025-09-23 16:10:17,594 [INFO] Processed 3700 batches
-2025-09-23 16:10:17,594 [INFO] {
-    "loss": 0.6231905,
-    "pesq": 3.41718,
-    "avg_acc_identity": 0.9958,
-    "avg_acc_distorted": 0.8858
-}
-2025-09-23 16:12:04,124 [INFO] Processed 3800 batches
-2025-09-23 16:12:04,125 [INFO] {
-    "loss": 0.6267548,
-    "pesq": 3.4226,
-    "avg_acc_identity": 0.9958,
-    "avg_acc_distorted": 0.8848
-}
-2025-09-23 16:13:51,966 [INFO] Processed 3900 batches
-2025-09-23 16:13:51,967 [INFO] {
-    "loss": 0.6327768,
-    "pesq": 3.42829,
-    "avg_acc_identity": 0.9956,
-    "avg_acc_distorted": 0.8831
-}
-2025-09-23 16:15:39,661 [INFO] Processed 4000 batches
-2025-09-23 16:15:39,662 [INFO] {
-    "loss": 0.6383425,
-    "pesq": 3.4337,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8822
-}
-2025-09-23 16:17:26,526 [INFO] Processed 4100 batches
-2025-09-23 16:17:26,526 [INFO] {
-    "loss": 0.640729,
-    "pesq": 3.43856,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8818
-}
-2025-09-23 16:19:14,716 [INFO] Processed 4200 batches
-2025-09-23 16:19:14,717 [INFO] {
-    "loss": 0.6389291,
-    "pesq": 3.44148,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8822
-}
-2025-09-23 16:21:01,437 [INFO] Processed 4300 batches
-2025-09-23 16:21:01,438 [INFO] {
-    "loss": 0.6383991,
-    "pesq": 3.44027,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8823
-}
-2025-09-23 16:22:49,325 [INFO] Processed 4400 batches
-2025-09-23 16:22:49,326 [INFO] {
-    "loss": 0.6361983,
-    "pesq": 3.44071,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.883
-}
-2025-09-23 16:24:36,939 [INFO] Processed 4500 batches
-2025-09-23 16:24:36,940 [INFO] {
-    "loss": 0.6377668,
-    "pesq": 3.44133,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8826
-}
-2025-09-23 16:26:23,630 [INFO] Processed 4600 batches
-2025-09-23 16:26:23,630 [INFO] {
-    "loss": 0.6440822,
-    "pesq": 3.44336,
-    "avg_acc_identity": 0.9953,
-    "avg_acc_distorted": 0.8809
-}
-2025-09-23 16:28:10,135 [INFO] Processed 4700 batches
-2025-09-23 16:28:10,136 [INFO] {
-    "loss": 0.6496751,
-    "pesq": 3.4456,
-    "avg_acc_identity": 0.9951,
-    "avg_acc_distorted": 0.8798
-}
-2025-09-23 16:29:56,726 [INFO] Processed 4800 batches
-2025-09-23 16:29:56,726 [INFO] {
-    "loss": 0.6493617,
-    "pesq": 3.44549,
-    "avg_acc_identity": 0.9952,
-    "avg_acc_distorted": 0.8797
-}
-2025-09-23 16:31:44,130 [INFO] Processed 4900 batches
-2025-09-23 16:31:44,130 [INFO] {
-    "loss": 0.6479053,
-    "pesq": 3.44218,
-    "avg_acc_identity": 0.9952,
-    "avg_acc_distorted": 0.8801
-}
-2025-09-23 16:33:32,132 [INFO] Processed 5000 batches
-2025-09-23 16:33:32,132 [INFO] {
-    "loss": 0.6447302,
-    "pesq": 3.43731,
-    "avg_acc_identity": 0.9953,
-    "avg_acc_distorted": 0.8808
-}
-2025-09-23 16:35:19,723 [INFO] Processed 5100 batches
-2025-09-23 16:35:19,723 [INFO] {
-    "loss": 0.6418546,
-    "pesq": 3.43265,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8815
-}
-2025-09-23 16:37:05,477 [INFO] Processed 5200 batches
-2025-09-23 16:37:05,478 [INFO] {
-    "loss": 0.6411032,
-    "pesq": 3.43206,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8819
-}
-2025-09-23 16:38:52,910 [INFO] Processed 5300 batches
-2025-09-23 16:38:52,910 [INFO] {
-    "loss": 0.6412587,
-    "pesq": 3.43649,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8819
-}
-2025-09-23 16:40:39,588 [INFO] Processed 5400 batches
-2025-09-23 16:40:39,589 [INFO] {
-    "loss": 0.643898,
-    "pesq": 3.44032,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8811
-}
-2025-09-23 16:42:26,477 [INFO] Processed 5500 batches
-2025-09-23 16:42:26,477 [INFO] {
-    "loss": 0.6454334,
-    "pesq": 3.4433,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8807
-}
-2025-09-23 16:44:13,301 [INFO] Processed 5600 batches
-2025-09-23 16:44:13,302 [INFO] {
-    "loss": 0.6461825,
-    "pesq": 3.44456,
-    "avg_acc_identity": 0.9954,
-    "avg_acc_distorted": 0.8805
-}
-2025-09-23 16:46:01,605 [INFO] Processed 5700 batches
-2025-09-23 16:46:01,605 [INFO] {
-    "loss": 0.643665,
-    "pesq": 3.44167,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8808
-}
-2025-09-23 16:47:49,229 [INFO] Processed 5800 batches
-2025-09-23 16:47:49,229 [INFO] {
-    "loss": 0.6418642,
-    "pesq": 3.43954,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8813
-}
-2025-09-23 16:49:36,163 [INFO] Processed 5900 batches
-2025-09-23 16:49:36,164 [INFO] {
-    "loss": 0.6389265,
-    "pesq": 3.4392,
-    "avg_acc_identity": 0.9956,
-    "avg_acc_distorted": 0.882
-}
-2025-09-23 16:51:23,078 [INFO] Processed 6000 batches
-2025-09-23 16:51:23,078 [INFO] {
-    "loss": 0.6372992,
-    "pesq": 3.43949,
-    "avg_acc_identity": 0.9956,
-    "avg_acc_distorted": 0.8823
-}
-2025-09-23 16:51:23,558 [INFO] Processed 1 batches
-2025-09-23 16:51:23,558 [INFO] {
-    "loss": 0.1149921,
-    "pesq": 3.5078,
-    "avg_acc": 1.0
-}
-2025-09-23 16:52:09,975 [INFO] Processed 100 batches
-2025-09-23 16:52:09,976 [INFO] {
-    "loss": 0.1207496,
-    "pesq": 3.4459,
-    "avg_acc": 0.9987
-}
-2025-09-23 16:52:57,958 [INFO] Processed 200 batches
-2025-09-23 16:52:57,959 [INFO] {
-    "loss": 0.1377359,
-    "pesq": 3.447,
-    "avg_acc": 0.9977
-}
-2025-09-23 16:53:22,228 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.44_acc_1.00_dist_acc_0.88_epoch_4_gs.pt | Acc: 0.9974666666666666, PESQ: 3.440882222175598
-2025-09-23 16:53:22,841 [INFO] Epoch: 5
-2025-09-23 16:53:23,947 [INFO] Processed 1 batches
-2025-09-23 16:53:23,948 [INFO] {
-    "loss": 0.4832381,
-    "pesq": 3.5572,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.9667
-}
-2025-09-23 16:55:10,137 [INFO] Processed 100 batches
-2025-09-23 16:55:10,137 [INFO] {
-    "loss": 0.6029005,
-    "pesq": 3.37551,
-    "avg_acc_identity": 0.9987,
-    "avg_acc_distorted": 0.881
-}
-2025-09-23 16:56:55,473 [INFO] Processed 200 batches
-2025-09-23 16:56:55,474 [INFO] {
-    "loss": 0.5550446,
-    "pesq": 3.31604,
-    "avg_acc_identity": 0.9985,
-    "avg_acc_distorted": 0.9017
-}
-2025-09-23 16:58:40,442 [INFO] Processed 300 batches
-2025-09-23 16:58:40,443 [INFO] {
-    "loss": 0.5426079,
-    "pesq": 3.25022,
-    "avg_acc_identity": 0.9982,
-    "avg_acc_distorted": 0.908
-}
-2025-09-23 17:00:26,385 [INFO] Processed 400 batches
-2025-09-23 17:00:26,386 [INFO] {
-    "loss": 0.6200672,
-    "pesq": 3.29243,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8897
-}
-2025-09-23 17:02:13,088 [INFO] Processed 500 batches
-2025-09-23 17:02:13,088 [INFO] {
-    "loss": 0.6781948,
-    "pesq": 3.37376,
-    "avg_acc_identity": 0.9944,
-    "avg_acc_distorted": 0.8729
-}
-2025-09-23 17:04:00,202 [INFO] Processed 600 batches
-2025-09-23 17:04:00,202 [INFO] {
-    "loss": 0.682436,
-    "pesq": 3.41483,
-    "avg_acc_identity": 0.995,
-    "avg_acc_distorted": 0.8713
-}
-2025-09-23 17:05:46,807 [INFO] Processed 700 batches
-2025-09-23 17:05:46,807 [INFO] {
-    "loss": 0.6949709,
-    "pesq": 3.43187,
-    "avg_acc_identity": 0.995,
-    "avg_acc_distorted": 0.867
-}
-2025-09-23 17:07:34,988 [INFO] Processed 800 batches
-2025-09-23 17:07:34,988 [INFO] {
-    "loss": 0.6717044,
-    "pesq": 3.43784,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8708
-}
-2025-09-23 17:09:22,648 [INFO] Processed 900 batches
-2025-09-23 17:09:22,649 [INFO] {
-    "loss": 0.6457171,
-    "pesq": 3.38063,
-    "avg_acc_identity": 0.9956,
-    "avg_acc_distorted": 0.879
-}
-2025-09-23 17:11:10,946 [INFO] Processed 1000 batches
-2025-09-23 17:11:10,946 [INFO] {
-    "loss": 0.6263424,
-    "pesq": 3.35341,
-    "avg_acc_identity": 0.9959,
-    "avg_acc_distorted": 0.8844
-}
-2025-09-23 17:12:59,002 [INFO] Processed 1100 batches
-2025-09-23 17:12:59,003 [INFO] {
-    "loss": 0.6410373,
-    "pesq": 3.3549,
-    "avg_acc_identity": 0.9951,
-    "avg_acc_distorted": 0.881
-}
-2025-09-23 17:14:46,100 [INFO] Processed 1200 batches
-2025-09-23 17:14:46,101 [INFO] {
-    "loss": 0.6474369,
-    "pesq": 3.38397,
-    "avg_acc_identity": 0.9952,
-    "avg_acc_distorted": 0.8797
-}
-2025-09-23 17:16:32,768 [INFO] Processed 1300 batches
-2025-09-23 17:16:32,768 [INFO] {
-    "loss": 0.6608647,
-    "pesq": 3.40219,
-    "avg_acc_identity": 0.9948,
-    "avg_acc_distorted": 0.8764
-}
-2025-09-23 17:18:19,297 [INFO] Processed 1400 batches
-2025-09-23 17:18:19,297 [INFO] {
-    "loss": 0.6735542,
-    "pesq": 3.41178,
-    "avg_acc_identity": 0.9944,
-    "avg_acc_distorted": 0.8729
-}
-2025-09-23 17:20:06,374 [INFO] Processed 1500 batches
-2025-09-23 17:20:06,374 [INFO] {
-    "loss": 0.6681375,
-    "pesq": 3.42135,
-    "avg_acc_identity": 0.9946,
-    "avg_acc_distorted": 0.8727
-}
-2025-09-23 17:21:52,384 [INFO] Processed 1600 batches
-2025-09-23 17:21:52,385 [INFO] {
-    "loss": 0.7027647,
-    "pesq": 3.415,
-    "avg_acc_identity": 0.989,
-    "avg_acc_distorted": 0.8646
-}
-2025-09-23 17:23:38,447 [INFO] Processed 1700 batches
-2025-09-23 17:23:38,448 [INFO] {
-    "loss": 0.7344653,
-    "pesq": 3.42294,
-    "avg_acc_identity": 0.9856,
-    "avg_acc_distorted": 0.8572
-}
-2025-09-23 17:25:23,381 [INFO] Processed 1800 batches
-2025-09-23 17:25:23,382 [INFO] {
-    "loss": 0.7339781,
-    "pesq": 3.42933,
-    "avg_acc_identity": 0.9857,
-    "avg_acc_distorted": 0.8557
-}
-2025-09-23 17:27:09,337 [INFO] Processed 1900 batches
-2025-09-23 17:27:09,338 [INFO] {
-    "loss": 0.7249712,
-    "pesq": 3.42334,
-    "avg_acc_identity": 0.9863,
-    "avg_acc_distorted": 0.8581
-}
-2025-09-23 17:28:57,620 [INFO] Processed 2000 batches
-2025-09-23 17:28:57,621 [INFO] {
-    "loss": 0.7270614,
-    "pesq": 3.42461,
-    "avg_acc_identity": 0.9863,
-    "avg_acc_distorted": 0.8583
-}
-2025-09-23 17:30:44,994 [INFO] Processed 2100 batches
-2025-09-23 17:30:44,995 [INFO] {
-    "loss": 0.7310229,
-    "pesq": 3.43023,
-    "avg_acc_identity": 0.9865,
-    "avg_acc_distorted": 0.8568
-}
-2025-09-23 17:32:31,579 [INFO] Processed 2200 batches
-2025-09-23 17:32:31,580 [INFO] {
-    "loss": 0.7268849,
-    "pesq": 3.43369,
-    "avg_acc_identity": 0.987,
-    "avg_acc_distorted": 0.8574
-}
-2025-09-23 17:34:19,255 [INFO] Processed 2300 batches
-2025-09-23 17:34:19,256 [INFO] {
-    "loss": 0.7240406,
-    "pesq": 3.43097,
-    "avg_acc_identity": 0.9874,
-    "avg_acc_distorted": 0.8582
-}
-2025-09-23 17:36:05,721 [INFO] Processed 2400 batches
-2025-09-23 17:36:05,721 [INFO] {
-    "loss": 0.7140479,
-    "pesq": 3.42918,
-    "avg_acc_identity": 0.9879,
-    "avg_acc_distorted": 0.8612
-}
-2025-09-23 17:37:52,702 [INFO] Processed 2500 batches
-2025-09-23 17:37:52,702 [INFO] {
-    "loss": 0.7097528,
-    "pesq": 3.43069,
-    "avg_acc_identity": 0.9883,
-    "avg_acc_distorted": 0.8626
-}
-2025-09-23 17:39:38,738 [INFO] Processed 2600 batches
-2025-09-23 17:39:38,738 [INFO] {
-    "loss": 0.7138651,
-    "pesq": 3.43588,
-    "avg_acc_identity": 0.9885,
-    "avg_acc_distorted": 0.8613
-}
-2025-09-23 17:41:24,252 [INFO] Processed 2700 batches
-2025-09-23 17:41:24,252 [INFO] {
-    "loss": 0.7095786,
-    "pesq": 3.44495,
-    "avg_acc_identity": 0.9889,
-    "avg_acc_distorted": 0.862
-}
-2025-09-23 17:43:11,170 [INFO] Processed 2800 batches
-2025-09-23 17:43:11,170 [INFO] {
-    "loss": 0.7080231,
-    "pesq": 3.44869,
-    "avg_acc_identity": 0.9892,
-    "avg_acc_distorted": 0.8632
-}
-2025-09-23 17:44:55,675 [INFO] Processed 2900 batches
-2025-09-23 17:44:55,675 [INFO] {
-    "loss": 0.7120908,
-    "pesq": 3.45207,
-    "avg_acc_identity": 0.9893,
-    "avg_acc_distorted": 0.8622
-}
-2025-09-23 17:46:42,835 [INFO] Processed 3000 batches
-2025-09-23 17:46:42,835 [INFO] {
-    "loss": 0.7128843,
-    "pesq": 3.45757,
-    "avg_acc_identity": 0.9895,
-    "avg_acc_distorted": 0.8618
-}
-2025-09-23 17:48:28,469 [INFO] Processed 3100 batches
-2025-09-23 17:48:28,469 [INFO] {
-    "loss": 0.7158579,
-    "pesq": 3.4581,
-    "avg_acc_identity": 0.9895,
-    "avg_acc_distorted": 0.861
-}
-2025-09-23 17:50:16,148 [INFO] Processed 3200 batches
-2025-09-23 17:50:16,148 [INFO] {
-    "loss": 0.7125369,
-    "pesq": 3.45906,
-    "avg_acc_identity": 0.9898,
-    "avg_acc_distorted": 0.8619
-}
-2025-09-23 17:52:01,272 [INFO] Processed 3300 batches
-2025-09-23 17:52:01,272 [INFO] {
-    "loss": 0.7086111,
-    "pesq": 3.46053,
-    "avg_acc_identity": 0.9901,
-    "avg_acc_distorted": 0.863
-}
-2025-09-23 17:53:48,512 [INFO] Processed 3400 batches
-2025-09-23 17:53:48,512 [INFO] {
-    "loss": 0.7143075,
-    "pesq": 3.4628,
-    "avg_acc_identity": 0.9896,
-    "avg_acc_distorted": 0.8619
-}
-2025-09-23 17:55:33,726 [INFO] Processed 3500 batches
-2025-09-23 17:55:33,727 [INFO] {
-    "loss": 0.7238628,
-    "pesq": 3.47018,
-    "avg_acc_identity": 0.9891,
-    "avg_acc_distorted": 0.8588
-}
-2025-09-23 17:57:18,548 [INFO] Processed 3600 batches
-2025-09-23 17:57:18,548 [INFO] {
-    "loss": 0.7270574,
-    "pesq": 3.47805,
-    "avg_acc_identity": 0.9892,
-    "avg_acc_distorted": 0.8576
-}
-2025-09-23 17:59:05,040 [INFO] Processed 3700 batches
-2025-09-23 17:59:05,041 [INFO] {
-    "loss": 0.7275768,
-    "pesq": 3.48149,
-    "avg_acc_identity": 0.9894,
-    "avg_acc_distorted": 0.857
-}
-2025-09-23 18:00:51,778 [INFO] Processed 3800 batches
-2025-09-23 18:00:51,778 [INFO] {
-    "loss": 0.7254563,
-    "pesq": 3.48359,
-    "avg_acc_identity": 0.9896,
-    "avg_acc_distorted": 0.8578
-}
-2025-09-23 18:02:37,954 [INFO] Processed 3900 batches
-2025-09-23 18:02:37,954 [INFO] {
-    "loss": 0.7219611,
-    "pesq": 3.48465,
-    "avg_acc_identity": 0.9899,
-    "avg_acc_distorted": 0.8584
-}
-2025-09-23 18:04:22,946 [INFO] Processed 4000 batches
-2025-09-23 18:04:22,947 [INFO] {
-    "loss": 0.7167043,
-    "pesq": 3.48729,
-    "avg_acc_identity": 0.9901,
-    "avg_acc_distorted": 0.8594
-}
-2025-09-23 18:06:10,090 [INFO] Processed 4100 batches
-2025-09-23 18:06:10,091 [INFO] {
-    "loss": 0.7106497,
-    "pesq": 3.48917,
-    "avg_acc_identity": 0.9903,
-    "avg_acc_distorted": 0.861
-}
-2025-09-23 18:07:57,262 [INFO] Processed 4200 batches
-2025-09-23 18:07:57,262 [INFO] {
-    "loss": 0.7099826,
-    "pesq": 3.48933,
-    "avg_acc_identity": 0.9905,
-    "avg_acc_distorted": 0.8615
-}
-2025-09-23 18:09:44,311 [INFO] Processed 4300 batches
-2025-09-23 18:09:44,312 [INFO] {
-    "loss": 0.712492,
-    "pesq": 3.48952,
-    "avg_acc_identity": 0.9905,
-    "avg_acc_distorted": 0.8605
-}
-2025-09-23 18:11:28,957 [INFO] Processed 4400 batches
-2025-09-23 18:11:28,958 [INFO] {
-    "loss": 0.7131467,
-    "pesq": 3.48932,
-    "avg_acc_identity": 0.9906,
-    "avg_acc_distorted": 0.8603
-}
-2025-09-23 18:13:13,874 [INFO] Processed 4500 batches
-2025-09-23 18:13:13,874 [INFO] {
-    "loss": 0.7103898,
-    "pesq": 3.48632,
-    "avg_acc_identity": 0.9907,
-    "avg_acc_distorted": 0.8608
-}
-2025-09-23 18:14:59,683 [INFO] Processed 4600 batches
-2025-09-23 18:14:59,684 [INFO] {
-    "loss": 0.7100883,
-    "pesq": 3.48309,
-    "avg_acc_identity": 0.9908,
-    "avg_acc_distorted": 0.8613
-}
-2025-09-23 18:16:44,802 [INFO] Processed 4700 batches
-2025-09-23 18:16:44,802 [INFO] {
-    "loss": 0.7112244,
-    "pesq": 3.48234,
-    "avg_acc_identity": 0.9908,
-    "avg_acc_distorted": 0.8616
-}
-2025-09-23 18:18:31,202 [INFO] Processed 4800 batches
-2025-09-23 18:18:31,203 [INFO] {
-    "loss": 0.7077409,
-    "pesq": 3.48127,
-    "avg_acc_identity": 0.9909,
-    "avg_acc_distorted": 0.8623
-}
-2025-09-23 18:20:16,510 [INFO] Processed 4900 batches
-2025-09-23 18:20:16,511 [INFO] {
-    "loss": 0.7034988,
-    "pesq": 3.48089,
-    "avg_acc_identity": 0.9911,
-    "avg_acc_distorted": 0.8634
-}
-2025-09-23 18:22:02,763 [INFO] Processed 5000 batches
-2025-09-23 18:22:02,763 [INFO] {
-    "loss": 0.7008224,
-    "pesq": 3.48153,
-    "avg_acc_identity": 0.9913,
-    "avg_acc_distorted": 0.8642
-}
-2025-09-23 18:23:47,670 [INFO] Processed 5100 batches
-2025-09-23 18:23:47,670 [INFO] {
-    "loss": 0.6998972,
-    "pesq": 3.48216,
-    "avg_acc_identity": 0.9914,
-    "avg_acc_distorted": 0.8644
-}
-2025-09-23 18:25:34,300 [INFO] Processed 5200 batches
-2025-09-23 18:25:34,300 [INFO] {
-    "loss": 0.7005552,
-    "pesq": 3.48285,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.8644
-}
-2025-09-23 18:27:21,438 [INFO] Processed 5300 batches
-2025-09-23 18:27:21,439 [INFO] {
-    "loss": 0.7015249,
-    "pesq": 3.48458,
-    "avg_acc_identity": 0.9915,
-    "avg_acc_distorted": 0.864
-}
-2025-09-23 18:29:06,649 [INFO] Processed 5400 batches
-2025-09-23 18:29:06,649 [INFO] {
-    "loss": 0.6992624,
-    "pesq": 3.48515,
-    "avg_acc_identity": 0.9917,
-    "avg_acc_distorted": 0.8647
-}
-2025-09-23 18:30:53,163 [INFO] Processed 5500 batches
-2025-09-23 18:30:53,164 [INFO] {
-    "loss": 0.6993276,
-    "pesq": 3.48653,
-    "avg_acc_identity": 0.9917,
-    "avg_acc_distorted": 0.8646
-}
-2025-09-23 18:32:37,625 [INFO] Processed 5600 batches
-2025-09-23 18:32:37,625 [INFO] {
-    "loss": 0.6976484,
-    "pesq": 3.48882,
-    "avg_acc_identity": 0.9919,
-    "avg_acc_distorted": 0.8649
-}
-2025-09-23 18:34:23,135 [INFO] Processed 5700 batches
-2025-09-23 18:34:23,136 [INFO] {
-    "loss": 0.694653,
-    "pesq": 3.4899,
-    "avg_acc_identity": 0.992,
-    "avg_acc_distorted": 0.8657
-}
-2025-09-23 18:36:09,505 [INFO] Processed 5800 batches
-2025-09-23 18:36:09,505 [INFO] {
-    "loss": 0.6932518,
-    "pesq": 3.48986,
-    "avg_acc_identity": 0.9921,
-    "avg_acc_distorted": 0.8658
-}
-2025-09-23 18:37:56,013 [INFO] Processed 5900 batches
-2025-09-23 18:37:56,014 [INFO] {
-    "loss": 0.6929681,
-    "pesq": 3.49161,
-    "avg_acc_identity": 0.9922,
-    "avg_acc_distorted": 0.8658
-}
-2025-09-23 18:39:41,270 [INFO] Processed 6000 batches
-2025-09-23 18:39:41,271 [INFO] {
-    "loss": 0.6961716,
-    "pesq": 3.49339,
-    "avg_acc_identity": 0.9921,
-    "avg_acc_distorted": 0.8648
-}
-2025-09-23 18:39:41,800 [INFO] Processed 1 batches
-2025-09-23 18:39:41,801 [INFO] {
-    "loss": 0.2343576,
-    "pesq": 3.532,
-    "avg_acc": 1.0
-}
-2025-09-23 18:40:29,185 [INFO] Processed 100 batches
-2025-09-23 18:40:29,186 [INFO] {
-    "loss": 0.240887,
-    "pesq": 3.6048,
-    "avg_acc": 0.994
-}
-2025-09-23 18:41:16,122 [INFO] Processed 200 batches
-2025-09-23 18:41:16,122 [INFO] {
-    "loss": 0.2769111,
-    "pesq": 3.5747,
-    "avg_acc": 0.9892
-}
-2025-09-23 18:41:39,993 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.56_acc_0.99_dist_acc_0.86_epoch_5_gs.pt | Acc: 0.9870666666666666, PESQ: 3.5579353351593017
-2025-09-23 18:41:40,562 [INFO] Epoch: 6
-2025-09-23 18:41:41,665 [INFO] Processed 1 batches
-2025-09-23 18:41:41,666 [INFO] {
-    "loss": 0.7687972,
-    "pesq": 3.8095,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.8333
-}
-2025-09-23 18:43:25,831 [INFO] Processed 100 batches
-2025-09-23 18:43:25,832 [INFO] {
-    "loss": 0.7486398,
-    "pesq": 3.65111,
-    "avg_acc_identity": 0.994,
-    "avg_acc_distorted": 0.845
-}
-2025-09-23 18:45:12,724 [INFO] Processed 200 batches
-2025-09-23 18:45:12,725 [INFO] {
-    "loss": 0.6470695,
-    "pesq": 3.60759,
-    "avg_acc_identity": 0.9957,
-    "avg_acc_distorted": 0.8728
-}
-2025-09-23 18:46:57,827 [INFO] Processed 300 batches
-2025-09-23 18:46:57,827 [INFO] {
-    "loss": 0.6091822,
-    "pesq": 3.55331,
-    "avg_acc_identity": 0.9964,
-    "avg_acc_distorted": 0.888
-}
-2025-09-23 18:48:41,412 [INFO] Processed 400 batches
-2025-09-23 18:48:41,413 [INFO] {
-    "loss": 0.5875772,
-    "pesq": 3.49993,
-    "avg_acc_identity": 0.9971,
-    "avg_acc_distorted": 0.8904
-}
-2025-09-23 18:50:25,078 [INFO] Processed 500 batches
-2025-09-23 18:50:25,078 [INFO] {
-    "loss": 0.5747817,
-    "pesq": 3.47138,
-    "avg_acc_identity": 0.9976,
-    "avg_acc_distorted": 0.8924
-}
-2025-09-23 18:52:09,143 [INFO] Processed 600 batches
-2025-09-23 18:52:09,143 [INFO] {
-    "loss": 0.5590575,
-    "pesq": 3.46257,
-    "avg_acc_identity": 0.9978,
-    "avg_acc_distorted": 0.8988
-}
-2025-09-23 18:53:53,690 [INFO] Processed 700 batches
-2025-09-23 18:53:53,690 [INFO] {
-    "loss": 0.5965727,
-    "pesq": 3.4727,
-    "avg_acc_identity": 0.9966,
-    "avg_acc_distorted": 0.8912
-}
-2025-09-23 18:55:38,985 [INFO] Processed 800 batches
-2025-09-23 18:55:38,986 [INFO] {
-    "loss": 0.6333179,
-    "pesq": 3.50526,
-    "avg_acc_identity": 0.9955,
-    "avg_acc_distorted": 0.8809
-}
-2025-09-23 18:57:22,433 [INFO] Processed 900 batches
-2025-09-23 18:57:22,433 [INFO] {
-    "loss": 0.6444894,
-    "pesq": 3.52732,
-    "avg_acc_identity": 0.9957,
-    "avg_acc_distorted": 0.8779
-}
-2025-09-23 18:59:06,975 [INFO] Processed 1000 batches
-2025-09-23 18:59:06,976 [INFO] {
-    "loss": 0.6550882,
-    "pesq": 3.52898,
-    "avg_acc_identity": 0.9953,
-    "avg_acc_distorted": 0.8769
-}
-2025-09-23 19:00:52,398 [INFO] Processed 1100 batches
-2025-09-23 19:00:52,398 [INFO] {
-    "loss": 0.6925226,
-    "pesq": 3.53147,
-    "avg_acc_identity": 0.9935,
-    "avg_acc_distorted": 0.8656
-}
-2025-09-23 19:02:36,393 [INFO] Processed 1200 batches
-2025-09-23 19:02:36,394 [INFO] {
-    "loss": 0.6951522,
-    "pesq": 3.55193,
-    "avg_acc_identity": 0.994,
-    "avg_acc_distorted": 0.8637
-}
-2025-09-23 19:04:20,735 [INFO] Processed 1300 batches
-2025-09-23 19:04:20,735 [INFO] {
-    "loss": 0.6994332,
-    "pesq": 3.55706,
-    "avg_acc_identity": 0.9942,
-    "avg_acc_distorted": 0.8632
-}
-2025-09-23 19:06:05,935 [INFO] Processed 1400 batches
-2025-09-23 19:06:05,935 [INFO] {
-    "loss": 0.7056047,
-    "pesq": 3.56381,
-    "avg_acc_identity": 0.9944,
-    "avg_acc_distorted": 0.8624
-}
-2025-09-23 19:07:51,716 [INFO] Processed 1500 batches
-2025-09-23 19:07:51,717 [INFO] {
-    "loss": 0.7268269,
-    "pesq": 3.56721,
-    "avg_acc_identity": 0.9929,
-    "avg_acc_distorted": 0.8562
-}
-2025-09-23 19:09:36,067 [INFO] Processed 1600 batches
-2025-09-23 19:09:36,067 [INFO] {
-    "loss": 0.7471874,
-    "pesq": 3.57067,
-    "avg_acc_identity": 0.9917,
-    "avg_acc_distorted": 0.851
-}
-2025-09-23 19:11:20,588 [INFO] Processed 1700 batches
-2025-09-23 19:11:20,589 [INFO] {
-    "loss": 0.7478089,
-    "pesq": 3.57384,
-    "avg_acc_identity": 0.9918,
-    "avg_acc_distorted": 0.8498
-}
-2025-09-23 19:13:05,562 [INFO] Processed 1800 batches
-2025-09-23 19:13:05,562 [INFO] {
-    "loss": 0.7438306,
-    "pesq": 3.57132,
-    "avg_acc_identity": 0.9921,
-    "avg_acc_distorted": 0.8515
-}
-2025-09-23 19:14:51,476 [INFO] Processed 1900 batches
-2025-09-23 19:14:51,477 [INFO] {
-    "loss": 0.7485939,
-    "pesq": 3.56713,
-    "avg_acc_identity": 0.9918,
-    "avg_acc_distorted": 0.8513
-}
-2025-09-23 19:16:36,109 [INFO] Processed 2000 batches
-2025-09-23 19:16:36,109 [INFO] {
-    "loss": 0.74993,
-    "pesq": 3.56699,
-    "avg_acc_identity": 0.9918,
-    "avg_acc_distorted": 0.8509
-}
-2025-09-23 19:18:21,422 [INFO] Processed 2100 batches
-2025-09-23 19:18:21,423 [INFO] {
-    "loss": 0.7603495,
-    "pesq": 3.56764,
-    "avg_acc_identity": 0.9913,
-    "avg_acc_distorted": 0.8479
-}
-2025-09-23 19:20:05,314 [INFO] Processed 2200 batches
-2025-09-23 19:20:05,315 [INFO] {
-    "loss": 0.7733407,
-    "pesq": 3.56626,
-    "avg_acc_identity": 0.99,
-    "avg_acc_distorted": 0.8455
-}
-2025-09-23 19:21:48,745 [INFO] Processed 2300 batches
-2025-09-23 19:21:48,745 [INFO] {
-    "loss": 0.7711838,
-    "pesq": 3.56332,
-    "avg_acc_identity": 0.9902,
-    "avg_acc_distorted": 0.8453
-}
-2025-09-23 19:23:33,002 [INFO] Processed 2400 batches
-2025-09-23 19:23:33,002 [INFO] {
-    "loss": 0.7691305,
-    "pesq": 3.55673,
-    "avg_acc_identity": 0.9905,
-    "avg_acc_distorted": 0.8467
-}
-2025-09-23 19:25:17,578 [INFO] Processed 2500 batches
-2025-09-23 19:25:17,578 [INFO] {
-    "loss": 0.7693583,
-    "pesq": 3.55511,
-    "avg_acc_identity": 0.9906,
-    "avg_acc_distorted": 0.8471
-}
-2025-09-23 19:27:02,127 [INFO] Processed 2600 batches
-2025-09-23 19:27:02,127 [INFO] {
-    "loss": 0.7773933,
-    "pesq": 3.55547,
-    "avg_acc_identity": 0.9897,
-    "avg_acc_distorted": 0.8448
-}
-2025-09-23 19:28:46,570 [INFO] Processed 2700 batches
-2025-09-23 19:28:46,570 [INFO] {
-    "loss": 0.7961688,
-    "pesq": 3.56191,
-    "avg_acc_identity": 0.9874,
-    "avg_acc_distorted": 0.8399
-}
-2025-09-23 19:30:29,578 [INFO] Processed 2800 batches
-2025-09-23 19:30:29,578 [INFO] {
-    "loss": 0.8107079,
-    "pesq": 3.57063,
-    "avg_acc_identity": 0.9858,
-    "avg_acc_distorted": 0.8352
-}
-2025-09-23 19:32:13,150 [INFO] Processed 2900 batches
-2025-09-23 19:32:13,151 [INFO] {
-    "loss": 0.812943,
-    "pesq": 3.57857,
-    "avg_acc_identity": 0.986,
-    "avg_acc_distorted": 0.8352
-}
-2025-09-23 19:33:56,467 [INFO] Processed 3000 batches
-2025-09-23 19:33:56,467 [INFO] {
-    "loss": 0.8091792,
-    "pesq": 3.58177,
-    "avg_acc_identity": 0.9864,
-    "avg_acc_distorted": 0.8371
-}
-2025-09-23 19:35:41,009 [INFO] Processed 3100 batches
-2025-09-23 19:35:41,010 [INFO] {
-    "loss": 0.8016651,
-    "pesq": 3.58138,
-    "avg_acc_identity": 0.9868,
-    "avg_acc_distorted": 0.8386
-}
-2025-09-23 19:37:25,425 [INFO] Processed 3200 batches
-2025-09-23 19:37:25,425 [INFO] {
-    "loss": 0.7989772,
-    "pesq": 3.58038,
-    "avg_acc_identity": 0.9872,
-    "avg_acc_distorted": 0.8386
-}
-2025-09-23 19:39:08,730 [INFO] Processed 3300 batches
-2025-09-23 19:39:08,730 [INFO] {
-    "loss": 0.7978981,
-    "pesq": 3.58113,
-    "avg_acc_identity": 0.9874,
-    "avg_acc_distorted": 0.8391
-}
-2025-09-23 19:40:52,849 [INFO] Processed 3400 batches
-2025-09-23 19:40:52,849 [INFO] {
-    "loss": 0.7958418,
-    "pesq": 3.58374,
-    "avg_acc_identity": 0.9877,
-    "avg_acc_distorted": 0.8398
-}
-2025-09-23 19:42:36,471 [INFO] Processed 3500 batches
-2025-09-23 19:42:36,472 [INFO] {
-    "loss": 0.8040478,
-    "pesq": 3.58367,
-    "avg_acc_identity": 0.9865,
-    "avg_acc_distorted": 0.838
-}
-2025-09-23 19:44:19,587 [INFO] Processed 3600 batches
-2025-09-23 19:44:19,587 [INFO] {
-    "loss": 0.8109964,
-    "pesq": 3.58598,
-    "avg_acc_identity": 0.9858,
-    "avg_acc_distorted": 0.8356
-}
-2025-09-23 19:46:03,634 [INFO] Processed 3700 batches
-2025-09-23 19:46:03,634 [INFO] {
-    "loss": 0.8090215,
-    "pesq": 3.58762,
-    "avg_acc_identity": 0.9861,
-    "avg_acc_distorted": 0.8364
-}
-2025-09-23 19:47:47,223 [INFO] Processed 3800 batches
-2025-09-23 19:47:47,224 [INFO] {
-    "loss": 0.8093656,
-    "pesq": 3.58669,
-    "avg_acc_identity": 0.9862,
-    "avg_acc_distorted": 0.8366
-}
-2025-09-23 19:49:30,017 [INFO] Processed 3900 batches
-2025-09-23 19:49:30,017 [INFO] {
-    "loss": 0.8116921,
-    "pesq": 3.58388,
-    "avg_acc_identity": 0.9862,
-    "avg_acc_distorted": 0.8356
-}
-2025-09-23 19:51:13,478 [INFO] Processed 4000 batches
-2025-09-23 19:51:13,479 [INFO] {
-    "loss": 0.8098134,
-    "pesq": 3.58286,
-    "avg_acc_identity": 0.9864,
-    "avg_acc_distorted": 0.8356
-}
-2025-09-23 19:52:57,770 [INFO] Processed 4100 batches
-2025-09-23 19:52:57,771 [INFO] {
-    "loss": 0.8097257,
-    "pesq": 3.58223,
-    "avg_acc_identity": 0.9865,
-    "avg_acc_distorted": 0.8349
-}
-2025-09-23 19:54:41,949 [INFO] Processed 4200 batches
-2025-09-23 19:54:41,950 [INFO] {
-    "loss": 0.8129446,
-    "pesq": 3.58024,
-    "avg_acc_identity": 0.9863,
-    "avg_acc_distorted": 0.8343
-}
-2025-09-23 19:56:25,480 [INFO] Processed 4300 batches
-2025-09-23 19:56:25,480 [INFO] {
-    "loss": 0.8087937,
-    "pesq": 3.57894,
-    "avg_acc_identity": 0.9866,
-    "avg_acc_distorted": 0.835
-}
-2025-09-23 19:58:09,541 [INFO] Processed 4400 batches
-2025-09-23 19:58:09,541 [INFO] {
-    "loss": 0.8051915,
-    "pesq": 3.57832,
-    "avg_acc_identity": 0.9868,
-    "avg_acc_distorted": 0.8359
-}
-2025-09-23 19:59:54,967 [INFO] Processed 4500 batches
-2025-09-23 19:59:54,967 [INFO] {
-    "loss": 0.8033426,
-    "pesq": 3.57667,
-    "avg_acc_identity": 0.987,
-    "avg_acc_distorted": 0.8368
-}
-2025-09-23 20:01:39,951 [INFO] Processed 4600 batches
-2025-09-23 20:01:39,951 [INFO] {
-    "loss": 0.7983876,
-    "pesq": 3.57614,
-    "avg_acc_identity": 0.9873,
-    "avg_acc_distorted": 0.838
-}
-2025-09-23 20:03:24,134 [INFO] Processed 4700 batches
-2025-09-23 20:03:24,134 [INFO] {
-    "loss": 0.7972933,
-    "pesq": 3.57691,
-    "avg_acc_identity": 0.9875,
-    "avg_acc_distorted": 0.8384
-}
-2025-09-23 20:05:08,441 [INFO] Processed 4800 batches
-2025-09-23 20:05:08,442 [INFO] {
-    "loss": 0.7952414,
-    "pesq": 3.57828,
-    "avg_acc_identity": 0.9877,
-    "avg_acc_distorted": 0.8388
-}
-2025-09-23 20:06:53,836 [INFO] Processed 4900 batches
-2025-09-23 20:06:53,836 [INFO] {
-    "loss": 0.7962159,
-    "pesq": 3.57841,
-    "avg_acc_identity": 0.9878,
-    "avg_acc_distorted": 0.8386
-}
-2025-09-23 20:08:38,276 [INFO] Processed 5000 batches
-2025-09-23 20:08:38,276 [INFO] {
-    "loss": 0.7941371,
-    "pesq": 3.5806,
-    "avg_acc_identity": 0.988,
-    "avg_acc_distorted": 0.8387
-}
-2025-09-23 20:10:23,233 [INFO] Processed 5100 batches
-2025-09-23 20:10:23,234 [INFO] {
-    "loss": 0.7899644,
-    "pesq": 3.5821,
-    "avg_acc_identity": 0.9882,
-    "avg_acc_distorted": 0.8397
-}
-2025-09-23 20:12:07,762 [INFO] Processed 5200 batches
-2025-09-23 20:12:07,762 [INFO] {
-    "loss": 0.7850433,
-    "pesq": 3.58052,
-    "avg_acc_identity": 0.9884,
-    "avg_acc_distorted": 0.841
-}
-2025-09-23 20:13:51,491 [INFO] Processed 5300 batches
-2025-09-23 20:13:51,491 [INFO] {
-    "loss": 0.7821414,
-    "pesq": 3.57816,
-    "avg_acc_identity": 0.9886,
-    "avg_acc_distorted": 0.8416
-}
-2025-09-23 20:15:35,098 [INFO] Processed 5400 batches
-2025-09-23 20:15:35,099 [INFO] {
-    "loss": 0.7795912,
-    "pesq": 3.57685,
-    "avg_acc_identity": 0.9888,
-    "avg_acc_distorted": 0.842
-}
-2025-09-23 20:17:19,528 [INFO] Processed 5500 batches
-2025-09-23 20:17:19,528 [INFO] {
-    "loss": 0.7789045,
-    "pesq": 3.57572,
-    "avg_acc_identity": 0.9889,
-    "avg_acc_distorted": 0.8421
-}
-2025-09-23 20:19:03,475 [INFO] Processed 5600 batches
-2025-09-23 20:19:03,475 [INFO] {
-    "loss": 0.7744797,
-    "pesq": 3.57612,
-    "avg_acc_identity": 0.9891,
-    "avg_acc_distorted": 0.8431
-}
-2025-09-23 20:20:46,527 [INFO] Processed 5700 batches
-2025-09-23 20:20:46,528 [INFO] {
-    "loss": 0.7700826,
-    "pesq": 3.57588,
-    "avg_acc_identity": 0.9892,
-    "avg_acc_distorted": 0.8439
-}
-2025-09-23 20:22:30,752 [INFO] Processed 5800 batches
-2025-09-23 20:22:30,752 [INFO] {
-    "loss": 0.765426,
-    "pesq": 3.57405,
-    "avg_acc_identity": 0.9894,
-    "avg_acc_distorted": 0.845
-}
-2025-09-23 20:24:15,098 [INFO] Processed 5900 batches
-2025-09-23 20:24:15,098 [INFO] {
-    "loss": 0.7624158,
-    "pesq": 3.57111,
-    "avg_acc_identity": 0.9896,
-    "avg_acc_distorted": 0.8459
-}
-2025-09-23 20:26:00,234 [INFO] Processed 6000 batches
-2025-09-23 20:26:00,234 [INFO] {
-    "loss": 0.7611346,
-    "pesq": 3.56823,
-    "avg_acc_identity": 0.9897,
-    "avg_acc_distorted": 0.8459
-}
-2025-09-23 20:26:00,766 [INFO] Processed 1 batches
-2025-09-23 20:26:00,766 [INFO] {
-    "loss": 0.1257375,
-    "pesq": 3.4943,
-    "avg_acc": 1.0
-}
-2025-09-23 20:26:46,843 [INFO] Processed 100 batches
-2025-09-23 20:26:46,844 [INFO] {
-    "loss": 0.1404639,
-    "pesq": 3.3644,
-    "avg_acc": 0.9987
-}
-2025-09-23 20:27:33,594 [INFO] Processed 200 batches
-2025-09-23 20:27:33,594 [INFO] {
-    "loss": 0.1658247,
-    "pesq": 3.376,
-    "avg_acc": 0.9965
-}
-2025-09-23 20:27:57,046 [INFO] Checkpoint saved: model_ckpts/lj/wm_model_lj_pesq_3.38_acc_1.00_dist_acc_0.85_epoch_6_gs.pt | Acc: 0.996, PESQ: 3.376647909164429
-2025-09-23 20:27:57,633 [INFO] Epoch: 7
-2025-09-23 20:27:58,717 [INFO] Processed 1 batches
-2025-09-23 20:27:58,717 [INFO] {
-    "loss": 0.5643247,
-    "pesq": 3.26354,
-    "avg_acc_identity": 1.0,
-    "avg_acc_distorted": 0.8667
-}
-2025-09-23 20:29:40,953 [INFO] Processed 100 batches
-2025-09-23 20:29:40,953 [INFO] {
-    "loss": 0.6542834,
-    "pesq": 3.29977,
-    "avg_acc_identity": 0.9973,
-    "avg_acc_distorted": 0.873
-}
-2025-09-23 20:31:26,184 [INFO] Processed 200 batches
-2025-09-23 20:31:26,185 [INFO] {
-    "loss": 0.6938701,
-    "pesq": 3.34851,
-    "avg_acc_identity": 0.9958,
-    "avg_acc_distorted": 0.8523
-}
-2025-09-23 20:33:10,013 [INFO] Processed 300 batches
-2025-09-23 20:33:10,014 [INFO] {
-    "loss": 0.6997386,
-    "pesq": 3.41568,
-    "avg_acc_identity": 0.996,
-    "avg_acc_distorted": 0.8593
-}
-2025-09-23 20:34:53,885 [INFO] Processed 400 batches
-2025-09-23 20:34:53,886 [INFO] {
-    "loss": 0.7136835,
-    "pesq": 3.4865,
-    "avg_acc_identity": 0.9961,
-    "avg_acc_distorted": 0.8592
-}
-2025-09-23 20:36:38,338 [INFO] Processed 500 batches
-2025-09-23 20:36:38,338 [INFO] {
-    "loss": 0.7065822,
-    "pesq": 3.53428,
-    "avg_acc_identity": 0.9967,
-    "avg_acc_distorted": 0.8591
-}
-2025-09-23 20:38:22,299 [INFO] Processed 600 batches
-2025-09-23 20:38:22,299 [INFO] {
-    "loss": 0.692433,
-    "pesq": 3.5547,
-    "avg_acc_identity": 0.9971,
-    "avg_acc_distorted": 0.8651
-}
-2025-09-23 20:40:05,050 [INFO] Processed 700 batches
-2025-09-23 20:40:05,051 [INFO] {
-    "loss": 0.7093274,
-    "pesq": 3.56853,
-    "avg_acc_identity": 0.9969,
-    "avg_acc_distorted": 0.8619
-}
-2025-09-23 20:41:49,135 [INFO] Processed 800 batches
-2025-09-23 20:41:49,135 [INFO] {
-    "loss": 0.7071067,
-    "pesq": 3.60589,
-    "avg_acc_identity": 0.9972,
-    "avg_acc_distorted": 0.8582
-}
-2025-09-23 20:43:33,953 [INFO] Processed 900 batches
-2025-09-23 20:43:33,953 [INFO] {
-    "loss": 0.7027611,
-    "pesq": 3.61936,
-    "avg_acc_identity": 0.9973,
-    "avg_acc_distorted": 0.8596
-}
-2025-09-23 20:45:19,771 [INFO] Processed 1000 batches
-2025-09-23 20:45:19,771 [INFO] {
-    "loss": 0.6871955,
-    "pesq": 3.62157,
-    "avg_acc_identity": 0.9975,
-    "avg_acc_distorted": 0.8643
-}
-2025-09-23 20:47:07,117 [INFO] Processed 1100 batches
-2025-09-23 20:47:07,118 [INFO] {
-    "loss": 0.6682717,
-    "pesq": 3.61453,
-    "avg_acc_identity": 0.9977,
-    "avg_acc_distorted": 0.8701
-}
-2025-09-23 20:48:51,285 [INFO] Processed 1200 batches
-2025-09-23 20:48:51,286 [INFO] {
-    "loss": 0.6718794,
-    "pesq": 3.60654,
-    "avg_acc_identity": 0.9975,
-    "avg_acc_distorted": 0.8691
-}
-2025-09-23 20:50:36,282 [INFO] Processed 1300 batches
-2025-09-23 20:50:36,282 [INFO] {
-    "loss": 0.6820837,
-    "pesq": 3.6123,
-    "avg_acc_identity": 0.997,
-    "avg_acc_distorted": 0.8658
-}
-2025-09-23 20:52:22,085 [INFO] Processed 1400 batches
-2025-09-23 20:52:22,085 [INFO] {
-    "loss": 0.675972,
-    "pesq": 3.61909,
-    "avg_acc_identity": 0.9972,
-    "avg_acc_distorted": 0.8676
-}
-2025-09-23 20:54:06,276 [INFO] Processed 1500 batches
-2025-09-23 20:54:06,276 [INFO] {
-    "loss": 0.6764656,
-    "pesq": 3.61725,
-    "avg_acc_identity": 0.9971,
-    "avg_acc_distorted": 0.8689
-}
-2025-09-23 20:55:51,401 [INFO] Processed 1600 batches
-2025-09-23 20:55:51,401 [INFO] {
-    "loss": 0.6760928,
-    "pesq": 3.61335,
-    "avg_acc_identity": 0.9973,
-    "avg_acc_distorted": 0.8693
-}
-2025-09-23 20:57:34,330 [INFO] Processed 1700 batches
-2025-09-23 20:57:34,331 [INFO] {
-    "loss": 0.671536,
-    "pesq": 3.61044,
-    "avg_acc_identity": 0.9974,
-    "avg_acc_distorted": 0.8704
-}
-2025-09-23 20:59:16,289 [INFO] Processed 1800 batches
-2025-09-23 20:59:16,289 [INFO] {
-    "loss": 0.6676172,
-    "pesq": 3.60716,
-    "avg_acc_identity": 0.9974,
-    "avg_acc_distorted": 0.8714
-}
-2025-09-23 21:01:02,423 [INFO] Processed 1900 batches
-2025-09-23 21:01:02,423 [INFO] {
-    "loss": 0.6654362,
-    "pesq": 3.60169,
-    "avg_acc_identity": 0.9974,
-    "avg_acc_distorted": 0.8717
-}
-2025-09-23 21:02:47,695 [INFO] Processed 2000 batches
-2025-09-23 21:02:47,696 [INFO] {
-    "loss": 0.6774739,
-    "pesq": 3.60768,
-    "avg_acc_identity": 0.9971,
-    "avg_acc_distorted": 0.8686
-}
-2025-09-23 21:04:32,805 [INFO] Processed 2100 batches
-2025-09-23 21:04:32,806 [INFO] {
-    "loss": 0.6854923,
-    "pesq": 3.61727,
-    "avg_acc_identity": 0.9969,
-    "avg_acc_distorted": 0.8664
-}
-2025-09-23 21:06:17,314 [INFO] Processed 2200 batches
-2025-09-23 21:06:17,314 [INFO] {
-    "loss": 0.6879321,
-    "pesq": 3.61939,
-    "avg_acc_identity": 0.997,
-    "avg_acc_distorted": 0.8654
-}
-2025-09-23 21:08:01,010 [INFO] Processed 2300 batches
-2025-09-23 21:08:01,010 [INFO] {
-    "loss": 0.6852098,
-    "pesq": 3.61567,
-    "avg_acc_identity": 0.997,
-    "avg_acc_distorted": 0.8658
-}
-2025-09-23 21:09:46,280 [INFO] Processed 2400 batches
-2025-09-23 21:09:46,281 [INFO] {
-    "loss": 0.6758405,
-    "pesq": 3.6121,
-    "avg_acc_identity": 0.9971,
-    "avg_acc_distorted": 0.868
-}
-2025-09-23 21:11:32,611 [INFO] Processed 2500 batches
-2025-09-23 21:11:32,611 [INFO] {
-    "loss": 0.6691288,
-    "pesq": 3.60759,
-    "avg_acc_identity": 0.9972,
-    "avg_acc_distorted": 0.8705
-}
-2025-09-23 21:13:17,563 [INFO] Processed 2600 batches
-2025-09-23 21:13:17,563 [INFO] {
-    "loss": 0.6674152,
-    "pesq": 3.60465,
-    "avg_acc_identity": 0.9973,
-    "avg_acc_distorted": 0.8713
-}
-2025-09-23 21:15:03,719 [INFO] Processed 2700 batches
-2025-09-23 21:15:03,719 [INFO] {
-    "loss": 0.6654668,
-    "pesq": 3.60559,
-    "avg_acc_identity": 0.9974,
-    "avg_acc_distorted": 0.8711
-}
-2025-09-23 21:16:48,951 [INFO] Processed 2800 batches
-2025-09-23 21:16:48,951 [INFO] {
-    "loss": 0.6674899,
-    "pesq": 3.60629,
-    "avg_acc_identity": 0.9974,
-    "avg_acc_distorted": 0.8716
-}
-2025-09-23 21:18:36,548 [INFO] Processed 2900 batches
-2025-09-23 21:18:36,549 [INFO] {
-    "loss": 0.666774,
-    "pesq": 3.60712,
-    "avg_acc_identity": 0.9975,
-    "avg_acc_distorted": 0.8722
-}
+2025-09-25 14:13:22,339 [INFO] Epoch: 1
+2025-09-25 14:14:17,338 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-09-25 14:14:17,338 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-09-25 14:14:17,338 [INFO] Device: cuda
+2025-09-25 14:14:19,473 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "lambda_e": 1.0,
+        "lambda_m": 0.05,
+        "lambda_a": 0.01,
+        "lambda_cl": 0.1,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-09-25 14:14:19,473 [INFO] Epoch: 1
+2025-09-25 14:14:40,165 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-09-25 14:14:40,166 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-09-25 14:14:40,166 [INFO] Device: cuda
+2025-09-25 14:14:42,405 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "lambda_e": 1.0,
+        "lambda_m": 0.05,
+        "lambda_a": 0.01,
+        "lambda_cl": 0.1,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-09-25 14:14:42,405 [INFO] Epoch: 1
+2025-09-25 14:15:09,511 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-09-25 14:15:09,512 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-09-25 14:15:09,512 [INFO] Device: cuda
+2025-09-25 14:15:11,667 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "lambda_e": 1.0,
+        "lambda_m": 0.05,
+        "lambda_a": 0.01,
+        "lambda_cl": 0.1,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-09-25 14:15:11,667 [INFO] Epoch: 1
+2025-10-01 19:57:52,827 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 19:57:52,829 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 19:57:52,829 [INFO] Device: cuda
+2025-10-01 19:58:41,935 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 19:58:41,936 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 19:58:41,936 [INFO] Device: cuda
+2025-10-01 20:00:07,079 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:00:07,080 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:00:07,080 [INFO] Device: cuda
+2025-10-01 20:00:10,363 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:00:10,363 [INFO] Epoch: 1
+2025-10-01 20:00:10,439 [WARNING] Pyrubberband failed: Failed to execute rubberband. Please verify that rubberband-cli is installed.. Falling back to librosa time_stretch.
+2025-10-01 20:00:19,176 [WARNING] Pyrubberband failed: Failed to execute rubberband. Please verify that rubberband-cli is installed.. Falling back to librosa time_stretch.
+2025-10-01 20:00:20,002 [WARNING] Pyrubberband failed: Failed to execute rubberband. Please verify that rubberband-cli is installed.. Falling back to librosa time_stretch.
+2025-10-01 20:01:43,953 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:01:43,953 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:01:43,954 [INFO] Device: cuda
+2025-10-01 20:01:46,217 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:01:46,218 [INFO] Epoch: 1
+2025-10-01 20:02:42,832 [INFO] Replaced:34.22% of blocks.
+2025-10-01 20:03:15,015 [INFO] Replaced:31.82% of blocks.
+2025-10-01 20:05:53,669 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:05:53,670 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:05:53,670 [INFO] Device: cuda
+2025-10-01 20:05:55,972 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:05:55,973 [INFO] Epoch: 1
+2025-10-01 20:06:17,518 [INFO] Replaced:28.84% of blocks.
+2025-10-01 20:06:26,765 [INFO] Replaced:32.75% of blocks.
+2025-10-01 20:09:09,091 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:09:09,092 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:09:09,092 [INFO] Device: cuda
+2025-10-01 20:09:11,378 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:09:11,379 [INFO] Epoch: 1
+2025-10-01 20:10:30,710 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:10:30,710 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:10:30,710 [INFO] Device: cuda
+2025-10-01 20:10:33,277 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:10:33,278 [INFO] Epoch: 1
+2025-10-01 20:11:46,224 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:11:46,225 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:11:46,225 [INFO] Device: cuda
+2025-10-01 20:11:48,464 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:11:48,465 [INFO] Epoch: 1
+2025-10-01 20:12:01,766 [INFO] Replaced:39.84% of blocks.
+2025-10-01 20:13:13,558 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:13:13,559 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:13:13,559 [INFO] Device: cuda
+2025-10-01 20:13:20,210 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 2,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:13:20,210 [INFO] Epoch: 1
+2025-10-01 20:16:17,315 [INFO] :package: train loader ready → samples=12000, batch_size=4, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:16:17,316 [INFO] :package: train loader ready → samples=500, batch_size=4, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:16:17,316 [INFO] Device: cuda
+2025-10-01 20:16:19,550 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 4,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:16:19,550 [INFO] Epoch: 1
+2025-10-01 20:24:28,868 [INFO] :package: train loader ready → samples=12000, batch_size=4, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:24:28,869 [INFO] :package: train loader ready → samples=500, batch_size=4, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:24:28,869 [INFO] Device: cuda
+2025-10-01 20:24:31,168 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 4,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:24:31,169 [INFO] Epoch: 1
+2025-10-01 20:25:41,061 [INFO] :package: train loader ready → samples=12000, batch_size=4, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-01 20:25:41,062 [INFO] :package: train loader ready → samples=500, batch_size=4, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-01 20:25:41,062 [INFO] Device: cuda
+2025-10-01 20:25:43,473 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 15
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.001,
+        "batch_size": 4,
+        "step_size": 2,
+        "gamma": 0.9,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 16,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 20,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-01 20:25:43,474 [INFO] Epoch: 1

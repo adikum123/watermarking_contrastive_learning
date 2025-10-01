@@ -3,7 +3,6 @@ import inspect
 import json
 import logging
 import os
-import sys
 
 import numpy as np
 
@@ -44,11 +43,12 @@ class BaseAttack(abc.ABC):
         self.config_path = os.path.join(model_dir, "config.json")
 
         if not os.path.exists(self.config_path):
-            logging.warning("config.json not found in %s", self.config_path)
-            self._config = None
-        else:
-            with open(self.config_path, "r") as json_file:
-                self._config = json.load(json_file)
+            raise ValueError(f"config.json not found in {self.config_path}")
+        with open(self.config_path, "r") as json_file:
+            self._config = json.load(json_file)
+        self.type = self._config.get("type", None)
+        assert self.type, f"Config: {self.config_path} has no type"
+        assert self.type in {"spectral", "structural"}, f"Attack type not supported: {self.type}"
 
 
     @abc.abstractmethod

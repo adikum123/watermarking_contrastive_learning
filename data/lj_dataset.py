@@ -7,8 +7,7 @@ import torch
 import torchaudio
 from torch.utils.data import Dataset
 
-from distortions.some_attacks import (delete_samples, mp3_compression,
-                                      pcm_bit_depth_conversion, resample)
+from distortions.attack_performer import AttackPerformer
 
 
 def _parse_s3_url(url: str) -> Tuple[str, str]:
@@ -16,6 +15,7 @@ def _parse_s3_url(url: str) -> Tuple[str, str]:
     path = url[5:]
     bucket, key_prefix = path.split("/", 1)
     return bucket, key_prefix.rstrip("/")
+
 
 class LjAudioDataset(Dataset):
     def __init__(
@@ -34,6 +34,7 @@ class LjAudioDataset(Dataset):
         self.split = split
         self.contrastive = contrastive
         self.set_data()
+        self.attack_performer = AttackPerformer() if self.contrastive else None
 
     def set_data(self):
         # Download metadata.csv from S3
@@ -74,29 +75,12 @@ class LjAudioDataset(Dataset):
         Generate two random augmented views of audio sample `x` using attack.py
         """
 
-        def random_augment(audio, sr):
-            aug_audio = np.copy(audio)
-
-            # List of possible augmentations as lambdas
-            augmentations = [
-                lambda x: mp3_compression(x, sr, quality=np.random.choice([2, 4, 6])),
-                lambda x: pcm_bit_depth_conversion(x, sr, pcm=np.random.choice([8, 16, 24])),
-                lambda x: delete_samples(x, percentage=np.random.uniform(0.5, 0.05)),
-                lambda x: resample(x, sr=sr, downsample_sr=np.random.choice([16000, 12000, 8000, 4000]))
-            ]
-
-            # Choose exactly one augmentation at random and apply it
-            chosen_aug = np.random.choice(augmentations)
-            aug_audio = chosen_aug(aug_audio)
-
-            return aug_audio
-
         # Remove channel dim (1, N) → (N,)
         x_np = x.squeeze().numpy()
 
         # Apply exactly one augmentation per view
-        view1 = random_augment(x_np, self.sample_rate)
-        view2 = random_augment(x_np, self.sample_rate)
+        view1 = self.attack_performer.get_contrastive_views(x=x_np, sr=self.sample_rate)
+        view2 = self.attack_performer.get_contrastive_views(x=x_np, sr=self.sample_rate)
 
         # Restore shape (N,) → (1, N)
         return (

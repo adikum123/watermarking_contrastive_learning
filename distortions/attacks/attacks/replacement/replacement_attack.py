@@ -1,12 +1,12 @@
 import logging
 
 import numpy as np
-from tqdm import tqdm
 
 from distortions.attacks.attacks.replacement.psychoacoustic_model import \
     PsychoacousticModel
 
 logger = logging.getLogger(__name__)
+
 
 def signal_analysis(x, block_size, hop_size):
     """
@@ -123,9 +123,10 @@ def find_most_similar_blocks(
     most_similar_indices = [
         i for i, dist in enumerate(distances) if dist <= upper_bound
     ]
-    return np.array([candidates[i] for i in most_similar_indices])[:k], candidates[
-        most_similar_idx
-    ]
+    return (
+        np.array([candidates[i] for i in most_similar_indices])[:k],
+        candidates[most_similar_idx],
+    )
 
 
 def least_squares_approximation(block, similar_blocks):
@@ -190,7 +191,7 @@ def replacement_attack(
     if use_masking is True:
         masking_model = PsychoacousticModel(N=block_size, fs=sampling_rate, nfilts=24)
 
-    for i in tqdm(range(len(blocks)), desc="Replacement attack", unit="blok"):
+    for i in range(len(blocks)):
         block = blocks[i]
         overlap_indices = list(
             range(
@@ -215,5 +216,4 @@ def replacement_attack(
         total += 1
         processed_blocks.append(replacement_block)
 
-    logger.info(f"Replaced:{(cnt_replaced / total * 100):.2f}% of blocks.")
     return signal_synthesis(np.array(processed_blocks), block_size, hop_size)[: len(x)]

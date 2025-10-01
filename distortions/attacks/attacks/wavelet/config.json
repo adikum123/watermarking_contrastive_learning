@@ -1,5 +1,6 @@
 {
     "wavelet": "db1",
     "wt_mode": "soft",
-    "threshold_factor": 0.5
+    "threshold_factor": 0.5,
+    "type": "spectral"
 }

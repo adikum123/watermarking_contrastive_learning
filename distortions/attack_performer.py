@@ -1,6 +1,8 @@
 import importlib.util
 import inspect
+import random
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 from distortions.attacks.attacks.base_attack import BaseAttack
@@ -11,6 +13,11 @@ class AttackPerformer:
     def __init__(self, attacks_dir="distortions/attacks/attacks"):
         self.attacks_dir = Path(attacks_dir)
         self.attack_classes = self.load_classes()
+
+        # group attacks by type
+        self.by_type = defaultdict(list)
+        for _, cls_object in self.attack_classes.items():
+            self.by_type[cls_object.type].append(cls_object)
 
     def load_classes(self):
         classes = {}
@@ -29,7 +36,7 @@ class AttackPerformer:
                     # Grab all classes defined in the module
                     for name, obj in inspect.getmembers(module, inspect.isclass):
                         if issubclass(obj, BaseAttack) and obj is not BaseAttack:
-                            classes[name] = obj
+                            classes[name] = obj()
         return classes
 
     def instantiate_all(self, *args, **kwargs):
@@ -38,8 +45,13 @@ class AttackPerformer:
             instances[name] = cls(*args, **kwargs)
         return instances
 
+    def get_contrastive_views(self, x, sr):
+        for attack_type in ["spectral", "structural"]:
+            x = random.choice(self.by_type[attack_type]).apply(x, sampling_rate=sr)
+        return x
+
 
 if __name__ == "__main__":
     # Usage
     loader = AttackPerformer()
-    print(loader.attack_classes)
+    print(loader.by_type)

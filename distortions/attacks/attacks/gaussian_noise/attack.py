@@ -26,9 +26,4 @@ class GaussianNoiseAttack(BaseAttack):
         noise = np.random.randn(*audio.shape) * np.sqrt(noise_power)
         audio_noisy = audio + noise
 
-
-        #actual_noise_power = np.mean((audio_noisy - audio) ** 2)
-        #actual_snr = 10 * np.log10(signal_power / actual_noise_power)
-        #print(f"Target SNR: {snr_db} dB, Achieved SNR: {actual_snr:.2f} dB")
-
         return audio_noisy
