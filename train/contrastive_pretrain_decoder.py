@@ -6,6 +6,7 @@ import json
 import logging
 import os
 import sys
+import time
 import warnings
 
 import matplotlib.pyplot as plt
@@ -20,7 +21,7 @@ from model.utils import create_loader, get_datasets
 # ------------------ Logging Setup ------------------
 os.makedirs("logs", exist_ok=True)
 logging.basicConfig(
-    filename="logs/train.log",
+    filename="logs/contrastive_pretrain.log",
     filemode="a",
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -115,6 +116,7 @@ for epoch in range(0, train_config["iter"]["epoch"]):
     logger.info("Epoch: %s", epoch + 1)
     total_train_loss, total_train_num = 0, 0
     for i, batch in enumerate(train_dl):
+        start = time.time()
         # get augmented views and contrastive loss
         curr_bs = batch["wav"].shape[0]
         aug_view1, aug_view2 = batch["augmented_views"]
@@ -137,12 +139,15 @@ for epoch in range(0, train_config["iter"]["epoch"]):
             logger.info("Processed %s batches", i + 1)
             logger.info("Curr average loss: %s", total_train_loss / total_train_num)
 
+        logger.info("Batch: %s took: %s seconds", i + 1, time.time() - start)
+
     avg_train_loss = total_train_loss / total_train_num
     # ------------------ Validation ------------------
     with torch.no_grad():
         cl_decoder.eval()
         total_val_loss, total_val_num = 0, 0
         for i, batch in enumerate(val_dl):
+            start = time.time()
             # get augmented views and contrastive loss
             curr_bs = batch["wav"].shape[0]
             feat_view1, feat_view2 = batch["augmented_views"]
@@ -157,6 +162,8 @@ for epoch in range(0, train_config["iter"]["epoch"]):
             if (i + 1) % 100 == 0 or i == 0:
                 logger.info("Processed %s batches", i + 1)
                 logger.info("Curr average loss: %s", total_val_loss / total_val_num)
+
+            logger.info("Batch: %s took: %s seconds", i + 1, time.time() - start)
 
     avg_val_loss = total_val_loss / total_val_num
 
