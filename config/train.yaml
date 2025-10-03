@@ -19,7 +19,7 @@ optimize:
   alpha: 10
 
 iter:
-  epoch: 20
+  epoch: 5
   # epoch: 100
   save_circle: 5
   show_circle: 100

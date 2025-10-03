@@ -24,7 +24,7 @@ contrastive:
   loss_type: info_nce
 
 iter:
-  epoch: 20
+  epoch: 5
   # epoch: 100
   save_circle: 5
   show_circle: 100
