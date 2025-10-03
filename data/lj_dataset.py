@@ -2,7 +2,6 @@ from io import BytesIO
 from typing import Tuple
 
 import boto3
-import numpy as np
 import torch
 import torchaudio
 from torch.utils.data import Dataset

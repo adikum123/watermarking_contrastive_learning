@@ -152,7 +152,7 @@ for epoch in range(0, train_config["iter"]["epoch"]):
             curr_bs = batch["wav"].shape[0]
             feat_view1, feat_view2 = batch["augmented_views"]
             cl_loss = loss(
-                feat_view1.squeeze(0), feat_view2.squeeze(0)
+                feat_view1.squeeze(1), feat_view2.squeeze(1)
             )
 
             # update trackers

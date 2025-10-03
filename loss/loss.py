@@ -2,8 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from loss.contrastive_loss import ContrastiveLoss
-
 
 class WatermarkLoss(nn.Module):
 

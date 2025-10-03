@@ -32,10 +32,12 @@ class LossGradientScaling(nn.Module):
         self.eps = eps
         self.clip_grad_norm = clip_grad_norm
 
-    def compute_losses(self, embedded, decoded, wav, msg, discriminator_output=None, cl_feat_1=None, cl_feat_2=None):
+    def forward(self, embedded, decoded, wav, msg, discriminator_output=None, cl_feat_1=None, cl_feat_2=None):
         """
         Returns a dict of individual losses: embedding, message, adversarial, contrastive
         """
+        if self.contrastive:
+            assert cl_feat_1 is not None and cl_feat_2 is not None, "Passed None features"
         # Embedding loss
         wm_embedding_loss = self.mse(embedded, wav)
 

@@ -12,13 +12,11 @@ import warnings
 import matplotlib.pyplot as plt
 import torch
 import yaml
-from torch.utils.data import DataLoader
 
 from loss.loss_gradient_scaling import LossGradientScaling
 from model.metrics_tracker import MetricsTracker
 from model.utils import (create_loader, get_datasets, init_models,
-                         init_optimizers, init_schedulers, pesq_score_batch,
-                         prepare_batch, save_model)
+                         init_optimizers, pesq_score_batch, prepare_batch)
 
 # ------------------ Logging Setup ------------------
 os.makedirs("logs", exist_ok=True)
@@ -48,6 +46,12 @@ warnings.filterwarnings(
     category=UserWarning,
 )
 
+# ------------------ Seed --------------------
+seed = 1234
+torch.manual_seed(seed)
+torch.cuda.manual_seed(seed)
+torch.cuda.manual_seed_all(seed)
+
 # ------------------ Config ------------------
 data_source = "ljspeech"
 
@@ -76,17 +80,16 @@ train_ds, val_ds, test_ds = get_datasets(
     take_part=False,
     dataset_type="ljspeech",
 )
-
 train_dl = create_loader(dataset=train_ds, batch_size=batch_size, shuffle=True)
 val_dl = create_loader(dataset=val_ds, batch_size=batch_size, shuffle=False)
 
 
 # ------------------ Device ------------------
-device = torch.device("cpu") if args.use_cpu else torch.device("cuda" if torch.cuda.is_available() else "cpu")
-logger.info(f"Device: {device}")
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+logger.info("Device: %s", device)
 
 # ------------------ Models ------------------
-embedder, decoder, discriminator = init_models(
+embedder, decoder, _ = init_models(
     model_config=model_config,
     process_config=process_config,
     train_config=train_config,
@@ -99,25 +102,24 @@ loss = LossGradientScaling(
     contrastive_loss_type=train_config["contrastive"]["loss_type"],
     adversarial=False,
     clip_grad_norm=None,  # or a float if you want gradient clipping
-    beta=1,             # scaling exponent
-    eps=1e-6
+    beta=1,  # scaling exponent
+    eps=1e-6,
 )
 
 # ------------------ Optimizers and schedulers ------------------
-em_de_opt, dis_opt = init_optimizers(
+em_de_opt, _ = init_optimizers(
     embedder=embedder,
     decoder=decoder,
-    discriminator=discriminator,
+    discriminator=None,
     train_config=train_config,
     finetune=False,
 )
-em_de_sch, dis_sch = init_schedulers(
-    em_de_opt=em_de_opt,
-    dis_opt=dis_opt,
-    train_config=train_config,
-)
 
-logger.info(f"Training with params:\n{json.dumps(train_config, indent=4)}\nLength of train dataset: {len(train_ds)}")
+logger.info(
+    "Training with params:\n%s\nLength of train dataset: %s",
+    json.dumps(train_config, indent=4),
+    len(train_ds),
+)
 
 # ------------------ Checkpoints ------------------
 checkpoint_dir = os.path.join("model_ckpts", "lj", "cl")
@@ -129,15 +131,11 @@ best_acc = None
 best_pesq = None
 
 if args.ckpt_path:
-    logger.info(f"Loading checkpoint from {args.ckpt_path}")
+    logger.info("Loading checkpoint from: %s", args.ckpt_path)
     checkpoint = torch.load(args.ckpt_path, map_location=device)
     embedder.load_state_dict(checkpoint["embedder_state_dict"])
     decoder.load_state_dict(checkpoint["decoder_state_dict"])
-    if train_config["adv"] and checkpoint["discriminator_state_dict"] is not None:
-        discriminator.load_state_dict(checkpoint["discriminator_state_dict"])
     em_de_opt.load_state_dict(checkpoint["em_de_opt_state_dict"])
-    if train_config["adv"] and checkpoint["dis_opt_state_dict"] is not None:
-        dis_opt.load_state_dict(checkpoint["dis_opt_state_dict"])
     start_epoch = checkpoint["epoch"]
     start_batch = checkpoint.get("batch_idx", 0)
     best_acc = checkpoint.get("average_acc", None)
@@ -160,12 +158,10 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
 
     for i, batch in enumerate(train_dl):
         if i < start_batch:
-            logger.info(f"Skipping batch {i} < {start_batch} to resume from checkpoint")
             continue
 
         embedder.train()
         decoder.train()
-        discriminator.train()
 
         wav, msg = prepare_batch(batch, train_config["watermark"]["length"], device)
         curr_bs = wav.shape[0]
@@ -179,12 +175,17 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             sr=process_config["audio"]["sample_rate"],
         )
 
-        losses_dict = loss.compute_losses(
+        aug_view1, aug_view2 = batch["augmented_views"]
+        feat_view1 = decoder.get_features(x=aug_view1)
+        feat_view2 = decoder.get_features(x=aug_view2)
+        losses_dict = loss(
             embedded=embedded,
             decoded=decoded,
             wav=wav,
             msg=msg,
-            discriminator_output=None
+            discriminator_output=None,
+            feat_view1=feat_view1,
+            feat_view2=feat_view2
         )
         params = list(embedder.parameters()) + list(decoder.parameters())
         loss.backward(losses_dict, params)
@@ -202,14 +203,13 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         )
 
         if (i + 1) % 100 == 0 or i == 0:
-            logger.info("Processed %s batches", i+1)
+            logger.info("Processed %s batches", i + 1)
             logger.info(json.dumps(train_metrics.summary(), indent=4))
 
     # ------------------ Validation ------------------
     with torch.no_grad():
         embedder.eval()
         decoder.eval()
-        discriminator.eval()
 
         val_metrics = MetricsTracker(name="val")
         for i, batch in enumerate(val_dl):
@@ -225,12 +225,17 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
                 sr=process_config["audio"]["sample_rate"],
             )
 
-            losses_dict = loss.compute_losses(
+            aug_view1, aug_view2 = batch["augmented_views"]
+            feat_view1 = decoder.get_features(x=aug_view1)
+            feat_view2 = decoder.get_features(x=aug_view2)
+            losses_dict = loss(
                 embedded=embedded,
                 decoded=decoded,
                 wav=wav,
                 msg=msg,
-                discriminator_output=None
+                discriminator_output=None,
+                feat_view1=feat_view1,
+                feat_view2=feat_view2
             )
 
             val_metrics.update(
@@ -242,53 +247,33 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             )
 
             if (i + 1) % 100 == 0 or i == 0:
-                logger.info("Processed %s batches", i+1)
+                logger.info("Processed %s batches", i + 1)
                 logger.info(json.dumps(val_metrics.summary(), indent=4))
 
     # ------------------ Save checkpoint ------------------
     curr_acc = val_metrics.avg_acc_identity()
     curr_pesq = val_metrics.average_pesq()
-    if save_model(
-        best_pesq=best_pesq,
-        best_acc=best_acc,
-        new_pesq=curr_pesq,
-        new_acc=curr_acc,
-        min_pesq=3.5,
-        min_acc=0.85,
-    ) or True:
-        best_acc, best_pesq = curr_acc, curr_pesq
-        checkpoint_path = os.path.join(
-            checkpoint_dir,
-            "wm_model_lj_pesq_{:.2f}_acc_{:.2f}_dist_acc_{:.2f}_epoch_{}_gs.pt".format(
-                curr_pesq,
-                curr_acc,
-                train_metrics.avg_acc_distorted(),
-                epoch + 1
-            )
-        )
-        torch.save(
-            {
-                "epoch": epoch,
-                "batch_idx": i,
-                "embedder_state_dict": embedder.state_dict(),
-                "decoder_state_dict": decoder.state_dict(),
-                "discriminator_state_dict": (
-                    discriminator.state_dict() if train_config["adv"] else None
-                ),
-                "em_de_opt_state_dict": em_de_opt.state_dict(),
-                "dis_opt_state_dict": (
-                    dis_opt.state_dict() if train_config["adv"] else None
-                ),
-                "average_acc": curr_acc,
-                "average_pesq": curr_pesq,
-            },
-            checkpoint_path,
-        )
-        logger.info(f"Checkpoint saved: {checkpoint_path} | Acc: {curr_acc}, PESQ: {curr_pesq}")
-
-    em_de_sch.step()
-    if train_config["adv"]:
-        dis_sch.step()
+    checkpoint_path = os.path.join(
+        checkpoint_dir,
+        "wm_model_lj_pesq_{:.2f}_acc_{:.2f}_dist_acc_{:.2f}_epoch_{}_gs.pt".format(
+            curr_pesq, curr_acc, train_metrics.avg_acc_distorted(), epoch + 1
+        ),
+    )
+    torch.save(
+        {
+            "epoch": epoch,
+            "batch_idx": i,
+            "embedder_state_dict": embedder.state_dict(),
+            "decoder_state_dict": decoder.state_dict(),
+            "em_de_opt_state_dict": em_de_opt.state_dict(),
+            "average_acc": curr_acc,
+            "average_pesq": curr_pesq,
+        },
+        checkpoint_path,
+    )
+    logger.info(
+        "Checkpoint saved: %s | Acc: %s, PESQ: %s", checkpoint_path, curr_acc, curr_pesq
+    )
 
     # ------------------ Store metrics ------------------
     train_summary = train_metrics.summary()
@@ -297,7 +282,9 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     metric_history["train_loss"].append(train_summary["loss"])
     metric_history["train_pesq"].append(train_summary["pesq"])
     metric_history["train_acc_identity"].append(train_summary["avg_acc_identity"])
-    metric_history["train_acc_distorted"].append(train_summary.get("avg_acc_distorted", 0))
+    metric_history["train_acc_distorted"].append(
+        train_summary.get("avg_acc_distorted", 0)
+    )
     metric_history["val_loss"].append(val_summary["loss"])
     metric_history["val_pesq"].append(val_summary["pesq"])
     metric_history["val_acc_identity"].append(val_summary["avg_acc"])
@@ -328,8 +315,12 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     plt.grid(True)
 
     plt.subplot(1, 3, 3)
-    plt.plot(epochs_range, metric_history["train_acc_identity"], label="Train Acc Identity")
-    plt.plot(epochs_range, metric_history["train_acc_distorted"], label="Train Acc Distorted")
+    plt.plot(
+        epochs_range, metric_history["train_acc_identity"], label="Train Acc Identity"
+    )
+    plt.plot(
+        epochs_range, metric_history["train_acc_distorted"], label="Train Acc Distorted"
+    )
     plt.plot(epochs_range, metric_history["val_acc_identity"], label="Val Acc Identity")
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy")
