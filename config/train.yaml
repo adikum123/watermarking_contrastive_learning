@@ -5,14 +5,8 @@ watermark:
 
 optimize:
   gradient_scaling: True
-  lr: 0.001
-  lambda_e: 1.
-  lambda_m: 0.05
-  lambda_a: 0.01
-  lambda_cl: 0.1
+  lr: 0.0003
   batch_size: 2
-  step_size: 2 # large value means do not decay
-  gamma: 0.9
   betas: [0.9, 0.98]
   eps: 0.000000001
   weight_decay: 0.0
@@ -23,9 +17,6 @@ optimize:
   anneal_rate: 0.3
   lr_disc: 0.00002
   alpha: 10
-
-contrastive:
-  loss_type: info_nce
 
 iter:
   epoch: 20
