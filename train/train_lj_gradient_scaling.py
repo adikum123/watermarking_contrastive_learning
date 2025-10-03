@@ -174,7 +174,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             sr=process_config["audio"]["sample_rate"],
         )
 
-        losses_dict = loss.compute_losses(
+        losses_dict = loss(
             embedded=embedded,
             decoded=decoded,
             wav=wav,
@@ -219,7 +219,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
                 sr=process_config["audio"]["sample_rate"],
             )
 
-            losses_dict = loss.compute_losses(
+            losses_dict = loss(
                 embedded=embedded,
                 decoded=decoded,
                 wav=wav,
