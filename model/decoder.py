@@ -37,7 +37,7 @@ class Decoder(nn.Module):
             input_channel=1,
             hidden_dim=model_config["conv2"]["hidden_dim"],
             block=self.block,
-            n_layers=model_config["layer"]["nlayers_decoder"],
+            n_layers=model_config["conv2"]["nlayers_decoder"],
         )
         self.msg_linear_out = FCBlock(win_dim, msg_length)
 
