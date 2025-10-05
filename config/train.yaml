@@ -5,7 +5,7 @@ watermark:
 
 optimize:
   gradient_scaling: True
-  lr: 0.0003
+  lr: 0.0001
   batch_size: 2
   betas: [0.9, 0.98]
   eps: 0.000000001
@@ -19,7 +19,7 @@ optimize:
   alpha: 10
 
 iter:
-  epoch: 5
+  epoch: 7
   # epoch: 100
   save_circle: 5
   show_circle: 100
