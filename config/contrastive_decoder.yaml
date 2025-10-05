@@ -6,5 +6,5 @@ audio:
 
 conv2:
   block: 'relu' #'skip', 'relu'
-  nlayers_decoder: 4
+  nlayers_decoder: 3
   hidden_dim: 128

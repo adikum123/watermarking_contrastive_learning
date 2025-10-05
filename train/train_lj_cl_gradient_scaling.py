@@ -15,7 +15,7 @@ import yaml
 
 from loss.loss_gradient_scaling import LossGradientScaling
 from model.metrics_tracker import MetricsTracker
-from model.utils import (create_loader, get_datasets, init_models,
+from model.utils import (create_loader, get_datasets, init_models_contrastive,
                          init_optimizers, pesq_score_batch, prepare_batch)
 
 # ------------------ Logging Setup ------------------
@@ -55,8 +55,10 @@ torch.cuda.manual_seed_all(seed)
 # ------------------ Config ------------------
 data_source = "ljspeech"
 
-with open("config/train.yaml", "r") as f:
+with open("config/train_contrastive.yaml", "r") as f:
     train_config = yaml.safe_load(f)
+with open("config/contrastive_decoder.yaml", "r") as f:
+    decoder_config = yaml.safe_load(f)
 with open("config/process_lj.yaml", "r") as f:
     process_config = yaml.safe_load(f)
 with open("config/model.yaml", "r") as f:
@@ -73,7 +75,7 @@ args = parser.parse_args()
 
 # ------------------ Dataset ------------------
 batch_size = train_config["optimize"]["batch_size"]
-train_ds, val_ds, test_ds = get_datasets(
+train_ds, val_ds, _ = get_datasets(
     contrastive=True,
     contrastive_loss_type=train_config["contrastive"]["loss_type"],
     process_config=process_config,
@@ -83,16 +85,16 @@ train_ds, val_ds, test_ds = get_datasets(
 train_dl = create_loader(dataset=train_ds, batch_size=batch_size, shuffle=True)
 val_dl = create_loader(dataset=val_ds, batch_size=batch_size, shuffle=False)
 
-
 # ------------------ Device ------------------
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 logger.info("Device: %s", device)
 
 # ------------------ Models ------------------
-embedder, decoder, _ = init_models(
+embedder, contrastive_decoder = init_models_contrastive(
     model_config=model_config,
     process_config=process_config,
     train_config=train_config,
+    contrastive_decoder_config=decoder_config,
     device=device,
 )
 
@@ -109,7 +111,7 @@ loss = LossGradientScaling(
 # ------------------ Optimizers and schedulers ------------------
 em_de_opt, _ = init_optimizers(
     embedder=embedder,
-    decoder=decoder,
+    decoder=contrastive_decoder,
     discriminator=None,
     train_config=train_config,
     finetune=False,
@@ -134,7 +136,7 @@ if args.ckpt_path:
     logger.info("Loading checkpoint from: %s", args.ckpt_path)
     checkpoint = torch.load(args.ckpt_path, map_location=device)
     embedder.load_state_dict(checkpoint["embedder_state_dict"])
-    decoder.load_state_dict(checkpoint["decoder_state_dict"])
+    contrastive_decoder.load_state_dict(checkpoint["decoder_state_dict"])
     em_de_opt.load_state_dict(checkpoint["em_de_opt_state_dict"])
     start_epoch = checkpoint["epoch"]
     start_batch = checkpoint.get("batch_idx", 0)
@@ -161,13 +163,13 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             continue
 
         embedder.train()
-        decoder.train()
+        contrastive_decoder.train()
 
         wav, msg = prepare_batch(batch, train_config["watermark"]["length"], device)
         curr_bs = wav.shape[0]
 
         embedded, carrier_wateramrked = embedder(wav, msg)
-        decoded = decoder(embedded)
+        decoded = contrastive_decoder(embedded)
 
         pesq_score = pesq_score_batch(
             wav.squeeze(1),
@@ -176,18 +178,20 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
         )
 
         aug_view1, aug_view2 = batch["augmented_views"]
-        feat_view1 = decoder.get_features(x=aug_view1)
-        feat_view2 = decoder.get_features(x=aug_view2)
+        aug_view1 = aug_view1.to(device)
+        aug_view2 = aug_view2.to(device)
+        feat_view1 = contrastive_decoder.get_contrastive_features(x=aug_view1)
+        feat_view2 = contrastive_decoder.get_contrastive_features(x=aug_view2)
         losses_dict = loss(
             embedded=embedded,
             decoded=decoded,
             wav=wav,
             msg=msg,
             discriminator_output=None,
-            feat_view1=feat_view1,
-            feat_view2=feat_view2
+            cl_feat_1=feat_view1,
+            cl_feat_2=feat_view2,
         )
-        params = list(embedder.parameters()) + list(decoder.parameters())
+        params = list(embedder.parameters()) + list(contrastive_decoder.parameters())
         loss.backward(losses_dict, params)
 
         if (i + 1) % train_config["optimize"]["grad_acc_step"] == 0:
@@ -209,7 +213,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     # ------------------ Validation ------------------
     with torch.no_grad():
         embedder.eval()
-        decoder.eval()
+        contrastive_decoder.eval()
 
         val_metrics = MetricsTracker(name="val")
         for i, batch in enumerate(val_dl):
@@ -217,7 +221,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             curr_bs = wav.shape[0]
 
             embedded, carrier_wateramrked = embedder(wav, msg)
-            decoded = decoder(embedded)
+            decoded = contrastive_decoder(embedded)
 
             pesq_score = pesq_score_batch(
                 wav.squeeze(1),
@@ -226,8 +230,8 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             )
 
             aug_view1, aug_view2 = batch["augmented_views"]
-            feat_view1 = decoder.get_features(x=aug_view1)
-            feat_view2 = decoder.get_features(x=aug_view2)
+            feat_view1 = contrastive_decoder.get_contrastive_features(x=aug_view1)
+            feat_view2 = contrastive_decoder.get_contrastive_features(x=aug_view2)
             losses_dict = loss(
                 embedded=embedded,
                 decoded=decoded,
@@ -264,7 +268,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             "epoch": epoch,
             "batch_idx": i,
             "embedder_state_dict": embedder.state_dict(),
-            "decoder_state_dict": decoder.state_dict(),
+            "decoder_state_dict": contrastive_decoder.state_dict(),
             "em_de_opt_state_dict": em_de_opt.state_dict(),
             "average_acc": curr_acc,
             "average_pesq": curr_pesq,
@@ -274,6 +278,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     logger.info(
         "Checkpoint saved: %s | Acc: %s, PESQ: %s", checkpoint_path, curr_acc, curr_pesq
     )
+    torch.cuda.empty_cache()
 
     # ------------------ Store metrics ------------------
     train_summary = train_metrics.summary()

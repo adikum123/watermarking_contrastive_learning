@@ -1,5 +1,3 @@
-from itertools import chain
-
 import torch
 import torch.nn as nn
 
@@ -17,7 +15,6 @@ class ContrastiveDecoder(nn.Module):
         model_config,
         msg_length,
         win_dim,
-        mode,
     ):
         super().__init__()
         # set device
@@ -44,21 +41,12 @@ class ContrastiveDecoder(nn.Module):
             block=self.block,
             n_layers=model_config["conv2"]["nlayers_decoder"],
         )
+        self.msg_linear_out = FCBlock(win_dim, msg_length)
 
         # add projection head
         self.projection_head = ProjectionHead(input_dim=win_dim)
-        self.msg_linear_out = FCBlock(self.projection_head.output_dim, msg_length)
-
-        # set mode to contrastive pretrain or finetune
-        assert mode in {"contrastive_pretrain", "finetune"}, f"Mode argument unknown: {mode}"
-        self.mode = mode
 
     def forward(self, x):
-        """
-        Forward pass for decoder
-        """
-        if self.mode == "contrastive_pretrain":
-            return self.get_features(x)
         if self.training:
             return self.train_forward(x)
         return self.test_forward(x)
@@ -93,13 +81,15 @@ class ContrastiveDecoder(nn.Module):
 
         return msg_dist, msg_id
 
-    def get_features(self, x):
+    def get_contrastive_features(self, x):
         """
         Extract features from the audio input.
         """
         spect, _ = self.stft.transform(x)
         feat = self.extractor(spect.unsqueeze(1)).squeeze(1)
-        return self.projection_head(torch.mean(feat, dim=2, keepdim=True).transpose(1, 2))
+        avg_pool_feat = torch.mean(feat, dim=2, keepdim=True).transpose(1, 2)
+        # get contrastive features by applying projection head on temporal averaged features
+        return self.projection_head(avg_pool_feat)
 
     def test_forward(self, x):
         """
@@ -111,8 +101,3 @@ class ContrastiveDecoder(nn.Module):
         # tesnor (win_dim, batch_size)
         msg = self.msg_linear_out(msg_features)
         return msg
-
-
-    def get_train_params(self):
-        assert self.mode != "finetune", "Finetune still not implemented"
-        return chain(self.extractor.parameters(), self.projection_head.parameters())

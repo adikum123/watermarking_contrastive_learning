@@ -6,7 +6,7 @@ import torch
 import torchaudio
 from torch.utils.data import Dataset
 
-from distortions.attack_performer import AttackPerformer
+from distortions.cl_augmentations import ContrastiveAugmentations
 
 
 def _parse_s3_url(url: str) -> Tuple[str, str]:
@@ -33,7 +33,7 @@ class LjAudioDataset(Dataset):
         self.split = split
         self.contrastive = contrastive
         self.set_data()
-        self.attack_performer = AttackPerformer() if self.contrastive else None
+        self.cl_aug = ContrastiveAugmentations(sr=process_config["audio"]["sample_rate"]) if self.contrastive else None
 
     def set_data(self):
         # Download metadata.csv from S3
@@ -78,8 +78,8 @@ class LjAudioDataset(Dataset):
         x_np = x.squeeze().numpy()
 
         # Apply exactly one augmentation per view
-        view1 = self.attack_performer.get_contrastive_views(x=x_np, sr=self.sample_rate)
-        view2 = self.attack_performer.get_contrastive_views(x=x_np, sr=self.sample_rate)
+        view1 = self.cl_aug.apply(audio=x_np)
+        view2 = self.cl_aug.apply(audio=x_np)
 
         # Restore shape (N,) → (1, N)
         return (

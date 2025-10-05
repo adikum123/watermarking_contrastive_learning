@@ -13,6 +13,7 @@ from tqdm import tqdm
 logger = logging.getLogger(__name__)
 
 from data.lj_dataset import LjAudioDataset
+from model.contrastive_decoder import ContrastiveDecoder
 from model.decoder import Decoder
 from model.discriminator import Discriminator
 from model.embedder import Embedder
@@ -100,7 +101,9 @@ def get_datasets(dataset_type, contrastive, **kwargs):
     """
     Utility function to get datasets.
     """
-    assert dataset_type == "ljspeech", "Contrastive not yet implemented and must be ljspeech ds"
+    assert (
+        dataset_type == "ljspeech"
+    ), "Contrastive not yet implemented and must be ljspeech ds"
     if dataset_type == "ljspeech":
         print("Loading precomputed ljspeech datasets")
         train_ds = LjAudioDataset(
@@ -116,7 +119,7 @@ def get_datasets(dataset_type, contrastive, **kwargs):
         test_ds = LjAudioDataset(
             split="test",
             process_config=kwargs["process_config"],
-            contrastive=contrastive
+            contrastive=contrastive,
         )
         return train_ds, val_ds, test_ds
     raise ValueError("Must use lj speech dataset")
@@ -131,7 +134,6 @@ def create_loader(
     timeout=0,
     persistent_workers=False,
     drop_last=False,
-    name="train"
 ):
     """
     Create a DataLoader with consistent logging and worker setup.
@@ -141,14 +143,6 @@ def create_loader(
     effective_batch_size = batch_size * num_gpus
     workers_per_gpu = num_workers
     total_workers = workers_per_gpu * num_gpus
-
-    logger.info(
-        f":package: {name} loader ready → "
-        f"samples={len(dataset)}, batch_size={effective_batch_size}, "
-        f"total_workers={total_workers}, workers_per_gpu={workers_per_gpu}, "
-        f"num_gpus={num_gpus}, shuffle={shuffle}"
-    )
-
     return DataLoader(
         dataset,
         batch_size=effective_batch_size,
@@ -220,12 +214,40 @@ def init_models(model_config, train_config, process_config, device):
     return embedder, decoder, discriminator
 
 
+def init_models_contrastive(
+    model_config, train_config, process_config, contrastive_decoder_config, device
+):
+    """
+    Utility function to init models for contrastive case
+    """
+    # Model config
+    msg_length = train_config["watermark"]["length"]
+    win_dim = model_config["audio"]["win_dim"]
+
+    # Models
+    embedder = Embedder(
+        process_config=process_config,
+        model_config=model_config,
+        msg_length=msg_length,
+        win_dim=win_dim,
+    ).to(device)
+    decoder = ContrastiveDecoder(
+        process_config=process_config,
+        model_config=contrastive_decoder_config,
+        msg_length=msg_length,
+        win_dim=win_dim,
+    ).to(device)
+    return embedder, decoder
+
+
 def init_optimizers(embedder, decoder, discriminator, train_config, finetune):
     """
     Utility function to init optimizers
     """
+    print(f"Encoder parameters: {[name for name, _ in embedder.named_parameters()]}")
+    print(f"Decoder parameters: {[name for name, _ in decoder.named_parameters()]}")
     em_de_opt = torch.optim.Adam(
-        chain(embedder.parameters(), decoder.get_train_params(finetune=finetune)),
+        chain(embedder.parameters(), decoder.parameters()),
         lr=train_config["optimize"]["lr"],
         weight_decay=train_config["optimize"]["weight_decay"],
         betas=train_config["optimize"]["betas"],

@@ -1,23 +1,18 @@
+nohup: ignoring input
 Loading precomputed ljspeech datasets
-2025-09-25 14:15:09,511 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
-2025-09-25 14:15:09,512 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
-2025-09-25 14:15:09,512 [INFO] Device: cuda
-2025-09-25 14:15:11,667 [INFO] Training with params:
+2025-10-03 22:42:34,990 [INFO] :package: train loader ready → samples=12000, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=True
+2025-10-03 22:42:34,991 [INFO] :package: train loader ready → samples=500, batch_size=2, total_workers=0, workers_per_gpu=0, num_gpus=1, shuffle=False
+2025-10-03 22:42:34,991 [INFO] Device: cuda
+2025-10-03 22:42:38,304 [INFO] Training with params:
 {
     "adv": false,
     "watermark": {
-        "length": 15
+        "length": 10
     },
     "optimize": {
         "gradient_scaling": true,
-        "lr": 0.001,
-        "lambda_e": 1.0,
-        "lambda_m": 0.05,
-        "lambda_a": 0.01,
-        "lambda_cl": 0.1,
+        "lr": 0.0003,
         "batch_size": 2,
-        "step_size": 2,
-        "gamma": 0.9,
         "betas": [
             0.9,
             0.98
@@ -25,7 +20,7 @@ Loading precomputed ljspeech datasets
         "eps": 1e-09,
         "weight_decay": 0.0,
         "grad_clip_thresh": 1.0,
-        "grad_acc_step": 16,
+        "grad_acc_step": 32,
         "up_step": 4000,
         "anneal_steps": [
             300000,
@@ -34,37 +29,410 @@ Loading precomputed ljspeech datasets
         ],
         "anneal_rate": 0.3,
         "lr_disc": 2e-05,
-        "alpha": 10
+        "alpha": 10,
+        "train_size": 31000
     },
     "contrastive": {
         "loss_type": "info_nce"
     },
     "iter": {
-        "epoch": 20,
+        "epoch": 5,
         "save_circle": 5,
         "show_circle": 100,
         "val_circle": 100
     }
 }
 Length of train dataset: 12000
-2025-09-25 14:15:11,667 [INFO] Epoch: 1
-/home/sagemaker-user/watermarking_contrastive_learning/loss/contrastive_loss.py:152: UserWarning: The use of `x.T` on tensors of dimension other than 2 to reverse their shape is deprecated and it will throw an error in a future release. Consider `x.mT` to transpose batches of matrices or `x.permute(*torch.arange(x.ndim - 1, -1, -1))` to reverse the dimensions of a tensor. (Triggered internally at /pytorch/aten/src/ATen/native/TensorShape.cpp:4421.)
-  torch.matmul(anchors, features.T) / self.temperature
-threshold_factor je  0.5
-Traceback (most recent call last):
-  File "/home/sagemaker-user/watermarking_contrastive_learning/train/contrastive_pretrain_decoder.py", line 122, in <module>
-    cl_loss = loss(
-              ^^^^^
-  File "/home/sagemaker-user/.cache/pypoetry/virtualenvs/watermarking-contrastive-learning-WvXdt30y-py3.12/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/sagemaker-user/.cache/pypoetry/virtualenvs/watermarking-contrastive-learning-WvXdt30y-py3.12/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/sagemaker-user/watermarking_contrastive_learning/loss/contrastive_loss.py", line 124, in forward
-    return self.info_nce_loss(f1, f2, positive_extra)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/sagemaker-user/watermarking_contrastive_learning/loss/contrastive_loss.py", line 152, in info_nce_loss
-    torch.matmul(anchors, features.T) / self.temperature
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: The size of tensor a (2) must match the size of tensor b (110250) at non-singleton dimension 0
+2025-10-05 12:58:43,483 [INFO] Device: cuda
+2025-10-05 12:59:44,410 [INFO] Device: cuda
+2025-10-05 13:01:23,712 [INFO] Device: cuda
+2025-10-05 13:01:43,426 [INFO] Device: cuda
+2025-10-05 13:01:52,735 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:02:33,464 [INFO] Device: cuda
+2025-10-05 13:02:39,003 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:04:41,356 [INFO] Device: cuda
+2025-10-05 13:04:51,421 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:06:10,646 [INFO] Device: cuda
+2025-10-05 13:06:13,387 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:07:17,572 [INFO] Device: cuda
+2025-10-05 13:07:26,951 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:11:15,550 [INFO] Device: cuda
+2025-10-05 13:11:18,320 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:11:49,808 [INFO] Device: cuda
+2025-10-05 13:12:01,845 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:12:09,158 [INFO] Processed 1 batches
+2025-10-05 13:12:09,158 [INFO] {
+    "loss": 3.5856655,
+    "pesq": 1.06576,
+    "avg_acc_identity": 0.6,
+    "avg_acc_distorted": 0.6
+}
+2025-10-05 13:13:32,229 [INFO] Device: cuda
+2025-10-05 13:13:34,966 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:13:47,257 [INFO] Processed 1 batches
+2025-10-05 13:13:47,257 [INFO] {
+    "loss": 3.5224882,
+    "pesq": 1.06576,
+    "avg_acc_identity": 0.6,
+    "avg_acc_distorted": 0.6
+}
+2025-10-05 13:21:59,183 [INFO] Device: cuda
+2025-10-05 13:22:01,962 [INFO] Training with params:
+{
+    "adv": false,
+    "watermark": {
+        "length": 10
+    },
+    "optimize": {
+        "gradient_scaling": true,
+        "lr": 0.0003,
+        "batch_size": 2,
+        "betas": [
+            0.9,
+            0.98
+        ],
+        "eps": 1e-09,
+        "weight_decay": 0.0,
+        "grad_clip_thresh": 1.0,
+        "grad_acc_step": 32,
+        "up_step": 4000,
+        "anneal_steps": [
+            300000,
+            400000,
+            500000
+        ],
+        "anneal_rate": 0.3,
+        "lr_disc": 2e-05,
+        "alpha": 10,
+        "train_size": 31000
+    },
+    "contrastive": {
+        "loss_type": "info_nce"
+    },
+    "iter": {
+        "epoch": 5,
+        "save_circle": 5,
+        "show_circle": 100,
+        "val_circle": 100
+    }
+}
+Length of train dataset: 12000
+2025-10-05 13:22:12,309 [INFO] Processed 1 batches
+2025-10-05 13:22:12,310 [INFO] {
+    "loss": 4.1941397,
+    "pesq": 1.12941,
+    "avg_acc_identity": 0.4,
+    "avg_acc_distorted": 0.4
+}

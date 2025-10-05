@@ -1,4 +1,3 @@
-import os
+from distortions.attacks.attacks import ContrastiveAugmentations
 
-files = os.listdir("mnt/s3/data/processed/train")
-print(files[0])
+cl_aug = ContrastiveAugmentations()
