@@ -242,42 +242,31 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
     # ------------------ Save checkpoint ------------------
     curr_acc = val_metrics.avg_acc_identity()
     curr_pesq = val_metrics.average_pesq()
-    if (
-        save_model(
-            best_pesq=best_pesq,
-            best_acc=best_acc,
-            new_pesq=curr_pesq,
-            new_acc=curr_acc,
-            min_pesq=3.5,
-            min_acc=0.95,
-        )
-        or True
-    ):  # save all models
-        best_acc, best_pesq = curr_acc, curr_pesq
-        checkpoint_path = os.path.join(
-            checkpoint_dir,
-            "wm_model_lj_pesq_{:.2f}_acc_{:.2f}_dist_acc_{:.2f}_epoch_{}_gs.pt".format(
-                curr_pesq, curr_acc, train_metrics.avg_acc_distorted(), epoch + 1
-            ),
-        )
-        torch.save(
-            {
-                "epoch": epoch,
-                "batch_idx": i,
-                "embedder_state_dict": embedder.state_dict(),
-                "decoder_state_dict": decoder.state_dict(),
-                "em_de_opt_state_dict": em_de_opt.state_dict(),
-                "average_acc": curr_acc,
-                "average_pesq": curr_pesq,
-            },
-            checkpoint_path,
-        )
-        logger.info(
-            "Checkpoint saved: %s | Acc: %s, PESQ: %s",
-            checkpoint_path,
-            curr_acc,
-            curr_pesq,
-        )
+    checkpoint_path = os.path.join(
+        checkpoint_dir,
+        "wm_model_lj_pesq_{:.2f}_acc_{:.2f}_dist_acc_{:.2f}_epoch_{}_gs.pt".format(
+            curr_pesq, curr_acc, train_metrics.avg_acc_distorted(), epoch + 1
+        ),
+    )
+    torch.save(
+        {
+            "epoch": epoch,
+            "batch_idx": i,
+            "embedder_state_dict": embedder.state_dict(),
+            "decoder_state_dict": decoder.state_dict(),
+            "em_de_opt_state_dict": em_de_opt.state_dict(),
+            "average_acc": curr_acc,
+            "average_pesq": curr_pesq,
+        },
+        checkpoint_path,
+    )
+    logger.info(
+        "Checkpoint saved: %s | Acc: %s, PESQ: %s",
+        checkpoint_path,
+        curr_acc,
+        curr_pesq,
+    )
+    torch.cuda.empty_cache()
 
     # ------------------ Store metrics ------------------
     train_summary = train_metrics.summary()
