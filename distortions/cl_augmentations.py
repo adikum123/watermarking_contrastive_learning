@@ -51,7 +51,7 @@ class ContrastiveAugmentations:
                 "attack": ResamplingPolyAttack()
             },
             {
-                "prob": 0.4,
+                "prob": 0.2,
                 "attack": TimeStretchAttack()
             },
             {

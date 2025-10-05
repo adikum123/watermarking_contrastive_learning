@@ -10,3 +10,4 @@
 *.log
 
 results_audios/*
+logs/
