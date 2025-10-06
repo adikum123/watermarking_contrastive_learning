@@ -205,7 +205,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             batch_size=curr_bs,
         )
 
-        if (i + 1) % 20 == 0 or i == 0:
+        if (i + 1) % 50 == 0 or i == 0:
             logger.info("Processed %s batches", i + 1)
             logger.info(json.dumps(train_metrics.summary(), indent=4))
 
@@ -251,7 +251,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
                 batch_size=curr_bs,
             )
 
-            if (i + 1) % 20 == 0 or i == 0:
+            if (i + 1) % 50 == 0 or i == 0:
                 logger.info("Processed %s batches", i + 1)
                 logger.info(json.dumps(val_metrics.summary(), indent=4))
 
