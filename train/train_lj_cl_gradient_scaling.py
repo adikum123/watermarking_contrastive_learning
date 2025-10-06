@@ -102,7 +102,6 @@ embedder, contrastive_decoder = init_models_contrastive(
 loss = LossGradientScaling(
     contrastive=True,
     contrastive_loss_type=train_config["contrastive"]["loss_type"],
-    adversarial=False,
     clip_grad_norm=None,  # or a float if you want gradient clipping
     beta=1,  # scaling exponent
     eps=1e-6,
@@ -156,6 +155,7 @@ metric_history = {
 
 # ------------------ Training Loop ------------------
 for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
+    logger.info("Epoch: %s", epoch + 1)
     train_metrics = MetricsTracker(name="train")
 
     for i, batch in enumerate(train_dl):
@@ -187,7 +187,6 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             decoded=decoded,
             wav=wav,
             msg=msg,
-            discriminator_output=None,
             cl_feat_1=feat_view1,
             cl_feat_2=feat_view2,
         )
@@ -206,7 +205,7 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             batch_size=curr_bs,
         )
 
-        if (i + 1) % 100 == 0 or i == 0:
+        if (i + 1) % 20 == 0 or i == 0:
             logger.info("Processed %s batches", i + 1)
             logger.info(json.dumps(train_metrics.summary(), indent=4))
 
@@ -230,6 +229,8 @@ for epoch in range(start_epoch, train_config["iter"]["epoch"] + 1):
             )
 
             aug_view1, aug_view2 = batch["augmented_views"]
+            aug_view1 = aug_view1.to(device)
+            aug_view2 = aug_view2.to(device)
             feat_view1 = contrastive_decoder.get_contrastive_features(x=aug_view1)
             feat_view2 = contrastive_decoder.get_contrastive_features(x=aug_view2)
             losses_dict = loss(

@@ -13,7 +13,6 @@ class LossGradientScaling(nn.Module):
 
     def __init__(
         self,
-        adversarial,
         contrastive,
         contrastive_loss_type=None,
         clip_grad_norm=None,  # e.g., 1.0 for safe clipping
@@ -21,7 +20,6 @@ class LossGradientScaling(nn.Module):
         eps=1e-6
     ):
         super().__init__()
-        self.adversarial = adversarial
         self.contrastive = contrastive
         self.mse = nn.MSELoss()
         if contrastive:
@@ -32,7 +30,7 @@ class LossGradientScaling(nn.Module):
         self.eps = eps
         self.clip_grad_norm = clip_grad_norm
 
-    def forward(self, embedded, decoded, wav, msg, discriminator_output=None, cl_feat_1=None, cl_feat_2=None):
+    def forward(self, embedded, decoded, wav, msg, cl_feat_1=None, cl_feat_2=None):
         """
         Returns a dict of individual losses: embedding, message, adversarial, contrastive
         """
@@ -48,12 +46,6 @@ class LossGradientScaling(nn.Module):
         else:
             message_loss = self.mse(decoded, msg)
 
-        # Adversarial loss
-        adv_loss = torch.tensor(0., device=embedded.device)
-        if self.adversarial and discriminator_output is not None:
-            labels_real = torch.ones_like(discriminator_output)
-            adv_loss = F.binary_cross_entropy_with_logits(discriminator_output, labels_real)
-
         # Contrastive loss
         contrastive_loss = torch.tensor(0., device=embedded.device)
         if self.contrastive and cl_feat_1 is not None and cl_feat_2 is not None:
@@ -62,7 +54,6 @@ class LossGradientScaling(nn.Module):
         return {
             "embedding": wm_embedding_loss,
             "message": message_loss,
-            "adversarial": adv_loss,
             "contrastive": contrastive_loss
         }
 

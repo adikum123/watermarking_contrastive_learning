@@ -8,5 +8,5 @@ conv2:
   block: 'relu' #'skip', 'relu'
   nlayers_encoder: 2
   nlayers_embedder: 2
-  nlayers_decoder: 4
+  nlayers_decoder: 3
   hidden_dim: 128

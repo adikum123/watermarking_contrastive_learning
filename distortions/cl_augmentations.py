@@ -1,7 +1,6 @@
 import random
 import shutil
 import subprocess
-import sys
 
 from distortions.attacks.attacks.cut_samples.attack import CutSamplesAttack
 from distortions.attacks.attacks.equalizer.attack import EqualizerAttack
